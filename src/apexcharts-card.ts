@@ -1632,15 +1632,16 @@ export class ChartsCard extends LitElement {
     return 3;
   }
 
-  public getGridOptions() {
-    if (!this._config?.section_mode) {
-      return {};
-    }
+  public getGridOptions(): { columns: number | 'full'; rows: number | 'auto'; min_columns: number; min_rows: number } {
+    // Charts are content-driven: HA only fixes the card height when `rows` is a
+    // number (fit-rows), which would truncate legends/extra series. `rows: 'auto'`
+    // lets the section grid size the card from its content; user-set grid_options
+    // from the resize handle still win over these defaults.
     return {
-      rows: 6,
       columns: 12,
-      min_rows: 2,
+      rows: 'auto',
       min_columns: 6,
+      min_rows: 2,
     };
   }
 
@@ -1828,5 +1829,6 @@ const getEntitySuggestion = (hass: HomeAssistant, entityId: string) => {
   name: 'ApexCharts Card',
   preview: true,
   description: 'A graph card based on ApexCharts',
+  documentationURL: 'https://github.com/foXaCe/apexcharts-card',
   getEntitySuggestion,
 });
