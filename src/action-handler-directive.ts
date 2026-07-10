@@ -165,9 +165,10 @@ class ActionHandler extends HTMLElement implements ActionHandler {
     };
 
     element.actionHandler.handleEnter = (ev: KeyboardEvent) => {
-      if (ev.keyCode !== 13) {
+      if (ev.key !== 'Enter' && ev.key !== ' ') {
         return;
       }
+      ev.preventDefault();
       (ev.currentTarget as ActionHandlerElement).actionHandler!.end!(ev);
     };
 

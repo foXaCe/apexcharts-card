@@ -660,6 +660,9 @@ export class ChartsCard extends LitElement {
     return html`<div
       id="header__title"
       class="${classes}"
+      role=${ifDefined(classes === 'actions' ? 'button' : undefined)}
+      tabindex=${ifDefined(classes === 'actions' ? '0' : undefined)}
+      aria-label=${ifDefined(classes === 'actions' ? this._config?.header?.title : undefined)}
       @action=${(ev) => {
         this._handleTitleAction(ev);
       }}
@@ -694,7 +697,7 @@ export class ChartsCard extends LitElement {
       }}"
     >
       <span>${this._config?.header?.title}</span>
-      <mwc-ripple unbounded id="ripple-title"></mwc-ripple>
+      <mwc-ripple unbounded id="ripple-title" aria-hidden="true"></mwc-ripple>
     </div>`;
   }
 
@@ -707,19 +710,23 @@ export class ChartsCard extends LitElement {
             (serie.show.null_in_header || this._headerState?.[index] !== null) &&
             (serie.show.zero_in_header || this._headerState?.[index] !== 0)
           ) {
+            const stateClasses =
+              this._config?.header?.disable_actions ||
+              (serie.header_actions?.tap_action?.action === 'none' &&
+                (!serie.header_actions?.hold_action?.action || serie.header_actions?.hold_action?.action === 'none') &&
+                (!serie.header_actions?.double_tap_action?.action ||
+                  serie.header_actions?.double_tap_action?.action === 'none'))
+                ? 'disabled'
+                : 'actions';
             return html`
               <div
                 id="states__state"
-                class="${
-                  this._config?.header?.disable_actions ||
-                  (serie.header_actions?.tap_action?.action === 'none' &&
-                    (!serie.header_actions?.hold_action?.action ||
-                      serie.header_actions?.hold_action?.action === 'none') &&
-                    (!serie.header_actions?.double_tap_action?.action ||
-                      serie.header_actions?.double_tap_action?.action === 'none'))
-                    ? 'disabled'
-                    : 'actions'
-                }"
+                class="${stateClasses}"
+                role=${ifDefined(stateClasses === 'actions' ? 'button' : undefined)}
+                tabindex=${ifDefined(stateClasses === 'actions' ? '0' : undefined)}
+                aria-label=${ifDefined(
+                  stateClasses === 'actions' ? computeName(index, this._config?.series, this._entities) : undefined,
+                )}
                 @action=${(ev) => {
                   this._handleAction(ev, serie);
                 }}
@@ -773,7 +780,7 @@ export class ChartsCard extends LitElement {
                     ? html`<div id="state__name">${computeName(index, this._config?.series, this._entities)}</div>`
                     : ''
                 }
-                <mwc-ripple unbounded id="ripple-${index}"></mwc-ripple>
+                <mwc-ripple unbounded id="ripple-${index}" aria-hidden="true"></mwc-ripple>
               </div>
             `;
           } else {

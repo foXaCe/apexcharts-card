@@ -47,6 +47,11 @@ export const stylesApex: CSSResultGroup = css`
       --p-motion-fast: 1ms cubic-bezier(0.32, 0.72, 0, 1);
       --p-motion-normal: 1ms cubic-bezier(0.32, 0.72, 0, 1);
     }
+    /* also covers ApexCharts internal transitions/animations */
+    * {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 
   ha-card {
