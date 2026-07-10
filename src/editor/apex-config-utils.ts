@@ -29,6 +29,8 @@ export function setApexValue(config: ChartCardExternalConfig, path: string, valu
   let cur: AnyRec = apex;
   for (let i = 0; i < segs.length - 1; i++) {
     const k = segs[i];
+    // Defense in depth on top of the upfront segs check (recognized by CodeQL)
+    if (k === '__proto__' || k === 'constructor' || k === 'prototype') return config;
     if (typeof cur[k] !== 'object' || cur[k] === null || Array.isArray(cur[k])) {
       cur[k] = {};
     }
@@ -111,6 +113,8 @@ export function setApexYaxisValue(
   let cur: AnyRec = apex;
   for (let i = 0; i < segs.length - 1; i++) {
     const k = segs[i];
+    // Defense in depth on top of the upfront segs check (recognized by CodeQL)
+    if (k === '__proto__' || k === 'constructor' || k === 'prototype') return config;
     if (typeof cur[k] !== 'object' || cur[k] === null || Array.isArray(cur[k])) {
       cur[k] = {};
     }

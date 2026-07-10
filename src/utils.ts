@@ -44,6 +44,10 @@ export function mergeDeep(target: any, source: any): any {
   }
 
   Object.keys(source).forEach((key) => {
+    // Guard against prototype pollution through user-supplied YAML/JSON
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+      return;
+    }
     const targetValue = target[key];
     const sourceValue = source[key];
 
@@ -215,6 +219,10 @@ export function mergeDeepConfig(target: any, source: any): any {
   }
 
   Object.keys(source).forEach((key) => {
+    // Guard against prototype pollution through user-supplied YAML/JSON
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+      return;
+    }
     const targetValue = target[key];
     const sourceValue = source[key];
 
