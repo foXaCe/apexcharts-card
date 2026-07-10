@@ -1,6 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "forkProcessing": "enabled",
+  "pre-commit": {
+    "enabled": true
+  },
   "extends": [
     "config:recommended",
     ":semanticCommits",
