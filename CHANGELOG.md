@@ -4,6 +4,13 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.5.0](https://github.com/foXaCe/apexcharts-card/compare/v2.4.0...v2.5.0) (2026-07-10)
+
+
+### Features
+
+* **i18n:** localize card runtime strings + French expert review ([87f39fe](https://github.com/foXaCe/apexcharts-card/commit/87f39fe3dfc8864819e3f6cff5c9333462697584))
+
 ## [2.4.0](https://github.com/foXaCe/apexcharts-card/compare/v2.3.0...v2.4.0) (2026-07-10)
 
 
