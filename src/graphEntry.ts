@@ -14,6 +14,7 @@ import { compress, decompress, log } from './utils';
 import localForage from 'localforage';
 import { HassEntity } from 'home-assistant-js-websocket';
 import { DateRange } from 'moment-range';
+import type { Moment } from 'moment-timezone';
 import { DEFAULT_STATISTICS_PERIOD, DEFAULT_STATISTICS_TYPE, moment } from './const';
 import parse from 'parse-duration';
 import SparkMD5 from 'spark-md5';
@@ -54,6 +55,10 @@ export default class GraphEntry {
   private _groupByOffsetMs: number;
 
   private _md5Config: string;
+
+  // Set when span padding is applied: the header/legend must keep showing the
+  // last REAL value, not the trailing null padding points.
+  private _lastRealState: number | null | undefined = undefined;
 
   constructor(
     index: number,
@@ -116,6 +121,7 @@ export default class GraphEntry {
   }
 
   get lastState(): number | null {
+    if (this._lastRealState !== undefined) return this._lastRealState;
     return this.history.length > 0 ? this.history[this.history.length - 1][1] : null;
   }
 
@@ -203,6 +209,7 @@ export default class GraphEntry {
     }
     if (!this._entityState || this._updating) return false;
     this._updating = true;
+    this._lastRealState = undefined;
 
     if (this._config.ignore_history) {
       let currentState: null | number | string = null;
@@ -312,28 +319,22 @@ export default class GraphEntry {
               lastNonNull,
             );
 
-            let displayDate: Date | null = null;
-            const startDate = new Date(item.start);
-            if (!this._config.statistics?.align || this._config.statistics?.align === 'middle') {
-              if (this._config.statistics?.period === '5minute') {
-                displayDate = new Date(startDate.getTime() + 150000); // 2min30s
-              } else if (!this._config.statistics?.period || this._config.statistics.period === 'hour') {
-                displayDate = new Date(startDate.getTime() + 1800000); // 30min
-              } else if (this._config.statistics.period === 'day') {
-                displayDate = new Date(startDate.getTime() + 43200000); // 12h
-              } else if (this._config.statistics.period === 'week') {
-                displayDate = new Date(startDate.getTime() + 259200000); // 3.5d
-              } else {
-                displayDate = new Date(startDate.getTime() + 1296000000); // 15d
-              }
-            } else if (this._config.statistics.align === 'start') {
-              displayDate = new Date(item.start);
-            } else {
-              displayDate = new Date(item.end);
-            }
-
-            return [displayDate.getTime(), !Number.isNaN(stateParsed) ? stateParsed : null];
+            return [
+              this._statDisplayDate(Number(item.start), Number(item.end)),
+              !Number.isNaN(stateParsed) ? stateParsed : null,
+            ];
           });
+
+          // Column widths in ApexCharts derive from the smallest gap between
+          // consecutive points: a single (or irregular) statistics bucket makes
+          // the column span (almost) the whole graph. Since the bucket interval
+          // is known by construction, pad the whole [start, end] span with
+          // empty ([ts, null]) buckets so the spacing is always regular.
+          // group_by (non-raw) series are already padded by _dataBucketer.
+          if (this._config.type === 'column' && this._config.group_by.func === 'raw') {
+            this._lastRealState = newStateHistory.length ? newStateHistory[newStateHistory.length - 1][1] : null;
+            newStateHistory = this._padStatisticsSpan(newStateHistory, newHistory, start, end);
+          }
         }
       } else {
         const newHistory = await this._fetchRecent(
@@ -419,6 +420,68 @@ export default class GraphEntry {
     }
     this._updating = false;
     return true;
+  }
+
+  // Display timestamp of a statistics bucket according to `statistics.align`.
+  // Recorder API buckets carry epoch-ms start/end (internal gap fillers store
+  // them as numeric strings, hence the Number() at the call sites).
+  private _statDisplayDate(startMs: number, endMs: number): number {
+    const align = this._config.statistics?.align || 'middle';
+    if (align === 'start') return startMs;
+    if (align === 'end') return endMs;
+    const period = this._config.statistics?.period;
+    if (period === '5minute') return startMs + 150000; // 2min30s
+    if (!period || period === 'hour') return startMs + 1800000; // 30min
+    if (period === 'day') return startMs + 43200000; // 12h
+    if (period === 'week') return startMs + 259200000; // 3.5d
+    return startMs + 1296000000; // 15d
+  }
+
+  // Pad the whole [start, end] span with [ts, null] points at every statistics
+  // bucket boundary that carries no data, so ApexCharts always sees a constant
+  // interval between points (correct column width even with a single bucket).
+  // Boundaries are anchored on the real API bucket timestamps and extended with
+  // moment calendar arithmetic, which follows local DST transitions for
+  // day/week/month periods instead of assuming fixed-length periods.
+  private _padStatisticsSpan(
+    points: EntityCachePoints,
+    stats: StatisticValue[],
+    start: Date,
+    end: Date,
+  ): EntityCachePoints {
+    if (points.length === 0 || stats.length === 0) return points;
+    const period = this._config.statistics?.period || DEFAULT_STATISTICS_PERIOD;
+    const UNITS: Record<StatisticsPeriod, [number, 'minute' | 'hour' | 'day' | 'week' | 'month']> = {
+      '5minute': [5, 'minute'],
+      hour: [1, 'hour'],
+      day: [1, 'day'],
+      week: [1, 'week'],
+      month: [1, 'month'],
+    };
+    const [amount, unit] = UNITS[period];
+    // Safety net against pathological spans (e.g. misconfigured graph_span)
+    const MAX_PADDING_POINTS = 5000;
+    const padded = [...points];
+
+    // Backward from the first real bucket start down to the graph start
+    let curEnd: Moment = moment(Number(stats[0].start));
+    let guard = 0;
+    while (curEnd.valueOf() > start.getTime() && guard++ < MAX_PADDING_POINTS) {
+      const curStart = curEnd.clone().subtract(amount, unit);
+      padded.unshift([this._statDisplayDate(curStart.valueOf(), curEnd.valueOf()), null]);
+      curEnd = curStart;
+    }
+
+    // Forward from the last real bucket end up to the graph end
+    let curStart: Moment = moment(Number(stats[stats.length - 1].end));
+    guard = 0;
+    while (curStart.valueOf() < end.getTime() && guard++ < MAX_PADDING_POINTS) {
+      const nextEnd = curStart.clone().add(amount, unit);
+      padded.push([this._statDisplayDate(curStart.valueOf(), nextEnd.valueOf()), null]);
+      curStart = nextEnd;
+    }
+
+    return padded;
   }
 
   private _transformAndFill(
