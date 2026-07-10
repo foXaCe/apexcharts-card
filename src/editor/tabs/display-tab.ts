@@ -261,7 +261,7 @@ export class ApexChartsCardEditorDisplay extends LitElement {
         if (it.value !== undefined && it.value !== '') {
           const raw = String(it.value).trim();
           const asNum = Number(raw);
-          if (!isNaN(asNum) && /^[\d.+-eE]+$/.test(raw)) {
+          if (!isNaN(asNum) && /^[\d.eE+-]+$/.test(raw)) {
             // Already a numeric (ms epoch) value -> keep as-is.
             out.x = asNum;
           } else {

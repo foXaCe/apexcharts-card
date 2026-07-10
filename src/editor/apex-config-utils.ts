@@ -23,6 +23,7 @@ export function setApexValue(config: ChartCardExternalConfig, path: string, valu
   const apex: AnyRec = config.apex_config ? clone(config.apex_config as AnyRec) : {};
   const segs = path.split('.');
   const leaf = segs[segs.length - 1];
+  if (segs.some((s) => s === '__proto__' || s === 'constructor' || s === 'prototype')) return config;
 
   const parents: AnyRec[] = [apex];
   let cur: AnyRec = apex;
@@ -105,6 +106,7 @@ export function setApexYaxisValue(
 
   const segs = path.split('.');
   const leaf = segs[segs.length - 1];
+  if (segs.some((s) => s === '__proto__' || s === 'constructor' || s === 'prototype')) return config;
   const parents: AnyRec[] = [apex];
   let cur: AnyRec = apex;
   for (let i = 0; i < segs.length - 1; i++) {
