@@ -1,0 +1,32 @@
+name: Feature Request
+description: Suggest an idea for apexcharts-card
+labels: ['enhancement']
+body:
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Checklist
+      options:
+        - label: I am running the latest version of the card
+          required: true
+        - label: I searched existing issues for a duplicate request
+          required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Is your feature request related to a problem?
+      description: A clear description of the problem. Ex. I'm always frustrated when [...]
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe the solution you'd like
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context

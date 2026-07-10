@@ -1,0 +1,8 @@
+# Default owner for everything in the repo
+* @foXaCe
+
+# CI / repo tooling
+/.github/ @foXaCe
+
+# Card source
+/src/ @foXaCe

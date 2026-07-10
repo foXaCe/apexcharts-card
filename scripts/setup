@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Install dependencies and git hooks for local development.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+npm ci
+
+if command -v prek >/dev/null 2>&1; then
+  prek install
+elif command -v pre-commit >/dev/null 2>&1; then
+  pre-commit install
+else
+  echo "Tip: install prek ('pipx install prek') to enable pre-commit hooks."
+fi
+
+echo "Setup complete. Next: scripts/develop"
