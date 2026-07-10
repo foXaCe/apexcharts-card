@@ -105,6 +105,7 @@ export interface ChartCardAllSeriesExternalConfig {
   show?: ChartCardSeriesShowConfigExt;
   group_by?: {
     duration?: string;
+    offset?: string;
     func?: GroupByFunc;
     fill?: GroupByFill;
     start_with_last?: boolean;
