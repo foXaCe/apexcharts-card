@@ -304,12 +304,12 @@ export const en: Record<string, string> = {
   'annotations.remove': 'Remove annotation',
   'annotations.add.xaxis': 'Add X-Axis Annotation',
   'annotations.add.yaxis': 'Add Y-Axis Annotation',
-  'annotations.value.helper.xaxisPrefix': 'The time position on the x-axis. Accepts an ISO date/time string (e.g.',
+  'annotations.value.helper.xaxisPrefix': 'The time position on the x-axis. Accepts an ISO date/time string such as',
   'annotations.value.helper.xaxisOr': 'or',
   'annotations.value.helper.xaxisMiddle':
-    'which will be converted to a millisecond timestamp, or paste a raw millisecond Unix timestamp (e.g.',
+    '— converted to a millisecond timestamp — or paste a raw millisecond Unix timestamp such as',
   'annotations.value.helper.xaxisSuffix': 'directly.',
-  'annotations.value.helper.yaxisPrefix': 'A numeric value on this y-axis scale (e.g.',
+  'annotations.value.helper.yaxisPrefix': 'A numeric value on this y-axis scale, e.g.',
 
   // ── Y-Axis tab / editor ──
   'yaxis.none': 'No custom Y-axes. Add one to override defaults.',
