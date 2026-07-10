@@ -242,6 +242,8 @@ export const en: Record<string, string> = {
   'display.panel.header': 'Header',
   'display.panel.nowMarker': 'Now Marker',
   'display.panel.showOptions': 'Show Options',
+  'display.appearance.premium': 'Premium (glass effects, animations)',
+  'display.appearance.minimal': 'Minimal (no effects)',
   'display.panel.grid': 'Grid',
   'display.panel.legend': 'Legend',
   'display.panel.tooltip': 'Tooltip',

@@ -578,6 +578,7 @@ export class ChartsCard extends LitElement {
       return this._renderWarnings();
     }
 
+    this.dataset.appearance = this._config.appearance ?? 'premium';
     const spinnerClass: ClassInfo = {
       'lds-ring': this._config.show?.loading && this._updating ? true : false,
     };

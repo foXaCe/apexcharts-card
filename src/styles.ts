@@ -4,12 +4,56 @@ export const stylesApex: CSSResultGroup = css`
   :host {
     display: block;
     container-type: inline-size;
+
+    /* --- Premium design tokens (derived from HA theme, overridable) --- */
+    --p-space-1: 4px;
+    --p-space-2: 8px;
+    --p-space-3: 12px;
+    --p-space-4: 16px;
+    --p-space-5: 20px;
+
+    --p-radius-sm: 8px;
+    --p-radius-md: 12px;
+    --p-radius-lg: 16px;
+
+    --p-font-stack: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Roboto, system-ui, sans-serif;
+    --p-letter-tight: -0.022em;
+    --p-letter-normal: -0.011em;
+
+    --p-fg-1: var(--primary-text-color);
+    --p-fg-2: var(--secondary-text-color);
+    --p-accent: var(--primary-color);
+    --p-surface: var(--ha-card-background, var(--card-background-color));
+
+    --p-elev-1:
+      0 1px 0 color-mix(in oklab, var(--p-fg-1) 4%, transparent),
+      0 1px 3px color-mix(in oklab, var(--p-fg-1) 6%, transparent);
+    --p-elev-2:
+      0 1px 0 color-mix(in oklab, var(--p-fg-1) 6%, transparent),
+      0 4px 12px color-mix(in oklab, var(--p-fg-1) 10%, transparent),
+      0 12px 32px color-mix(in oklab, var(--p-fg-1) 8%, transparent);
+    --p-elev-pressed: inset 0 1px 2px color-mix(in oklab, var(--p-fg-1) 10%, transparent);
+
+    --p-motion-fast: 160ms cubic-bezier(0.32, 0.72, 0, 1);
+    --p-motion-normal: 240ms cubic-bezier(0.32, 0.72, 0, 1);
+
+    --p-blur-glass: saturate(180%) blur(20px);
+    --p-glass-bg: color-mix(in oklab, var(--p-surface) 72%, transparent);
+    --p-glass-border: 1px solid color-mix(in oklab, var(--p-fg-1) 10%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :host {
+      --p-motion-fast: 1ms cubic-bezier(0.32, 0.72, 0, 1);
+      --p-motion-normal: 1ms cubic-bezier(0.32, 0.72, 0, 1);
+    }
   }
 
   ha-card {
     /* overflow must stay visible: apexcharts tooltips/toolbar render outside the canvas */
     overflow: visible;
     position: relative;
+    isolation: isolate;
   }
 
   ha-card.section {
@@ -32,6 +76,31 @@ export const stylesApex: CSSResultGroup = css`
     height: 100%;
     grid-area: graph;
   }
+
+  /* Skeleton while ApexCharts has not rendered yet (#graph is empty until then) */
+  :host(:not([data-appearance='minimal'])) #graph:empty {
+    min-height: 120px;
+    margin: var(--p-space-3) var(--p-space-4);
+    border-radius: var(--p-radius-sm);
+    background: linear-gradient(
+      100deg,
+      color-mix(in oklab, var(--p-fg-1) 6%, transparent) 30%,
+      color-mix(in oklab, var(--p-fg-1) 11%, transparent) 50%,
+      color-mix(in oklab, var(--p-fg-1) 6%, transparent) 70%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s linear infinite;
+  }
+  @keyframes skeleton-shimmer {
+    to {
+      background-position: -200% 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :host #graph:empty {
+      animation: none;
+    }
+  }
   ha-card.section #graph-wrapper {
     min-width: 0;
     min-height: 0;
@@ -47,7 +116,7 @@ export const stylesApex: CSSResultGroup = css`
   }
 
   #header {
-    padding: 8px 16px 0px;
+    padding: var(--p-space-3) var(--p-space-4) 0px;
     grid-area: header;
     overflow: hidden;
   }
@@ -59,12 +128,31 @@ export const stylesApex: CSSResultGroup = css`
     top: 0px;
     left: 0px;
     right: 0px;
+    z-index: 2;
+  }
+  /* Liquid Glass: only when the header floats over the chart content */
+  :host(:not([data-appearance='minimal'])) #header.floating {
+    margin: var(--p-space-2);
+    padding: var(--p-space-2) var(--p-space-3);
+    border-radius: var(--p-radius-md);
+    background: var(--p-glass-bg);
+    border: var(--p-glass-border);
+    backdrop-filter: var(--p-blur-glass);
+    -webkit-backdrop-filter: var(--p-blur-glass);
+    box-shadow: var(--p-elev-1);
+  }
+  @supports not (backdrop-filter: blur(20px)) {
+    :host(:not([data-appearance='minimal'])) #header.floating {
+      background: var(--p-surface);
+    }
   }
 
   #header__title {
     color: var(--secondary-text-color);
-    font-size: 16px;
-    font-weight: 500;
+    font: 500 16px/1.3 var(--p-font-stack);
+    letter-spacing: var(--p-letter-tight);
+    text-wrap: pretty;
+    -webkit-font-smoothing: antialiased;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -94,6 +182,29 @@ export const stylesApex: CSSResultGroup = css`
   #header__title.actions,
   #states__state.actions {
     cursor: pointer;
+    border-radius: var(--p-radius-sm);
+    transition:
+      transform var(--p-motion-fast),
+      background var(--p-motion-fast),
+      box-shadow var(--p-motion-fast);
+    transform-origin: center;
+  }
+  @media (hover: hover) {
+    :host(:not([data-appearance='minimal'])) #header__title.actions:hover,
+    :host(:not([data-appearance='minimal'])) #states__state.actions:hover {
+      background: color-mix(in oklab, var(--p-fg-1) 6%, transparent);
+    }
+  }
+  :host(:not([data-appearance='minimal'])) #header__title.actions:active,
+  :host(:not([data-appearance='minimal'])) #states__state.actions:active {
+    transform: scale(0.96);
+    box-shadow: var(--p-elev-pressed);
+    transition-duration: 80ms;
+  }
+  #header__title.actions:focus-visible,
+  #states__state.actions:focus-visible {
+    outline: 2px solid var(--p-accent);
+    outline-offset: 3px;
   }
 
   #header__title.disabled,
@@ -107,22 +218,23 @@ export const stylesApex: CSSResultGroup = css`
   }
 
   #state__value > #state {
-    font-size: 1.8em;
-    font-weight: 500;
+    font: 500 1.8em/1.15 var(--p-font-stack);
+    letter-spacing: var(--p-letter-tight);
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
   }
 
   #state__value > #uom {
-    font-size: 1em;
-    font-weight: 400;
+    font: 400 1em/1.3 var(--p-font-stack);
     opacity: 0.8;
     white-space: nowrap;
   }
 
   #state__name {
-    font-size: 0.8em;
-    font-weight: 300;
+    font: 400 0.8em/1.3 var(--p-font-stack);
+    letter-spacing: var(--p-letter-normal);
+    color: var(--p-fg-2);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -815,7 +927,7 @@ export const stylesApex: CSSResultGroup = css`
 
   .apexcharts-hidden-element-shown {
     opacity: 1;
-    transition: 0.25s ease all;
+    transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .apexcharts-datalabel,
@@ -832,7 +944,7 @@ export const stylesApex: CSSResultGroup = css`
     animation-name: opaque;
     animation-duration: 0.3s;
     animation-fill-mode: forwards;
-    animation-timing-function: ease;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .apexcharts-radialbar-label {
@@ -856,7 +968,7 @@ export const stylesApex: CSSResultGroup = css`
   }
 
   .apexcharts-tooltip-active .apexcharts-marker {
-    transition: 0.15s ease all;
+    transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .apexcharts-radar-series .apexcharts-yaxis {

@@ -110,6 +110,13 @@ export class ApexChartsCardEditorDisplay extends LitElement {
     this._fire({ color_list: value });
   };
 
+  private _appearanceChanged = (ev: CustomEvent): void => {
+    ev.stopPropagation();
+    const data = ev.detail.value as { appearance?: 'minimal' | 'premium' };
+    // premium is the default; only persist the explicit 'minimal'
+    this._fire({ appearance: data.appearance === 'minimal' ? 'minimal' : undefined });
+  };
+
   // ── apex_config-driven sections ──
 
   private _fireConfig(next: ChartCardExternalConfig): void {
@@ -460,6 +467,27 @@ export class ApexChartsCardEditorDisplay extends LitElement {
             .columns=${2}
             @value-changed=${this._showBoolChanged}
           ></apexcharts-card-bool-grid>
+          <ha-form
+            .hass=${this.hass}
+            .data=${{ appearance: cfg.appearance || 'premium' }}
+            .schema=${[
+              {
+                name: 'appearance',
+                selector: {
+                  select: {
+                    mode: 'dropdown',
+                    options: [
+                      { value: 'premium', label: t('display.appearance.premium') },
+                      { value: 'minimal', label: t('display.appearance.minimal') },
+                    ],
+                  },
+                },
+              },
+            ]}
+            .computeLabel=${computeLabel}
+            .computeHelper=${computeHelper}
+            @value-changed=${this._appearanceChanged}
+          ></ha-form>
         </ha-expansion-panel>
 
         <ha-expansion-panel outlined header=${t('display.panel.grid')}>

@@ -242,6 +242,8 @@ export const fr: Record<string, string> = {
   'display.panel.header': 'En-tête',
   'display.panel.nowMarker': 'Marqueur « maintenant »',
   'display.panel.showOptions': 'Options d’affichage',
+  'display.appearance.premium': 'Premium (effets de verre, animations)',
+  'display.appearance.minimal': 'Minimale (sans effets)',
   'display.panel.grid': 'Grille',
   'display.panel.legend': 'Légende',
   'display.panel.tooltip': 'Infobulle',
