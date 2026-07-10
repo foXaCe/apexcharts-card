@@ -42,6 +42,7 @@ import {
   computeTimezoneDiffWithLocal,
 } from './utils';
 import ApexCharts from 'apexcharts';
+// ApexYAxis is declared globally in apexcharts/types/apexcharts.d.ts (no top-level import/export → ambient)
 import { Ripple } from '@material/mwc-ripple';
 import { stylesApex } from './styles';
 import { HassEntity } from 'home-assistant-js-websocket';
@@ -1024,7 +1025,7 @@ class ChartsCard extends LitElement {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const currentMax = (this._apexChart as any).axes?.w?.globals?.maxX;
       this._headerState = [...this._headerState];
-      const chartUpdates: Promise<void>[] = [];
+      const chartUpdates: Promise<unknown>[] = [];
       chartUpdates.push(
         this._apexChart?.updateOptions(
           graphData,
@@ -1739,6 +1740,11 @@ return data.reverse();
       };
     }
     return conf;
+  }
+
+  static async getConfigElement(): Promise<HTMLElement> {
+    await import('./editor/index');
+    return document.createElement('apexcharts-card-editor');
   }
 }
 
