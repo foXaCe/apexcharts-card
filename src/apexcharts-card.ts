@@ -1618,12 +1618,12 @@ export class ChartsCard extends LitElement {
   @eventOptions({ passive: true })
   private handleRippleActivate(evt: Event, index: number | string): void {
     const r = this.shadowRoot?.getElementById(`ripple-${index}`) as Ripple;
-    if (r && typeof r.startFocus === 'function') r.startPress(evt);
+    if (r && typeof r.startPress === 'function') r.startPress(evt);
   }
 
   private handleRippleDeactivate(_, index: number | string): void {
     const r = this.shadowRoot?.getElementById(`ripple-${index}`) as Ripple;
-    if (r && typeof r.startFocus === 'function') r.endPress();
+    if (r && typeof r.endPress === 'function') r.endPress();
   }
 
   private handleRippleFocus(_, index: number | string): void {
@@ -1633,7 +1633,7 @@ export class ChartsCard extends LitElement {
 
   private handleRippleBlur(_, index: number | string): void {
     const r = this.shadowRoot?.getElementById(`ripple-${index}`) as Ripple;
-    if (r && typeof r.startFocus === 'function') r.endFocus();
+    if (r && typeof r.endFocus === 'function') r.endFocus();
   }
 
   public getCardSize(): number {

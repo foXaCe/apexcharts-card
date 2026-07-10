@@ -50,7 +50,12 @@ interface FormData {
 export class ApexChartsCardActionEditor extends LitElement {
   @property({ attribute: false }) public hass?: HomeAssistant;
   @property({ attribute: false }) public action?: ActionConfig;
-  @property({ type: String }) public label = t('field.action');
+  @property({ type: String }) public label?: string;
+
+  // Resolved on access so a locale change after construction is reflected
+  private get _label(): string {
+    return this.label ?? t('field.action');
+  }
 
   static get styles(): CSSResultGroup {
     return editorStyles;
@@ -225,7 +230,7 @@ export class ApexChartsCardActionEditor extends LitElement {
           .hass=${this.hass}
           .data=${data}
           .schema=${this._schema()}
-          .computeLabel=${(s: HaFormSchema) => (s.name === 'action' ? this.label : computeLabel(s))}
+          .computeLabel=${(s: HaFormSchema) => (s.name === 'action' ? this._label : computeLabel(s))}
           .computeHelper=${computeHelper}
           @value-changed=${this._onValueChanged}
         ></ha-form>
@@ -236,7 +241,7 @@ export class ApexChartsCardActionEditor extends LitElement {
         .hass=${this.hass}
         .data=${data}
         .schema=${this._schema()}
-        .computeLabel=${(s: HaFormSchema) => (s.name === 'action' ? this.label : computeLabel(s))}
+        .computeLabel=${(s: HaFormSchema) => (s.name === 'action' ? this._label : computeLabel(s))}
         .computeHelper=${computeHelper}
         @value-changed=${this._onValueChanged}
       ></ha-form>

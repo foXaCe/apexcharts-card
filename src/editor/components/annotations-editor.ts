@@ -81,9 +81,9 @@ export class ApexChartsCardAnnotationsEditor extends LitElement {
     const valueHelper = isXAxis
       ? html`${t('annotations.value.helper.xaxisPrefix')} <code>2024-02-11</code>
           ${t('annotations.value.helper.xaxisOr')}
-          <code>2024-02-11 14:30:00</code>) ${t('annotations.value.helper.xaxisMiddle')} <code>1707609600000</code>)
-          ${t('annotations.value.helper.xaxisSuffix')}`
-      : html`${t('annotations.value.helper.yaxisPrefix')} <code>50</code>, <code>-3.14</code>).`;
+          <code>2024-02-11 14:30:00</code> ${t('annotations.value.helper.xaxisMiddle')}
+          <code>1707609600000</code> ${t('annotations.value.helper.xaxisSuffix')}`
+      : html`${t('annotations.value.helper.yaxisPrefix')} <code>50</code>, <code>-3.14</code>.`;
     return html`
       <div class="list-editor">
         ${

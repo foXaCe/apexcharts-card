@@ -112,7 +112,7 @@ export class ApexChartsCardColorThresholdEditor extends LitElement {
           `,
         )}
         <button class="add-button" type="button" @click=${this._add}>
-          <ha-icon-button .path=${ICON_ADD} .label=${t('series.colorThreshold.add')}></ha-icon-button>
+          <ha-svg-icon .path=${ICON_ADD}></ha-svg-icon>
           ${t('series.colorThreshold.add')}
         </button>
       </div>
