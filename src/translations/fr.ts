@@ -1,4 +1,18 @@
 export const fr: Record<string, string> = {
+  // ── Runtime de la carte ──
+  'card.loading': 'Chargement…',
+  'card.warning.entityNotAvailable': 'Entité indisponible : {entity}',
+
+  // ── Erreurs de configuration (affichées dans la carte d'erreur HA) ──
+  'error.span.startEnd': "span : une seule des options 'start' ou 'end' est autorisée.",
+  'error.yaxis.missingYaxisId': "Plusieurs axes Y détectés : l'option 'yaxis_id' manque à certaines séries.",
+  'error.yaxis.missingId': "Plusieurs axes Y détectés : l'option 'id' manque à certains axes.",
+  'error.yaxis.idNotFound': "yaxis_id : {id} n'existe pas.",
+  'error.yaxis.badMinMaxFormat': "Format min/max d'axe Y invalide : {value}",
+  'error.interval.invalid': "'{prefix} : {interval}' n'est pas un intervalle de temps valide",
+  'error.offset.invalidSign': "'{prefix} : {interval}' doit commencer par '+' ou '-'",
+  'error.template.missing': "Le modèle apexcharts-card '{template}' est absent de votre configuration !",
+
   // ── Onglets ──
   'tabs.general': 'Général',
   'tabs.series': 'Séries',
@@ -271,7 +285,7 @@ export const fr: Record<string, string> = {
   'display.toolbar.zoom.label': 'Zoom',
   'display.toolbar.zoom.helper': 'Outil de sélection par zoom rectangulaire.',
   'display.toolbar.pan.label': 'Déplacement',
-  'display.toolbar.pan.helper': 'Cliquez-glissez pour déplacer le graphique.',
+  'display.toolbar.pan.helper': 'Cliquez et faites glisser pour déplacer le graphique.',
   'display.toolbar.download.label': 'Téléchargement',
   'display.toolbar.download.helper': 'Télécharger au format SVG/PNG/CSV.',
   'display.toolbar.reset.label': 'Réinitialiser',
@@ -291,12 +305,12 @@ export const fr: Record<string, string> = {
   'annotations.remove': 'Supprimer l’annotation',
   'annotations.add.xaxis': 'Ajouter une annotation sur l’axe X',
   'annotations.add.yaxis': 'Ajouter une annotation sur l’axe Y',
-  'annotations.value.helper.xaxisPrefix': 'Position temporelle sur l’axe X. Accepte une chaîne de date/heure ISO (ex.',
+  'annotations.value.helper.xaxisPrefix': 'Position temporelle sur l’axe X. Accepte une date/heure ISO comme',
   'annotations.value.helper.xaxisOr': 'ou',
   'annotations.value.helper.xaxisMiddle':
-    'qui sera convertie en horodatage en millisecondes, ou collez directement un horodatage Unix brut en millisecondes (ex.',
+    '— convertie en horodatage en millisecondes — ou collez un horodatage Unix brut en millisecondes comme',
   'annotations.value.helper.xaxisSuffix': 'directement.',
-  'annotations.value.helper.yaxisPrefix': 'Valeur numérique sur l’échelle de cet axe Y (ex.',
+  'annotations.value.helper.yaxisPrefix': 'Valeur numérique sur l’échelle de cet axe Y, par ex.',
 
   // ── Onglet / éditeur Axe Y ──
   'yaxis.none': 'Aucun axe Y personnalisé. Ajoutez-en un pour remplacer les valeurs par défaut.',
@@ -309,8 +323,8 @@ export const fr: Record<string, string> = {
   'yaxis.tickAmount.label': 'Nombre de graduations',
   'yaxis.tickAmount.helperPrefix':
     'Nombre d’intervalles affichés entre Min et Max sur cet axe. Pour une plage de 0 à 10,',
-  'yaxis.tickAmount.helperMiddle': 'produit des graduations toutes les',
-  'yaxis.tickAmount.helperMiddle2': 'unités (à 0, 1, 2 … 10). Pour une plage de 0 à 100,',
+  'yaxis.tickAmount.helperMiddle': 'produit une graduation par tranche de',
+  'yaxis.tickAmount.helperMiddle2': 'unité (à 0, 1, 2 … 10). Pour une plage de 0 à 100,',
   'yaxis.tickAmount.helperSuffix':
     'avancerait par pas de 10. Laissez vide pour utiliser la valeur par défaut d’ApexCharts (automatique, généralement 6).',
   'yaxis.formatter.label': 'Formateur (corps de fonction JS)',
@@ -345,7 +359,7 @@ export const fr: Record<string, string> = {
   'action.type.navigate': 'Naviguer',
   'action.type.url': 'URL',
   'action.type.none': 'Aucune',
-  'action.type.fireDomEvent': 'Déclencher un évènement DOM',
+  'action.type.fireDomEvent': 'Déclencher un événement DOM',
   'action.haptic.success': 'Succès',
   'action.haptic.warning': 'Avertissement',
   'action.haptic.failure': 'Échec',

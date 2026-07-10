@@ -1,6 +1,6 @@
 import { setEditorLocale, t } from '../src/editor/localize';
-import { en } from '../src/editor/translations/en';
-import { fr } from '../src/editor/translations/fr';
+import { en } from '../src/translations/en';
+import { fr } from '../src/translations/fr';
 
 describe('editor/localize.ts', () => {
   afterEach(() => {
@@ -54,5 +54,24 @@ describe('editor/localize.ts', () => {
     const enKeys = Object.keys(en).sort();
     const frKeys = Object.keys(fr).sort();
     expect(frKeys).toEqual(enKeys);
+  });
+});
+
+describe('t() variable substitution and localized errors', () => {
+  afterEach(() => setEditorLocale('en'));
+
+  it('substitutes {vars} in translated strings', () => {
+    setEditorLocale('en');
+    expect(t('error.yaxis.badMinMaxFormat', { value: '~x' })).toBe('Bad yaxis min/max format: ~x');
+    setEditorLocale('fr');
+    expect(t('error.yaxis.idNotFound', { id: 'left' })).toContain("left n'existe pas");
+  });
+
+  it('validateInterval throws a localized message', async () => {
+    const { validateInterval } = await import('../src/utils');
+    setEditorLocale('fr');
+    expect(() => validateInterval('nope', 'graph_span')).toThrow(/intervalle de temps valide/);
+    setEditorLocale('en');
+    expect(() => validateInterval('nope', 'graph_span')).toThrow(/not a valid range of time/);
   });
 });

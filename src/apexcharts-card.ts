@@ -87,6 +87,7 @@ import parse from 'parse-duration';
 import tinycolor from '@ctrl/tinycolor';
 import { actionHandler } from './action-handler-directive';
 import { OverrideFrontendLocaleData } from './types-ha';
+import { setLocale, t } from './localize';
 
 /* eslint no-console: 0 */
 console.info(
@@ -240,6 +241,8 @@ export class ChartsCard extends LitElement {
 
   public set hass(hass: HomeAssistant) {
     this._hass = hass;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setLocale((hass as any)?.locale?.language || hass?.language);
     if (!this._config || !this._graphs || !hass) return;
 
     this._graphs.map((graph) => {
@@ -350,7 +353,7 @@ export class ChartsCard extends LitElement {
         this._offset = validateOffset(configDup.span.offset, 'span.offset');
       }
       if (configDup.span?.end && configDup.span?.start) {
-        throw new Error(`span: Only one of 'start' or 'end' is allowed.`);
+        throw new Error(t('error.span.startEnd'));
       }
       if (configDup.brush?.selection_span) {
         this._brushSelectionSpan = validateInterval(configDup.brush.selection_span, 'brush.selection_span');
@@ -489,14 +492,14 @@ export class ChartsCard extends LitElement {
               return !serie.yaxis_id;
             })
           ) {
-            throw new Error(`Multiple yaxis detected: Some series are missing the 'yaxis_id' configuration.`);
+            throw new Error(t('error.yaxis.missingYaxisId'));
           }
           if (
             this._config.yaxis.some((yaxis) => {
               return !yaxis.id;
             })
           ) {
-            throw new Error(`Multiple yaxis detected: Some yaxis are missing an 'id'.`);
+            throw new Error(t('error.yaxis.missingId'));
           }
         }
         if (this._config.yaxis) {
@@ -537,7 +540,7 @@ export class ChartsCard extends LitElement {
         idx = 0;
       }
       if (idx < 0) {
-        throw new Error(`yaxis_id: ${serie.yaxis_id} doesn't exist.`);
+        throw new Error(t('error.yaxis.idNotFound', { id: String(serie.yaxis_id) }));
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let yAxisDup: any = JSON.parse(JSON.stringify(config.yaxis![idx]));
@@ -625,7 +628,11 @@ export class ChartsCard extends LitElement {
           <div style="font-weight: bold;">apexcharts-card</div>
           ${this._config?.series.map((_, index) =>
             !this._entities[index]
-              ? html` <div>Entity not available: ${this._config?.series[index].entity}</div> `
+              ? html`
+                  <div>
+                    ${t('card.warning.entityNotAvailable', { entity: this._config?.series[index].entity ?? '' })}
+                  </div>
+                `
               : html``,
           )}
         </hui-warning>
@@ -1356,7 +1363,7 @@ export class ChartsCard extends LitElement {
     if (typeof value === 'string' && value !== 'auto') {
       const matched = value.match(regexFloat);
       if (!matched || matched.length !== 1) {
-        throw new Error(`Bad yaxis min/max format: ${value}`);
+        throw new Error(t('error.yaxis.badMinMaxFormat', { value }));
       }
       const floatValue = parseFloat(matched[0]);
       if (value.startsWith('~')) {
@@ -1365,7 +1372,7 @@ export class ChartsCard extends LitElement {
         return [floatValue, minmax_type.ABSOLUTE];
       }
     }
-    throw new Error(`Bad yaxis min/max format: ${value}`);
+    throw new Error(t('error.yaxis.badMinMaxFormat', { value }));
   }
 
   private _computeChartColors(brush: boolean): (string | (({ value }) => string))[] {

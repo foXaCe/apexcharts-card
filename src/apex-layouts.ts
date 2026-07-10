@@ -14,6 +14,7 @@ import { ChartCardConfig } from './types';
 import { computeName, computeUom, is12Hour, mergeDeep, myFormatNumber, prettyPrintTime } from './utils';
 import { layoutMinimal } from './layouts/minimal';
 import { getLocales, getDefaultLocale } from './locales';
+import { t } from './localize';
 import GraphEntry from './graphEntry';
 
 export function getLayoutConfig(
@@ -88,7 +89,7 @@ export function getLayoutConfig(
       showNullDataPoints: false,
     },
     noData: {
-      text: 'Loading...',
+      text: t('card.loading'),
     },
   };
 
@@ -173,7 +174,7 @@ export function getBrushLayoutConfig(
       showNullDataPoints: false,
     },
     noData: {
-      text: 'Loading...',
+      text: t('card.loading'),
     },
   };
   return config.brush?.apex_config ? mergeDeep(def, evalApexConfig(config.brush.apex_config)) : def;

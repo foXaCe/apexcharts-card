@@ -1,4 +1,18 @@
 export const en: Record<string, string> = {
+  // ── Card runtime ──
+  'card.loading': 'Loading...',
+  'card.warning.entityNotAvailable': 'Entity not available: {entity}',
+
+  // ── Config errors (shown in the HA error card) ──
+  'error.span.startEnd': "span: Only one of 'start' or 'end' is allowed.",
+  'error.yaxis.missingYaxisId': "Multiple yaxis detected: Some series are missing the 'yaxis_id' configuration.",
+  'error.yaxis.missingId': "Multiple yaxis detected: Some yaxis are missing an 'id'.",
+  'error.yaxis.idNotFound': "yaxis_id: {id} doesn't exist.",
+  'error.yaxis.badMinMaxFormat': 'Bad yaxis min/max format: {value}',
+  'error.interval.invalid': "'{prefix}: {interval}' is not a valid range of time",
+  'error.offset.invalidSign': "'{prefix}: {interval}' should start with a '+' or a '-'",
+  'error.template.missing': "apexcharts-card template '{template}' is missing from your config!",
+
   // ── Tabs ──
   'tabs.general': 'General',
   'tabs.series': 'Series',
@@ -290,12 +304,12 @@ export const en: Record<string, string> = {
   'annotations.remove': 'Remove annotation',
   'annotations.add.xaxis': 'Add X-Axis Annotation',
   'annotations.add.yaxis': 'Add Y-Axis Annotation',
-  'annotations.value.helper.xaxisPrefix': 'The time position on the x-axis. Accepts an ISO date/time string (e.g.',
+  'annotations.value.helper.xaxisPrefix': 'The time position on the x-axis. Accepts an ISO date/time string such as',
   'annotations.value.helper.xaxisOr': 'or',
   'annotations.value.helper.xaxisMiddle':
-    'which will be converted to a millisecond timestamp, or paste a raw millisecond Unix timestamp (e.g.',
+    '— converted to a millisecond timestamp — or paste a raw millisecond Unix timestamp such as',
   'annotations.value.helper.xaxisSuffix': 'directly.',
-  'annotations.value.helper.yaxisPrefix': 'A numeric value on this y-axis scale (e.g.',
+  'annotations.value.helper.yaxisPrefix': 'A numeric value on this y-axis scale, e.g.',
 
   // ── Y-Axis tab / editor ──
   'yaxis.none': 'No custom Y-axes. Add one to override defaults.',
