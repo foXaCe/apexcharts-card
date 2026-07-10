@@ -2,6 +2,7 @@ import { LitElement, html, TemplateResult, PropertyValues, nothing } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
 import { HomeAssistant } from 'custom-card-helpers';
 import { ChartCardExternalConfig } from '../../types-config';
+import { t } from '../localize';
 
 @customElement('apexcharts-card-editor-preview')
 export class ApexChartsCardEditorPreview extends LitElement {
@@ -16,7 +17,7 @@ export class ApexChartsCardEditorPreview extends LitElement {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _cardElement?: any;
 
-  static styles = undefined; // styles inherited via light DOM is not desirable; we render in shadow with no styles â†’ keep host minimal
+  static styles = undefined; // styles inherited via light DOM is not desirable; we render in shadow with no styles → keep host minimal
 
   protected createRenderRoot(): HTMLElement | DocumentFragment {
     // Use light DOM so the parent editor's CSS applies (preview-toggle, preview-container, preview-error)
@@ -84,7 +85,7 @@ export class ApexChartsCardEditorPreview extends LitElement {
     return html`
       <div class="preview-toggle" @click=${this._toggle}>
         <ha-svg-icon .path=${icon}></ha-svg-icon>
-        <span style="margin-left: 4px;">${this._visible ? 'Hide Preview' : 'Show Preview'}</span>
+        <span style="margin-left: 4px;">${this._visible ? t('preview.hide') : t('preview.show')}</span>
       </div>
       ${
         this._visible
@@ -94,7 +95,7 @@ export class ApexChartsCardEditorPreview extends LitElement {
                   this._error
                     ? html`<div class="preview-error">${this._error}</div>`
                     : !this._hasValidSeries()
-                      ? html`<div class="preview-placeholder">Add a series with an entity to see preview.</div>`
+                      ? html`<div class="preview-placeholder">${t('preview.addSeries')}</div>`
                       : nothing
                 }
               </div>

@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { HomeAssistant } from 'custom-card-helpers';
 import { ActionsConfig, ActionConfig } from '../../types-config';
 import { editorStyles } from '../styles';
+import { t } from '../localize';
 import './action-editor';
 
 @customElement('apexcharts-card-actions-editor')
@@ -40,7 +41,7 @@ export class ApexChartsCardActionsEditor extends LitElement {
         <apexcharts-card-action-editor
           .hass=${this.hass}
           .action=${a.tap_action}
-          label="Tap Action"
+          label=${t('field.tap_action')}
           @value-changed=${(ev: CustomEvent) => {
             ev.stopPropagation();
             this._update('tap_action', ev.detail.value);
@@ -49,7 +50,7 @@ export class ApexChartsCardActionsEditor extends LitElement {
         <apexcharts-card-action-editor
           .hass=${this.hass}
           .action=${a.hold_action}
-          label="Hold Action"
+          label=${t('field.hold_action')}
           @value-changed=${(ev: CustomEvent) => {
             ev.stopPropagation();
             this._update('hold_action', ev.detail.value);
@@ -58,7 +59,7 @@ export class ApexChartsCardActionsEditor extends LitElement {
         <apexcharts-card-action-editor
           .hass=${this.hass}
           .action=${a.double_tap_action}
-          label="Double-tap Action"
+          label=${t('field.double_tap_action')}
           @value-changed=${(ev: CustomEvent) => {
             ev.stopPropagation();
             this._update('double_tap_action', ev.detail.value);
@@ -76,8 +77,7 @@ export class ApexChartsCardActionsEditor extends LitElement {
                       selector: { entity: {} },
                     } as unknown as import('../types').HaFormSchema,
                   ]}
-                  .computeLabel=${(s: { name: string }) =>
-                    s.name === 'entity' ? 'Entity Override (optional)' : s.name}
+                  .computeLabel=${(s: { name: string }) => (s.name === 'entity' ? t('action.entityOverride') : s.name)}
                   @value-changed=${(ev: CustomEvent) => {
                     ev.stopPropagation();
                     const v = (ev.detail.value as { entity?: string }).entity;

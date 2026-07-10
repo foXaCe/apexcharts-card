@@ -2,7 +2,7 @@ import { LitElement, html, TemplateResult, nothing, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { HomeAssistant } from 'custom-card-helpers';
 import { ChartCardChartType, ChartCardExternalConfig } from '../../types-config';
-import { GENERAL_BOTTOM_SCHEMA, GENERAL_TOP_SCHEMA, LAYOUT_SCHEMA } from '../schemas/general';
+import { GENERAL_TOP_SCHEMA, getGeneralBottomSchema, getLayoutSchema } from '../schemas/general';
 import { editorStyles } from '../styles';
 import {
   computeHelper,
@@ -16,6 +16,7 @@ import '../components/chart-type-picker';
 import '../components/bool-grid';
 import { BoolField } from '../components/bool-grid';
 import { HaFormSchema } from '../types';
+import { t } from '../localize';
 
 interface FormData {
   graph_span?: string;
@@ -108,22 +109,22 @@ export class ApexChartsCardEditorGeneral extends LitElement {
     if (!this.config) return nothing;
     const errors: string[] = [];
     if (this.config.graph_span && !isValidDuration(this.config.graph_span)) {
-      errors.push('X Axis Span: invalid duration format (e.g. 1h, 12h, 7d).');
+      errors.push(t('general.validation.graphSpan'));
     }
     if (this.config.update_interval && !isValidDuration(this.config.update_interval)) {
-      errors.push('Update Interval: invalid duration format.');
+      errors.push(t('general.validation.updateInterval'));
     }
     if (this.config.update_delay && !isValidDuration(this.config.update_delay)) {
-      errors.push('Update Delay: invalid duration format.');
+      errors.push(t('general.validation.updateDelay'));
     }
     if (this.config.span?.offset && !isValidOffset(this.config.span.offset)) {
-      errors.push('Span Offset: must start with + or - (e.g. -1d).');
+      errors.push(t('general.validation.spanOffset'));
     }
     if (this.config.span?.start && this.config.span?.end) {
-      errors.push('Span: only one of "Start" or "End" is allowed.');
+      errors.push(t('general.validation.spanStartEnd'));
     }
     if (errors.length === 0) return nothing;
-    return html`<div class="validation-error">${errors.map((e) => html`<div>â€¢ ${e}</div>`)}</div>`;
+    return html`<div class="validation-error">${errors.map((e) => html`<div>• ${e}</div>`)}</div>`;
   }
 
   private _boolChanged = (ev: CustomEvent): void => {
@@ -171,7 +172,9 @@ export class ApexChartsCardEditorGeneral extends LitElement {
     return html`
       <div class="section">
         <div>
-          <div style="font-size: 0.85em; color: var(--secondary-text-color); margin-bottom: 4px;">Chart Type</div>
+          <div style="font-size: 0.85em; color: var(--secondary-text-color); margin-bottom: 4px;">
+            ${t('general.chartType')}
+          </div>
           <apexcharts-card-chart-type-picker
             .value=${this.config.chart_type}
             @value-changed=${this._chartTypeChanged}
@@ -194,7 +197,7 @@ export class ApexChartsCardEditorGeneral extends LitElement {
           <ha-form
             .hass=${this.hass}
             .data=${data}
-            .schema=${LAYOUT_SCHEMA}
+            .schema=${getLayoutSchema()}
             .computeLabel=${computeLabel}
             .computeHelper=${computeHelper}
             @value-changed=${this._onValueChanged}
@@ -203,7 +206,7 @@ export class ApexChartsCardEditorGeneral extends LitElement {
         <ha-form
           .hass=${this.hass}
           .data=${data}
-          .schema=${GENERAL_BOTTOM_SCHEMA}
+          .schema=${getGeneralBottomSchema()}
           .computeLabel=${computeLabel}
           .computeHelper=${computeHelper}
           @value-changed=${this._onValueChanged}

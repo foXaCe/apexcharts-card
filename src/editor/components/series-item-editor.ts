@@ -18,15 +18,16 @@ import {
   toSelectValue,
 } from '../helpers';
 import {
-  SERIES_ADVANCED_BASE_SCHEMA,
-  SERIES_APPEARANCE_SCHEMA,
-  SERIES_CORE_SCHEMA,
-  SERIES_DATA_PROCESSING_SCHEMA,
-  SERIES_GROUP_BY_SCHEMA,
+  getSeriesAdvancedBaseSchema,
+  getSeriesAppearanceSchema,
+  getSeriesCoreSchema,
+  getSeriesDataProcessingSchema,
+  getSeriesGroupBySchema,
+  getSeriesVisibilitySelectSchema,
   SERIES_VISIBILITY_BOOL_FIELDS,
-  SERIES_VISIBILITY_SELECT_SCHEMA,
 } from '../schemas/series';
 import { BoolField } from './bool-grid';
+import { t } from '../localize';
 import './color-threshold-editor';
 import './actions-editor';
 import './bool-grid';
@@ -44,7 +45,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
     return editorStyles;
   }
 
-  // â”€â”€ Core helpers â”€â”€
+  // ── Core helpers ──
 
   private _fire(updates: Partial<Series>): void {
     const next: Series = { ...(this.series || {}), ...updates };
@@ -75,7 +76,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
     return 'transparent';
   }
 
-  // â”€â”€ Field handlers â”€â”€
+  // ── Field handlers ──
 
   private _entityChanged = (ev: CustomEvent): void => {
     ev.stopPropagation();
@@ -309,7 +310,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
   }
 
   private _advancedSchema(): HaFormSchema[] {
-    const schema: HaFormSchema[] = [...SERIES_ADVANCED_BASE_SCHEMA];
+    const schema: HaFormSchema[] = [...getSeriesAdvancedBaseSchema()];
     if (this.config?.chart_type === 'radialBar') {
       schema.push({
         type: 'grid',
@@ -333,7 +334,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
     if (options.length === 0) return [];
     const currentId = (this.series as ChartCardSeriesExternalConfig | undefined)?.yaxis_id;
     if (currentId && !options.some((o) => o.value === currentId)) {
-      options.push({ value: currentId, label: `${currentId} (missing)` });
+      options.push({ value: currentId, label: `${currentId} ${t('series.yaxisId.missing')}` });
     }
     return [
       {
@@ -341,7 +342,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
         selector: {
           select: {
             mode: 'dropdown',
-            options: [{ value: '', label: '(default)' }, ...options],
+            options: [{ value: '', label: t('common.defaultParen') }, ...options],
           },
         },
       },
@@ -409,14 +410,14 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
                   .computeLabel=${computeLabel}
                   @value-changed=${this._entityChanged}
                 ></ha-form>
-                ${!s.entity ? html`<div class="validation-error">Entity is required.</div>` : nothing}
+                ${!s.entity ? html`<div class="validation-error">${t('series.validation.entityRequired')}</div>` : nothing}
               `
         }
 
         <ha-form
           .hass=${this.hass}
           .data=${{ name: s.name || '', type: s.type || '' }}
-          .schema=${SERIES_CORE_SCHEMA}
+          .schema=${getSeriesCoreSchema()}
           .computeLabel=${computeLabel}
           .computeHelper=${computeHelper}
           @value-changed=${this._coreChanged}
@@ -437,25 +438,25 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
             : nothing
         }
 
-        <ha-expansion-panel outlined header="Appearance">
+        <ha-expansion-panel outlined header=${t('series.panel.appearance')}>
           <div class="section">
             <div class="color-field">
-              <span class="color-field-label">Color</span>
-              <label class="color-preview" title="Pick color">
+              <span class="color-field-label">${t('field.color')}</span>
+              <label class="color-preview" title=${t('common.pickColor')}>
                 <span style="display:block;width:100%;height:100%;background: ${this._swatch()};"></span>
                 <input type="color" .value=${this._swatchHex()} @input=${this._colorChanged} />
               </label>
               <ha-textfield
-                label="Color"
+                label=${t('field.color')}
                 .value=${s.color || ''}
-                placeholder="e.g. #ff0000, red, var(--my-color)"
+                placeholder=${t('series.color.placeholder')}
                 @change=${this._colorChanged}
               ></ha-textfield>
             </div>
             <ha-form
               .hass=${this.hass}
               .data=${this._appearanceData()}
-              .schema=${SERIES_APPEARANCE_SCHEMA}
+              .schema=${getSeriesAppearanceSchema()}
               .computeLabel=${computeLabel}
               .computeHelper=${computeHelper}
               @value-changed=${this._appearanceChanged}
@@ -474,7 +475,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
           </div>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Visibility">
+        <ha-expansion-panel outlined header=${t('series.panel.visibility')}>
           <div class="section">
             <apexcharts-card-bool-grid
               .fields=${this._visibilityBoolFields()}
@@ -484,7 +485,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
             <ha-form
               .hass=${this.hass}
               .data=${this._visibilitySelectData()}
-              .schema=${SERIES_VISIBILITY_SELECT_SCHEMA}
+              .schema=${getSeriesVisibilitySelectSchema()}
               .computeLabel=${computeLabel}
               .computeHelper=${computeHelper}
               @value-changed=${this._visibilitySelectChanged}
@@ -492,14 +493,14 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
           </div>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Data Processing">
+        <ha-expansion-panel outlined header=${t('series.panel.dataProcessing')}>
           <div class="section">
-            <ha-expansion-panel outlined header="Group By">
+            <ha-expansion-panel outlined header=${t('field.group_by')}>
               <div class="section">
                 <ha-form
                   .hass=${this.hass}
                   .data=${this._groupByData()}
-                  .schema=${SERIES_GROUP_BY_SCHEMA}
+                  .schema=${getSeriesGroupBySchema()}
                   .computeLabel=${computeLabel}
                   .computeHelper=${computeHelper}
                   @value-changed=${this._groupByChanged}
@@ -520,7 +521,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
             <ha-form
               .hass=${this.hass}
               .data=${this._dataProcessingData()}
-              .schema=${SERIES_DATA_PROCESSING_SCHEMA}
+              .schema=${getSeriesDataProcessingSchema()}
               .computeLabel=${computeLabel}
               .computeHelper=${computeHelper}
               @value-changed=${this._dataProcessingChanged}
@@ -528,7 +529,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
           </div>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Advanced">
+        <ha-expansion-panel outlined header=${t('field.advanced')}>
           <ha-form
             .hass=${this.hass}
             .data=${this._advancedData()}
@@ -542,7 +543,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
         ${
           showColorThreshold
             ? html`
-                <ha-expansion-panel outlined header="Color Thresholds">
+                <ha-expansion-panel outlined header=${t('series.panel.colorThresholds')}>
                   <apexcharts-card-color-threshold-editor
                     .thresholds=${s.color_threshold || []}
                     @value-changed=${this._thresholdsChanged}
@@ -554,7 +555,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
         ${
           showHeaderActions
             ? html`
-                <ha-expansion-panel outlined header="Header Actions">
+                <ha-expansion-panel outlined header=${t('series.panel.headerActions')}>
                   <apexcharts-card-actions-editor
                     .hass=${this.hass}
                     .actions=${s.header_actions}

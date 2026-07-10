@@ -5,29 +5,36 @@ import { editorStyles } from '../styles';
 import { ActionConfig } from '../../types-config';
 import { HaFormSchema } from '../types';
 import { computeHelper, computeLabel } from '../helpers';
+import { t } from '../localize';
 
-const ACTION_OPTIONS = [
-  { value: 'default', label: 'Default' },
-  { value: 'more-info', label: 'More Info' },
-  { value: 'toggle', label: 'Toggle' },
-  { value: 'toggle-menu', label: 'Toggle Menu' },
-  { value: 'call-service', label: 'Call Service' },
-  { value: 'navigate', label: 'Navigate' },
-  { value: 'url', label: 'URL' },
-  { value: 'none', label: 'None' },
-  { value: 'fire-dom-event', label: 'Fire DOM Event' },
-];
+// Functions (not module-level constants) so option labels re-resolve to the current locale
+// on every render.
+function getActionOptions(): { value: string; label: string }[] {
+  return [
+    { value: 'default', label: t('common.default') },
+    { value: 'more-info', label: t('action.type.moreInfo') },
+    { value: 'toggle', label: t('action.type.toggle') },
+    { value: 'toggle-menu', label: t('action.type.toggleMenu') },
+    { value: 'call-service', label: t('action.type.callService') },
+    { value: 'navigate', label: t('action.type.navigate') },
+    { value: 'url', label: t('action.type.url') },
+    { value: 'none', label: t('action.type.none') },
+    { value: 'fire-dom-event', label: t('action.type.fireDomEvent') },
+  ];
+}
 
-const HAPTIC_OPTIONS = [
-  { value: '', label: '(none)' },
-  { value: 'success', label: 'Success' },
-  { value: 'warning', label: 'Warning' },
-  { value: 'failure', label: 'Failure' },
-  { value: 'light', label: 'Light' },
-  { value: 'medium', label: 'Medium' },
-  { value: 'heavy', label: 'Heavy' },
-  { value: 'selection', label: 'Selection' },
-];
+function getHapticOptions(): { value: string; label: string }[] {
+  return [
+    { value: '', label: t('common.none') },
+    { value: 'success', label: t('action.haptic.success') },
+    { value: 'warning', label: t('action.haptic.warning') },
+    { value: 'failure', label: t('action.haptic.failure') },
+    { value: 'light', label: t('action.haptic.light') },
+    { value: 'medium', label: t('action.haptic.medium') },
+    { value: 'heavy', label: t('action.haptic.heavy') },
+    { value: 'selection', label: t('action.haptic.selection') },
+  ];
+}
 
 interface FormData {
   action?: string;
@@ -43,7 +50,7 @@ interface FormData {
 export class ApexChartsCardActionEditor extends LitElement {
   @property({ attribute: false }) public hass?: HomeAssistant;
   @property({ attribute: false }) public action?: ActionConfig;
-  @property({ type: String }) public label = 'Action';
+  @property({ type: String }) public label = t('field.action');
 
   static get styles(): CSSResultGroup {
     return editorStyles;
@@ -74,7 +81,7 @@ export class ApexChartsCardActionEditor extends LitElement {
     const schema: HaFormSchema[] = [
       {
         name: 'action',
-        selector: { select: { mode: 'dropdown', options: ACTION_OPTIONS } },
+        selector: { select: { mode: 'dropdown', options: getActionOptions() } },
       },
     ];
 
@@ -85,14 +92,14 @@ export class ApexChartsCardActionEditor extends LitElement {
       schema.push({
         name: 'service',
         selector: { text: {} },
-        helper: 'e.g. light.turn_on',
+        helper: t('action.helper.service'),
       } as HaFormSchema);
     }
     if (data.action === 'navigate') {
       schema.push({
         name: 'navigation_path',
         selector: { text: {} },
-        helper: 'e.g. /lovelace/0',
+        helper: t('action.helper.navigationPath'),
       } as HaFormSchema);
     }
     if (data.action === 'url') {
@@ -105,12 +112,12 @@ export class ApexChartsCardActionEditor extends LitElement {
     if (data.action && data.action !== 'default' && data.action !== 'none') {
       schema.push({
         name: 'haptic',
-        selector: { select: { mode: 'dropdown', options: HAPTIC_OPTIONS } },
+        selector: { select: { mode: 'dropdown', options: getHapticOptions() } },
       });
       schema.push({
         name: 'confirmation_text',
         selector: { text: {} },
-        helper: 'Optional confirmation prompt text',
+        helper: t('action.helper.confirmationText'),
       } as HaFormSchema);
     }
 

@@ -4,6 +4,7 @@ import { HomeAssistant } from 'custom-card-helpers';
 import { ChartCardExternalConfig } from '../types-config';
 import { EDITOR_TABS } from './types';
 import { editorStyles } from './styles';
+import { setEditorLocale, t } from './localize';
 
 // Side-effect imports so the custom elements are registered when the editor is loaded.
 import './components/series-editor';
@@ -56,6 +57,8 @@ export class ApexChartsCardEditor extends LitElement {
   }
 
   protected render(): TemplateResult {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setEditorLocale((this.hass as any)?.locale?.language || this.hass?.language);
     if (!this._config || !this.hass) return html``;
 
     return html`
@@ -71,7 +74,7 @@ export class ApexChartsCardEditor extends LitElement {
               }}
             >
               <ha-icon icon=${tab.icon}></ha-icon>
-              <span>${tab.label}</span>
+              <span>${t(tab.label)}</span>
             </button>
           `,
         )}

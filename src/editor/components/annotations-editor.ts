@@ -1,6 +1,7 @@
 import { LitElement, html, TemplateResult, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { computeColor } from '../../utils';
+import { t } from '../localize';
 
 const ICON_DELETE = 'M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z';
 const ICON_ADD = 'M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z';
@@ -78,45 +79,45 @@ export class ApexChartsCardAnnotationsEditor extends LitElement {
     const isXAxis = this.axis === 'xaxis';
     const valuePlaceholder = isXAxis ? '2024-02-11 14:30 or 1707609600000' : '50';
     const valueHelper = isXAxis
-      ? html`The time position on the x-axis. Accepts an ISO date/time string (e.g. <code>2024-02-11</code> or
-          <code>2024-02-11 14:30:00</code>) which will be converted to a millisecond timestamp, or paste a raw
-          millisecond Unix timestamp (e.g. <code>1707609600000</code>) directly.`
-      : html`A numeric value on this y-axis scale (e.g. <code>50</code>, <code>-3.14</code>).`;
+      ? html`${t('annotations.value.helper.xaxisPrefix')} <code>2024-02-11</code>
+          ${t('annotations.value.helper.xaxisOr')}
+          <code>2024-02-11 14:30:00</code>) ${t('annotations.value.helper.xaxisMiddle')} <code>1707609600000</code>)
+          ${t('annotations.value.helper.xaxisSuffix')}`
+      : html`${t('annotations.value.helper.yaxisPrefix')} <code>50</code>, <code>-3.14</code>).`;
     return html`
       <div class="list-editor">
         ${
           this.items.length === 0
-            ? html`<div style="color: var(--secondary-text-color); font-size: 0.9em;">No annotations.</div>`
+            ? html`<div style="color: var(--secondary-text-color); font-size: 0.9em;">${t('annotations.none')}</div>`
             : nothing
         }
         ${this.items.map(
           (item, i) => html`
             <div class="annotation-row">
               <div class="annotation-field">
-                <label class="annotation-label">Value</label>
-                <input
+                <ha-textfield
                   class="annotation-input"
-                  type="text"
+                  label=${t('field.value')}
                   placeholder=${valuePlaceholder}
                   .value=${item.value === undefined ? '' : String(item.value)}
                   @change=${(ev: Event) => this._update(i, { value: (ev.target as HTMLInputElement).value })}
-                />
+                ></ha-textfield>
                 <div class="annotation-helper">${valueHelper}</div>
               </div>
               <div class="annotation-field">
-                <label class="annotation-label">Label</label>
-                <input
+                <ha-textfield
                   class="annotation-input"
-                  type="text"
-                  placeholder="Annotation text"
+                  label=${t('field.label')}
+                  placeholder=${t('annotations.label.placeholder')}
                   .value=${item.label || ''}
                   @change=${(ev: Event) => this._update(i, { label: (ev.target as HTMLInputElement).value })}
-                />
+                ></ha-textfield>
               </div>
               <div class="annotation-field">
-                <label class="annotation-label">Color</label>
                 <div class="annotation-color-row">
-                  <label class="color-preview" title="Pick color">
+                  <!-- Native color input kept on purpose: only theme-independent color
+                       wheel available without relying on unstable HA internals -->
+                  <label class="color-preview" title=${t('common.pickColor')}>
                     <span style="display:block;width:100%;height:100%;background: ${this._swatch(item.color)};"></span>
                     <input
                       type="color"
@@ -124,16 +125,16 @@ export class ApexChartsCardAnnotationsEditor extends LitElement {
                       @input=${(ev: Event) => this._update(i, { color: (ev.target as HTMLInputElement).value })}
                     />
                   </label>
-                  <input
+                  <ha-textfield
                     class="annotation-input"
-                    type="text"
+                    label=${t('field.color')}
                     placeholder="#ff0000, red, var(--my-color)"
                     .value=${item.color || ''}
                     @change=${(ev: Event) => this._update(i, { color: (ev.target as HTMLInputElement).value })}
-                  />
+                  ></ha-textfield>
                   <ha-icon-button
                     .path=${ICON_DELETE}
-                    .label=${'Remove annotation'}
+                    .label=${t('annotations.remove')}
                     @click=${() => this._remove(i)}
                   ></ha-icon-button>
                 </div>
@@ -142,8 +143,8 @@ export class ApexChartsCardAnnotationsEditor extends LitElement {
           `,
         )}
         <button class="add-button" type="button" @click=${this._add}>
-          <ha-icon-button .path=${ICON_ADD} .label=${'Add annotation'}></ha-icon-button>
-          Add ${this.axis === 'xaxis' ? 'X-Axis' : 'Y-Axis'} Annotation
+          <ha-svg-icon .path=${ICON_ADD}></ha-svg-icon>
+          ${this.axis === 'xaxis' ? t('annotations.add.xaxis') : t('annotations.add.yaxis')}
         </button>
       </div>
     `;

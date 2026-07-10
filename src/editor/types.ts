@@ -22,12 +22,15 @@ export interface EditorTab {
   icon: string;
 }
 
+// `label` holds a translation KEY here (not display text) — EDITOR_TABS is a module-level
+// constant evaluated before the editor locale is known. Resolve the actual text with
+// `t(tab.label)` at the point of use (see index.ts).
 export const EDITOR_TABS: EditorTab[] = [
-  { label: 'General', icon: 'mdi:cog' },
-  { label: 'Series', icon: 'mdi:chart-line' },
-  { label: 'Display', icon: 'mdi:palette' },
-  { label: 'Y-Axis', icon: 'mdi:axis-y-arrow' },
-  { label: 'Advanced', icon: 'mdi:code-braces' },
+  { label: 'tabs.general', icon: 'mdi:cog' },
+  { label: 'tabs.series', icon: 'mdi:chart-line' },
+  { label: 'tabs.display', icon: 'mdi:palette' },
+  { label: 'tabs.yaxis', icon: 'mdi:axis-y-arrow' },
+  { label: 'tabs.advanced', icon: 'mdi:code-braces' },
 ];
 
 // Sentinel values used to round-trip boolean/undefined through string selects

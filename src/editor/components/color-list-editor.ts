@@ -2,6 +2,7 @@ import { LitElement, html, TemplateResult, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { computeColor } from '../../utils';
 import { editorStyles } from '../styles';
+import { t } from '../localize';
 
 const ICON_DELETE =
   'M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z';
@@ -58,21 +59,21 @@ export class ApexChartsCardColorListEditor extends LitElement {
             <div class="color-field" style="padding: 0 4px;">
               <span class="color-preview" style="background: ${this._swatch(c)};"></span>
               <ha-textfield
-                label="Color"
+                label=${t('field.color')}
                 .value=${c}
                 @change=${(ev: Event) => this._update(i, (ev.target as HTMLInputElement).value)}
               ></ha-textfield>
               <ha-icon-button
                 .path=${ICON_DELETE}
-                .label=${'Remove color'}
+                .label=${t('display.colorList.remove')}
                 @click=${() => this._remove(i)}
               ></ha-icon-button>
             </div>
           `,
         )}
         <button class="add-button" type="button" @click=${this._add}>
-          <ha-icon-button .path=${ICON_ADD} .label=${'Add color'}></ha-icon-button>
-          Add Color
+          <ha-icon-button .path=${ICON_ADD} .label=${t('display.colorList.add')}></ha-icon-button>
+          ${t('display.colorList.add')}
         </button>
       </div>
     `;

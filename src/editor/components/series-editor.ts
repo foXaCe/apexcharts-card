@@ -9,6 +9,7 @@ import {
 import { computeColor } from '../../utils';
 import { DEFAULT_COLORS } from '../../const';
 import { editorStyles } from '../styles';
+import { t } from '../localize';
 import './series-item-editor';
 
 const ICON_UP = 'M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z';
@@ -69,7 +70,7 @@ export class ApexChartsCardSeriesEditor extends LitElement {
       const stateObj = this.hass?.states[s.entity];
       return stateObj?.attributes?.friendly_name || s.entity;
     }
-    return '(new series)';
+    return t('series.newSeries');
   }
 
   private _toggle(index: number): void {
@@ -174,25 +175,25 @@ export class ApexChartsCardSeriesEditor extends LitElement {
                 <div class="item-controls" @click=${(ev: Event) => ev.stopPropagation()}>
                   <ha-icon-button
                     .path=${ICON_UP}
-                    .label=${'Move up'}
+                    .label=${t('common.moveUp')}
                     .disabled=${i === 0 || isDraft}
                     @click=${() => this._move(i, -1)}
                   ></ha-icon-button>
                   <ha-icon-button
                     .path=${ICON_DOWN}
-                    .label=${'Move down'}
+                    .label=${t('common.moveDown')}
                     .disabled=${i === renderedSeries.length - 1 || isDraft}
                     @click=${() => this._move(i, 1)}
                   ></ha-icon-button>
                   <ha-icon-button
                     .path=${ICON_DELETE}
-                    .label=${'Delete'}
+                    .label=${t('common.delete')}
                     .disabled=${!removable}
                     @click=${() => this._remove(i)}
                   ></ha-icon-button>
                   <ha-icon-button
                     .path=${expanded ? ICON_COLLAPSE : ICON_EXPAND}
-                    .label=${expanded ? 'Collapse' : 'Expand'}
+                    .label=${expanded ? t('common.collapse') : t('common.expand')}
                     @click=${() => this._toggle(i)}
                   ></ha-icon-button>
                 </div>
@@ -216,11 +217,11 @@ export class ApexChartsCardSeriesEditor extends LitElement {
         })}
 
         <button class="add-button" type="button" @click=${this._add}>
-          <ha-icon-button .path=${ICON_ADD} .label=${'Add series'}></ha-icon-button>
-          Add Series
+          <ha-icon-button .path=${ICON_ADD} .label=${t('series.add')}></ha-icon-button>
+          ${t('series.add')}
         </button>
 
-        <ha-expansion-panel outlined header="All Series Config">
+        <ha-expansion-panel outlined header=${t('series.allSeriesConfig')}>
           <apexcharts-card-series-item-editor
             .hass=${this.hass}
             .config=${this.config}

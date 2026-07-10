@@ -7,6 +7,7 @@ import { editorStyles } from '../styles';
 import { BEHAVIOR_SCHEMA, BRUSH_SCHEMA, EXPERIMENTAL_BOOL_FIELDS } from '../schemas/advanced';
 import { HaFormSchema } from '../types';
 import { BoolField } from '../components/bool-grid';
+import { t } from '../localize';
 import '../components/yaml-editor';
 import '../components/bool-grid';
 
@@ -115,7 +116,7 @@ export class ApexChartsCardEditorAdvanced extends LitElement {
       {
         name: 'section_mode',
         label: computeLabel({ name: 'section_mode' } as HaFormSchema),
-        helper: 'Enable when used in HA sections view',
+        helper: t('helper.section_mode'),
         value: cfg.section_mode ?? false,
       },
     ];
@@ -123,7 +124,7 @@ export class ApexChartsCardEditorAdvanced extends LitElement {
       {
         name: 'cache',
         label: computeLabel({ name: 'cache' } as HaFormSchema),
-        helper: 'Cache history data between updates (default on)',
+        helper: t('advanced.cache.helper'),
         value: cfg.cache !== false,
       },
     ];
@@ -135,7 +136,7 @@ export class ApexChartsCardEditorAdvanced extends LitElement {
 
     return html`
       <div class="section">
-        <ha-expansion-panel outlined header="Behavior" expanded>
+        <ha-expansion-panel outlined header=${t('advanced.panel.behavior')} expanded>
           <div class="section">
             <ha-form
               .hass=${this.hass}
@@ -153,7 +154,7 @@ export class ApexChartsCardEditorAdvanced extends LitElement {
           </div>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Experimental">
+        <ha-expansion-panel outlined header=${t('advanced.panel.experimental')}>
           <apexcharts-card-bool-grid
             .fields=${expFields}
             .columns=${2}
@@ -164,7 +165,7 @@ export class ApexChartsCardEditorAdvanced extends LitElement {
         ${
           exp.brush
             ? html`
-                <ha-expansion-panel outlined header="Brush">
+                <ha-expansion-panel outlined header=${t('advanced.panel.brush')}>
                   <ha-form
                     .hass=${this.hass}
                     .data=${cfg.brush || {}}
@@ -184,23 +185,23 @@ export class ApexChartsCardEditorAdvanced extends LitElement {
           @value-changed=${this._cacheChanged}
         ></apexcharts-card-bool-grid>
 
-        <ha-expansion-panel outlined header="Config Templates">
+        <ha-expansion-panel outlined header=${t('advanced.panel.configTemplates')}>
           <div class="list-editor">
             ${
               templates.length === 0
                 ? html`<div style="color: var(--secondary-text-color); font-size: 0.9em;">
-                    No templates. Templates must be defined in your Lovelace
-                    <code>apexcharts_card_templates</code> configuration.
+                    ${t('advanced.templates.none')} <code>apexcharts_card_templates</code>
+                    ${t('advanced.templates.noneSuffix')}
                   </div>`
                 : nothing
             }
             ${templates.map(
-              (t, i) => html`
+              (tpl, i) => html`
                 <div class="chip-row">
-                  <span class="chip-label">${t}</span>
+                  <span class="chip-label">${tpl}</span>
                   <ha-icon-button
                     .path=${ICON_DELETE}
-                    .label=${'Remove template'}
+                    .label=${t('advanced.templates.remove')}
                     @click=${() => this._removeTemplate(i)}
                   ></ha-icon-button>
                 </div>
@@ -208,7 +209,7 @@ export class ApexChartsCardEditorAdvanced extends LitElement {
             )}
             <div class="add-row">
               <ha-textfield
-                label="Template name"
+                label=${t('advanced.templates.nameLabel')}
                 .value=${this._templateInput}
                 @input=${(ev: Event) => {
                   this._templateInput = (ev.target as HTMLInputElement).value;
@@ -220,15 +221,19 @@ export class ApexChartsCardEditorAdvanced extends LitElement {
                   }
                 }}
               ></ha-textfield>
-              <ha-icon-button .path=${ICON_ADD} .label=${'Add template'} @click=${this._addTemplate}></ha-icon-button>
+              <ha-icon-button
+                .path=${ICON_ADD}
+                .label=${t('advanced.templates.add')}
+                @click=${this._addTemplate}
+              ></ha-icon-button>
             </div>
           </div>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="apex_config (raw ApexCharts options)">
+        <ha-expansion-panel outlined header=${t('advanced.panel.apexConfig')}>
           <div style="color: var(--secondary-text-color); font-size: 0.85em; padding: 4px 4px 8px;">
-            Read-only. To modify <code>apex_config</code>, switch to the Code Editor (â‰¡ menu â†’ "Show Code Editor").
-            See apexcharts.com for available options.
+            ${t('advanced.apexConfig.readOnlyPrefix')} <code>apex_config</code>
+            ${t('advanced.apexConfig.readOnlySuffix')}
           </div>
           <apexcharts-card-yaml-editor
             .hass=${this.hass}

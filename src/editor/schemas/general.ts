@@ -1,4 +1,5 @@
 import { HaFormSchema, SEL_FALSE, SEL_TRUE, SEL_UNDEFINED } from '../types';
+import { t } from '../localize';
 
 export const GENERAL_TOP_SCHEMA: HaFormSchema[] = [
   {
@@ -8,94 +9,97 @@ export const GENERAL_TOP_SCHEMA: HaFormSchema[] = [
 ];
 
 // Layout select, rendered side-by-side with the `stacked` bool-grid switch.
-export const LAYOUT_SCHEMA: HaFormSchema[] = [
-  {
-    name: 'layout',
-    selector: {
-      select: {
-        mode: 'dropdown',
-        options: [
-          { value: '', label: 'Default' },
-          { value: 'minimal', label: 'Minimal' },
-        ],
+// A function (not a module-level constant) so option labels re-resolve to the current locale
+// on every render.
+export function getLayoutSchema(): HaFormSchema[] {
+  return [
+    {
+      name: 'layout',
+      selector: {
+        select: {
+          mode: 'dropdown',
+          options: [
+            { value: '', label: t('common.default') },
+            { value: 'minimal', label: t('general.layout.minimal') },
+          ],
+        },
       },
     },
-  },
-];
+  ];
+}
 
-export const GENERAL_BOTTOM_SCHEMA: HaFormSchema[] = [
-  {
-    type: 'grid',
-    name: '',
-    schema: [
-      { name: 'update_interval', selector: { text: {} } },
-      { name: 'update_delay', selector: { text: {} } },
-    ],
-  },
-  {
-    name: 'hours_12',
-    selector: {
-      select: {
-        mode: 'dropdown',
-        options: [
-          { value: SEL_UNDEFINED, label: 'Auto' },
-          { value: SEL_TRUE, label: 'Yes' },
-          { value: SEL_FALSE, label: 'No' },
-        ],
+export function getGeneralBottomSchema(): HaFormSchema[] {
+  return [
+    {
+      type: 'grid',
+      name: '',
+      schema: [
+        { name: 'update_interval', selector: { text: {} } },
+        { name: 'update_delay', selector: { text: {} } },
+      ],
+    },
+    {
+      name: 'hours_12',
+      selector: {
+        select: {
+          mode: 'dropdown',
+          options: [
+            { value: SEL_UNDEFINED, label: t('common.auto') },
+            { value: SEL_TRUE, label: t('common.yes') },
+            { value: SEL_FALSE, label: t('common.no') },
+          ],
+        },
       },
     },
-  },
-  {
-    name: 'span',
-    type: 'expandable',
-    title: 'Time Span',
-    schema: [
-      {
-        name: 'start',
-        helper:
-          'Anchor the graph to the start of the chosen period. e.g. "Day" makes the graph start at 00:00 today; "Hour" starts at the top of the current hour. Combine with X Axis Span to control how much is shown.',
-        selector: {
-          select: {
-            mode: 'dropdown',
-            options: [
-              { value: '', label: '(none)' },
-              { value: 'minute', label: 'Minute' },
-              { value: 'hour', label: 'Hour' },
-              { value: 'day', label: 'Day' },
-              { value: 'week', label: 'Week' },
-              { value: 'month', label: 'Month' },
-              { value: 'year', label: 'Year' },
-              { value: 'isoWeek', label: 'ISO Week' },
-            ],
+    {
+      name: 'span',
+      type: 'expandable',
+      title: t('general.span.title'),
+      schema: [
+        {
+          name: 'start',
+          helper: t('general.span.start.helper'),
+          selector: {
+            select: {
+              mode: 'dropdown',
+              options: [
+                { value: '', label: t('common.none') },
+                { value: 'minute', label: t('common.period.minute') },
+                { value: 'hour', label: t('common.period.hour') },
+                { value: 'day', label: t('common.period.day') },
+                { value: 'week', label: t('common.period.week') },
+                { value: 'month', label: t('common.period.month') },
+                { value: 'year', label: t('common.period.year') },
+                { value: 'isoWeek', label: t('common.period.isoWeek') },
+              ],
+            },
           },
         },
-      },
-      {
-        name: 'end',
-        helper:
-          'Anchor the graph to the end of the chosen period. e.g. "Day" ends at midnight tonight. Only one of Start or End may be set.',
-        selector: {
-          select: {
-            mode: 'dropdown',
-            options: [
-              { value: '', label: '(none)' },
-              { value: 'minute', label: 'Minute' },
-              { value: 'hour', label: 'Hour' },
-              { value: 'day', label: 'Day' },
-              { value: 'week', label: 'Week' },
-              { value: 'month', label: 'Month' },
-              { value: 'year', label: 'Year' },
-              { value: 'isoWeek', label: 'ISO Week' },
-            ],
+        {
+          name: 'end',
+          helper: t('general.span.end.helper'),
+          selector: {
+            select: {
+              mode: 'dropdown',
+              options: [
+                { value: '', label: t('common.none') },
+                { value: 'minute', label: t('common.period.minute') },
+                { value: 'hour', label: t('common.period.hour') },
+                { value: 'day', label: t('common.period.day') },
+                { value: 'week', label: t('common.period.week') },
+                { value: 'month', label: t('common.period.month') },
+                { value: 'year', label: t('common.period.year') },
+                { value: 'isoWeek', label: t('common.period.isoWeek') },
+              ],
+            },
           },
         },
-      },
-      {
-        name: 'offset',
-        helper:
-          'Shift the anchored time window. Must start with + or -. e.g. "-1d" shows yesterday when Start is Day; "+6h" shifts the window forward by 6 hours.',
-        selector: { text: {} },
-      },
-    ],
-  },
-];
+        {
+          name: 'offset',
+          helper: t('general.span.offset.helper'),
+          selector: { text: {} },
+        },
+      ],
+    },
+  ];
+}

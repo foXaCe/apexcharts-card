@@ -2,6 +2,7 @@ import { LitElement, html, TemplateResult, nothing, CSSResultGroup, PropertyValu
 import { customElement, property, state, query } from 'lit/decorators.js';
 import { HomeAssistant } from 'custom-card-helpers';
 import { editorStyles } from '../styles';
+import { t } from '../localize';
 
 @customElement('apexcharts-card-yaml-editor')
 export class ApexChartsCardYamlEditor extends LitElement {
@@ -58,7 +59,7 @@ export class ApexChartsCardYamlEditor extends LitElement {
           .readOnly=${this.readOnly}
           @value-changed=${this._onChanged}
         ></ha-yaml-editor>
-        ${this._invalid ? html`<div class="validation-error">Invalid YAML</div>` : nothing}
+        ${this._invalid ? html`<div class="validation-error">${t('common.invalidYaml')}</div>` : nothing}
       </div>
     `;
   }
