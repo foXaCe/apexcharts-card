@@ -1,3 +1,9 @@
+# pre-commit.ci runs in a sandbox without Node/npm, so the local prettier &
+# eslint hooks (run locally via prek and in the CI workflow) are skipped there.
+ci:
+  autoupdate_schedule: quarterly
+  skip: [prettier, eslint]
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
