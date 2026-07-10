@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { ChartCardColorThreshold } from '../../types-config';
 import { computeColor } from '../../utils';
 import { editorStyles } from '../styles';
+import { t } from '../localize';
 
 const ICON_DELETE =
   'M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z';
@@ -63,14 +64,14 @@ export class ApexChartsCardColorThresholdEditor extends LitElement {
     return html`
       <div class="list-editor">
         ${this.thresholds.map(
-          (t, i) => html`
+          (item, i) => html`
             <div class="list-item">
               <div class="list-item-body" style="padding-top: 12px;">
                 <div class="grid-3">
                   <ha-textfield
                     type="number"
-                    label="Value"
-                    .value=${t.value !== undefined ? String(t.value) : ''}
+                    label=${t('field.value')}
+                    .value=${item.value !== undefined ? String(item.value) : ''}
                     @change=${(ev: Event) => {
                       const v = (ev.target as HTMLInputElement).value;
                       if (v === '') {
@@ -81,18 +82,18 @@ export class ApexChartsCardColorThresholdEditor extends LitElement {
                     }}
                   ></ha-textfield>
                   <div class="color-field">
-                    <span class="color-preview" style="background: ${this._swatch(t.color)}"></span>
+                    <span class="color-preview" style="background: ${this._swatch(item.color)}"></span>
                     <ha-textfield
-                      label="Color"
-                      .value=${t.color || ''}
+                      label=${t('field.color')}
+                      .value=${item.color || ''}
                       @change=${(ev: Event) =>
                         this._update(i, 'color', (ev.target as HTMLInputElement).value || undefined)}
                     ></ha-textfield>
                   </div>
                   <ha-textfield
                     type="number"
-                    label="Opacity"
-                    .value=${t.opacity !== undefined ? String(t.opacity) : ''}
+                    label=${t('field.opacity')}
+                    .value=${item.opacity !== undefined ? String(item.opacity) : ''}
                     @change=${(ev: Event) => {
                       const v = (ev.target as HTMLInputElement).value;
                       this._update(i, 'opacity', v === '' ? undefined : Number(v));
@@ -103,7 +104,7 @@ export class ApexChartsCardColorThresholdEditor extends LitElement {
               <div class="item-controls" style="position: absolute; right: 8px; top: 8px;">
                 <ha-icon-button
                   .path=${ICON_DELETE}
-                  .label=${'Remove threshold'}
+                  .label=${t('series.colorThreshold.remove')}
                   @click=${() => this._remove(i)}
                 ></ha-icon-button>
               </div>
@@ -111,8 +112,8 @@ export class ApexChartsCardColorThresholdEditor extends LitElement {
           `,
         )}
         <button class="add-button" type="button" @click=${this._add}>
-          <ha-icon-button .path=${ICON_ADD} .label=${'Add threshold'}></ha-icon-button>
-          Add Threshold
+          <ha-svg-icon .path=${ICON_ADD}></ha-svg-icon>
+          ${t('series.colorThreshold.add')}
         </button>
       </div>
     `;

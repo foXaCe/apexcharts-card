@@ -1,155 +1,181 @@
 import { HaFormSchema } from '../types';
+import { t } from '../localize';
+
+// Schemas below are exposed as functions (not module-level constants) so that option labels,
+// titles and helper text re-resolve to the current editor locale on every render.
 
 // ── Grid ──
-export const GRID_SCHEMA: HaFormSchema[] = [
-  {
-    type: 'grid',
-    name: '',
-    schema: [
-      {
-        name: 'position',
-        selector: {
-          select: {
-            mode: 'dropdown',
-            options: [
-              { value: '', label: 'Default' },
-              { value: 'front', label: 'Front' },
-              { value: 'back', label: 'Back' },
-            ],
+export function getGridSchema(): HaFormSchema[] {
+  return [
+    {
+      type: 'grid',
+      name: '',
+      schema: [
+        {
+          name: 'position',
+          selector: {
+            select: {
+              mode: 'dropdown',
+              options: [
+                { value: '', label: t('common.default') },
+                { value: 'front', label: t('common.front') },
+                { value: 'back', label: t('common.back') },
+              ],
+            },
           },
         },
-      },
-      { name: 'borderColor', selector: { text: {} } },
-    ],
-  },
-];
+        { name: 'borderColor', selector: { text: {} } },
+      ],
+    },
+  ];
+}
 
-export const GRID_BOOL_FIELDS = [
-  { name: 'show', label: 'Show Grid', helper: 'Toggle the chart grid lines.' },
-  { name: 'xaxis_lines_show', label: 'X-Axis Lines', helper: 'Show vertical gridlines for the x-axis.' },
-  { name: 'yaxis_lines_show', label: 'Y-Axis Lines', helper: 'Show horizontal gridlines for the y-axis.' },
-] as const;
+export function getGridBoolFields(): { name: string; label: string; helper: string }[] {
+  return [
+    { name: 'show', label: t('display.grid.show.label'), helper: t('display.grid.show.helper') },
+    {
+      name: 'xaxis_lines_show',
+      label: t('display.grid.xaxisLines.label'),
+      helper: t('display.grid.xaxisLines.helper'),
+    },
+    {
+      name: 'yaxis_lines_show',
+      label: t('display.grid.yaxisLines.label'),
+      helper: t('display.grid.yaxisLines.helper'),
+    },
+  ];
+}
 
 // ── Legend ──
-export const LEGEND_SCHEMA: HaFormSchema[] = [
-  {
-    type: 'grid',
-    name: '',
-    schema: [
-      {
-        name: 'position',
-        selector: {
-          select: {
-            mode: 'dropdown',
-            options: [
-              { value: '', label: 'Default' },
-              { value: 'top', label: 'Top' },
-              { value: 'right', label: 'Right' },
-              { value: 'bottom', label: 'Bottom' },
-              { value: 'left', label: 'Left' },
-            ],
+export function getLegendSchema(): HaFormSchema[] {
+  return [
+    {
+      type: 'grid',
+      name: '',
+      schema: [
+        {
+          name: 'position',
+          selector: {
+            select: {
+              mode: 'dropdown',
+              options: [
+                { value: '', label: t('common.default') },
+                { value: 'top', label: t('common.position.top') },
+                { value: 'right', label: t('common.position.right') },
+                { value: 'bottom', label: t('common.position.bottom') },
+                { value: 'left', label: t('common.position.left') },
+              ],
+            },
           },
         },
-      },
-      {
-        name: 'horizontalAlign',
-        selector: {
-          select: {
-            mode: 'dropdown',
-            options: [
-              { value: '', label: 'Default' },
-              { value: 'left', label: 'Left' },
-              { value: 'center', label: 'Center' },
-              { value: 'right', label: 'Right' },
-            ],
+        {
+          name: 'horizontalAlign',
+          selector: {
+            select: {
+              mode: 'dropdown',
+              options: [
+                { value: '', label: t('common.default') },
+                { value: 'left', label: t('common.position.left') },
+                { value: 'center', label: t('common.position.center') },
+                { value: 'right', label: t('common.position.right') },
+              ],
+            },
           },
         },
-      },
-    ],
-  },
-];
+      ],
+    },
+  ];
+}
 
 // ── Tooltip ──
-export const TOOLTIP_SCHEMA: HaFormSchema[] = [
-  {
-    type: 'grid',
-    name: '',
-    schema: [
-      {
-        name: 'theme',
-        selector: {
-          select: {
-            mode: 'dropdown',
-            options: [
-              { value: '', label: 'Default' },
-              { value: 'light', label: 'Light' },
-              { value: 'dark', label: 'Dark' },
-            ],
+export function getTooltipSchema(): HaFormSchema[] {
+  return [
+    {
+      type: 'grid',
+      name: '',
+      schema: [
+        {
+          name: 'theme',
+          selector: {
+            select: {
+              mode: 'dropdown',
+              options: [
+                { value: '', label: t('common.default') },
+                { value: 'light', label: t('common.theme.light') },
+                { value: 'dark', label: t('common.theme.dark') },
+              ],
+            },
           },
         },
-      },
-      {
-        name: 'x_format',
-        helper: 'Date format on the tooltip header, e.g. "dd MMM HH:mm"',
-        selector: { text: {} },
-      },
-    ],
-  },
-];
+        {
+          name: 'x_format',
+          helper: t('display.tooltip.xFormat.helper'),
+          selector: { text: {} },
+        },
+      ],
+    },
+  ];
+}
 
 // ── Toolbar ──
 // chart.toolbar.show, chart.toolbar.tools.{zoom,pan,download,reset,zoomin,zoomout}
-export const TOOLBAR_BOOL_FIELDS = [
-  { name: 'show', label: 'Show Toolbar', helper: 'Toggle the toolbar in the top-right of the chart.' },
-  { name: 'tool_zoom', label: 'Zoom', helper: 'Box-zoom selection tool.' },
-  { name: 'tool_pan', label: 'Pan', helper: 'Click and drag to pan the chart.' },
-  { name: 'tool_download', label: 'Download', helper: 'Download as SVG/PNG/CSV.' },
-  { name: 'tool_reset', label: 'Reset', helper: 'Reset zoom/pan to default.' },
-] as const;
+export function getToolbarBoolFields(): { name: string; label: string; helper: string }[] {
+  return [
+    { name: 'show', label: t('display.toolbar.show.label'), helper: t('display.toolbar.show.helper') },
+    { name: 'tool_zoom', label: t('display.toolbar.zoom.label'), helper: t('display.toolbar.zoom.helper') },
+    { name: 'tool_pan', label: t('display.toolbar.pan.label'), helper: t('display.toolbar.pan.helper') },
+    { name: 'tool_download', label: t('display.toolbar.download.label'), helper: t('display.toolbar.download.helper') },
+    { name: 'tool_reset', label: t('display.toolbar.reset.label'), helper: t('display.toolbar.reset.helper') },
+  ];
+}
 
 // ── Markers ──
-export const MARKERS_SCHEMA: HaFormSchema[] = [
-  {
-    type: 'grid',
-    name: '',
-    schema: [
-      {
-        name: 'size',
-        helper: 'Radius of the dot drawn at each data point (0 = no markers).',
-        selector: { number: { min: 0, max: 20, step: 1, mode: 'box' } },
-      },
-      {
-        name: 'shape',
-        selector: {
-          select: {
-            mode: 'dropdown',
-            options: [
-              { value: '', label: 'Default' },
-              { value: 'circle', label: 'Circle' },
-              { value: 'square', label: 'Square' },
-            ],
+export function getMarkersSchema(): HaFormSchema[] {
+  return [
+    {
+      type: 'grid',
+      name: '',
+      schema: [
+        {
+          name: 'size',
+          helper: t('display.markers.size.helper'),
+          selector: { number: { min: 0, max: 20, step: 1, mode: 'box' } },
+        },
+        {
+          name: 'shape',
+          selector: {
+            select: {
+              mode: 'dropdown',
+              options: [
+                { value: '', label: t('common.default') },
+                { value: 'circle', label: t('display.markers.shape.circle') },
+                { value: 'square', label: t('display.markers.shape.square') },
+              ],
+            },
           },
         },
-      },
-    ],
-  },
-  {
-    name: 'strokeWidth',
-    helper: 'Width of the ring around each marker dot.',
-    selector: { number: { min: 0, max: 10, step: 1, mode: 'box' } },
-  },
-];
+      ],
+    },
+    {
+      name: 'strokeWidth',
+      helper: t('display.markers.strokeWidth.helper'),
+      selector: { number: { min: 0, max: 10, step: 1, mode: 'box' } },
+    },
+  ];
+}
 
 // ── Chart background / foreground ──
-export const CHART_COLORS_SCHEMA: HaFormSchema[] = [
-  {
-    name: 'background',
-    helper: 'Chart background color (CSS color, var, or named).',
-    selector: { text: {} },
-  },
-  {
-    name: 'foreColor',
-    helper: 'Global text color for axis labels, legend, etc.',
-    selector: { text: {} },
-  },
-];
+export function getChartColorsSchema(): HaFormSchema[] {
+  return [
+    {
+      name: 'background',
+      helper: t('display.chartColors.background.helper'),
+      selector: { text: {} },
+    },
+    {
+      name: 'foreColor',
+      helper: t('display.chartColors.foreColor.helper'),
+      selector: { text: {} },
+    },
+  ];
+}

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable max-classes-per-file */
+/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 import type { Ripple } from '@material/mwc-ripple';
 import { noChange } from 'lit';
 import { AttributePart, directive, Directive, DirectiveParameters } from 'lit/directive.js';
@@ -166,9 +165,10 @@ class ActionHandler extends HTMLElement implements ActionHandler {
     };
 
     element.actionHandler.handleEnter = (ev: KeyboardEvent) => {
-      if (ev.keyCode !== 13) {
+      if (ev.key !== 'Enter' && ev.key !== ' ') {
         return;
       }
+      ev.preventDefault();
       (ev.currentTarget as ActionHandlerElement).actionHandler!.end!(ev);
     };
 
@@ -218,7 +218,6 @@ const getActionHandler = (): ActionHandler => {
   return actionhandler as ActionHandler;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const actionHandlerBind = (element: ActionHandlerElement, options?: ActionHandlerOptions) => {
   const actionhandler: ActionHandler = getActionHandler();
   if (!actionhandler) {
@@ -234,7 +233,7 @@ export const actionHandler = directive(
       return noChange;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     render(_options?: ActionHandlerOptions) {}
   },
 );

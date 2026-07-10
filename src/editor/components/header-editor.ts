@@ -7,6 +7,7 @@ import { editorStyles } from '../styles';
 import { HEADER_BOOL_FIELDS, HEADER_TITLE_SCHEMA } from '../schemas/display';
 import { HaFormSchema } from '../types';
 import { BoolField } from './bool-grid';
+import { t } from '../localize';
 import './actions-editor';
 import './bool-grid';
 
@@ -81,7 +82,7 @@ export class ApexChartsCardHeaderEditor extends LitElement {
           .columns=${2}
           @value-changed=${this._boolChanged}
         ></apexcharts-card-bool-grid>
-        <ha-expansion-panel outlined header="Title Actions">
+        <ha-expansion-panel outlined header=${t('display.header.titleActions')}>
           <apexcharts-card-actions-editor
             .hass=${this.hass}
             .actions=${h.title_actions}

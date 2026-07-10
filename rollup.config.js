@@ -1,12 +1,10 @@
-import typescript from 'rollup-plugin-typescript2';
+import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
-import babel from '@rollup/plugin-babel';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import serve from 'rollup-plugin-serve';
 import json from '@rollup/plugin-json';
 
-// eslint-disable-next-line no-undef
 const dev = process.env.ROLLUP_WATCH;
 
 const serveopts = {
@@ -20,33 +18,28 @@ const serveopts = {
 };
 
 const plugins = [
-  nodeResolve({}),
+  nodeResolve(),
   commonjs(),
-  typescript({ include: ['src/**/*.ts'] }),
-  json(),
-  babel({
-    exclude: 'node_modules/**',
-    babelHelpers: 'bundled',
-    babelrc: false,
-    presets: [
-      '@babel/preset-env',
-      {
-        useBuiltIns: 'entry',
-        targets: '> 0.25%, not dead',
-      },
-    ],
+  typescript({
+    tsconfig: './tsconfig.json',
+    noEmit: false,
+    sourceMap: !!dev,
+    inlineSources: !!dev,
   }),
+  json(),
   dev && serve(serveopts),
   !dev &&
     terser({
+      ecma: 2022,
+      module: true,
+      compress: {
+        passes: 2,
+      },
       format: {
         comments: false,
       },
-      mangle: {
-        safari10: true,
-      },
     }),
-];
+].filter(Boolean);
 
 export default [
   {
@@ -55,12 +48,9 @@ export default [
       file: './dist/apexcharts-card.js',
       format: 'es',
       inlineDynamicImports: true,
-      sourcemap: dev ? true : false,
-      globals: {
-        apexcharts: 'ApexCharts',
-      },
+      sourcemap: dev ? 'inline' : false,
     },
-    plugins: [...plugins],
+    plugins,
     watch: {
       exclude: 'node_modules/**',
     },

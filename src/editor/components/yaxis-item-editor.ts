@@ -6,55 +6,60 @@ import { HaFormSchema } from '../types';
 import { editorStyles } from '../styles';
 import { computeHelper, computeLabel, isValidYaxisLimit } from '../helpers';
 import { BoolField } from './bool-grid';
+import { t } from '../localize';
 import './bool-grid';
 
-// `show` boolean rendered via bool-grid; rest stays in ha-form
-const SCHEMA: HaFormSchema[] = [
-  {
-    type: 'grid',
-    name: '',
-    schema: [
-      { name: 'id', selector: { text: {} } },
-      {
-        name: 'axis',
-        selector: {
-          select: {
-            mode: 'dropdown',
-            options: [
-              { value: 'left', label: 'Left' },
-              { value: 'right', label: 'Right' },
-            ],
+// `show` boolean rendered via bool-grid; rest stays in ha-form.
+// A function (not a module-level constant) so option labels re-resolve to the current locale
+// on every render.
+function getSchema(): HaFormSchema[] {
+  return [
+    {
+      type: 'grid',
+      name: '',
+      schema: [
+        { name: 'id', selector: { text: {} } },
+        {
+          name: 'axis',
+          selector: {
+            select: {
+              mode: 'dropdown',
+              options: [
+                { value: 'left', label: t('common.position.left') },
+                { value: 'right', label: t('common.position.right') },
+              ],
+            },
           },
         },
-      },
-    ],
-  },
-  {
-    type: 'grid',
-    name: '',
-    schema: [
-      { name: 'min', selector: { text: {} } },
-      { name: 'max', selector: { text: {} } },
-    ],
-  },
-  {
-    type: 'grid',
-    name: '',
-    schema: [
-      { name: 'decimals', selector: { number: { min: 0, max: 10, step: 1, mode: 'box' } } },
-      { name: 'align_to', selector: { number: { mode: 'box' } } },
-    ],
-  },
-];
+      ],
+    },
+    {
+      type: 'grid',
+      name: '',
+      schema: [
+        { name: 'min', selector: { text: {} } },
+        { name: 'max', selector: { text: {} } },
+      ],
+    },
+    {
+      type: 'grid',
+      name: '',
+      schema: [
+        { name: 'decimals', selector: { number: { min: 0, max: 10, step: 1, mode: 'box' } } },
+        { name: 'align_to', selector: { number: { mode: 'box' } } },
+      ],
+    },
+  ];
+}
 
 @customElement('apexcharts-card-yaxis-item-editor')
 export class ApexChartsCardYAxisItemEditor extends LitElement {
   @property({ attribute: false }) public hass?: HomeAssistant;
   @property({ attribute: false }) public yaxis?: ChartCardYAxisExternal;
-  // Labels (apex_config.yaxis[i].labels) â€” handled separately from the yaxis core fields.
+  // Labels (apex_config.yaxis[i].labels) — handled separately from the yaxis core fields.
   @property({ type: Boolean }) public labelsShow = true;
   @property({ type: String }) public labelsFormatterBody = '';
-  // Tick amount (apex_config.yaxis[i].tickAmount) â€” handled separately
+  // Tick amount (apex_config.yaxis[i].tickAmount) — handled separately
   @property({ type: Number }) public tickAmount?: number;
 
   static get styles(): CSSResultGroup {
@@ -186,13 +191,13 @@ export class ApexChartsCardYAxisItemEditor extends LitElement {
     if (!y) return nothing;
     const errors: string[] = [];
     if (y.min !== undefined && !isValidYaxisLimit(String(y.min))) {
-      errors.push('Min: use number, "auto", "~N" (soft), or "|N|" (absolute).');
+      errors.push(t('yaxis.validation.min'));
     }
     if (y.max !== undefined && !isValidYaxisLimit(String(y.max))) {
-      errors.push('Max: use number, "auto", "~N" (soft), or "|N|" (absolute).');
+      errors.push(t('yaxis.validation.max'));
     }
     if (errors.length === 0) return nothing;
-    return html`<div class="validation-error">${errors.map((e) => html`<div>â€¢ ${e}</div>`)}</div>`;
+    return html`<div class="validation-error">${errors.map((e) => html`<div>• ${e}</div>`)}</div>`;
   }
 
   protected render(): TemplateResult {
@@ -207,8 +212,8 @@ export class ApexChartsCardYAxisItemEditor extends LitElement {
     const labelsShowFields: BoolField[] = [
       {
         name: 'labels_show',
-        label: 'Show Labels',
-        helper: 'Toggle tick labels on this axis.',
+        label: t('yaxis.labels.show.label'),
+        helper: t('yaxis.labels.show.helper'),
         value: this.labelsShow,
       },
     ];
@@ -217,7 +222,7 @@ export class ApexChartsCardYAxisItemEditor extends LitElement {
         <ha-form
           .hass=${this.hass}
           .data=${this._formData()}
-          .schema=${SCHEMA}
+          .schema=${getSchema()}
           .computeLabel=${computeLabel}
           .computeHelper=${computeHelper}
           @value-changed=${this._onChange}
@@ -228,23 +233,23 @@ export class ApexChartsCardYAxisItemEditor extends LitElement {
           @value-changed=${this._showChanged}
         ></apexcharts-card-bool-grid>
         <div class="tick-amount-block">
-          <label class="tick-amount-label">Tick Amount</label>
-          <input
+          <ha-textfield
             class="tick-amount-input"
+            label=${t('yaxis.tickAmount.label')}
             type="number"
             min="0"
             step="1"
-            placeholder="Auto"
+            placeholder=${t('common.auto')}
             .value=${this.tickAmount === undefined ? '' : String(this.tickAmount)}
             @change=${this._tickAmountChanged}
-          />
+          ></ha-textfield>
           <div class="tick-amount-helper">
-            Number of intervals shown between Min and Max on this axis. For a 0â€“10 range,
-            <code>10</code> produces ticks every <code>1</code> unit (at 0, 1, 2 â€¦ 10). For 0â€“100,
-            <code>10</code> would step every 10. Leave empty to use the ApexCharts default (auto, usually 6).
+            ${t('yaxis.tickAmount.helperPrefix')}
+            <code>10</code> ${t('yaxis.tickAmount.helperMiddle')} <code>1</code> ${t('yaxis.tickAmount.helperMiddle2')}
+            <code>10</code> ${t('yaxis.tickAmount.helperSuffix')}
           </div>
         </div>
-        <ha-expansion-panel outlined header="Labels">
+        <ha-expansion-panel outlined header=${t('yaxis.panel.labels')}>
           <div class="section">
             <apexcharts-card-bool-grid
               .fields=${labelsShowFields}
@@ -252,17 +257,17 @@ export class ApexChartsCardYAxisItemEditor extends LitElement {
               @value-changed=${this._labelsShowChanged}
             ></apexcharts-card-bool-grid>
             <div class="formatter-block">
-              <label class="formatter-label">Formatter (JS function body)</label>
-              <textarea
+              <ha-textarea
                 class="formatter-textarea"
+                label=${t('yaxis.formatter.label')}
                 rows="4"
                 placeholder="return value + ' kWh';"
                 .value=${this.labelsFormatterBody}
                 @change=${this._labelsFormatterChanged}
-              ></textarea>
+              ></ha-textarea>
               <div class="formatter-helper">
-                Receives the raw axis value as <code>value</code>. Saved as <code>EVAL:function(value) { ... }</code> so
-                apexcharts-card evaluates it at runtime.
+                ${t('yaxis.formatter.helperPrefix')} <code>value</code>. ${t('yaxis.formatter.helperMiddle')}
+                <code>EVAL:function(value) { ... }</code> ${t('yaxis.formatter.helperSuffix')}
               </div>
             </div>
           </div>

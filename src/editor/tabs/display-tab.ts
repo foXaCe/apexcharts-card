@@ -6,18 +6,19 @@ import { computeHelper, computeLabel } from '../helpers';
 import { editorStyles } from '../styles';
 import { NOW_SCHEMA, SHOW_BOOL_FIELDS } from '../schemas/display';
 import {
-  CHART_COLORS_SCHEMA,
-  GRID_BOOL_FIELDS,
-  GRID_SCHEMA,
-  LEGEND_SCHEMA,
-  MARKERS_SCHEMA,
-  TOOLBAR_BOOL_FIELDS,
-  TOOLTIP_SCHEMA,
+  getChartColorsSchema,
+  getGridBoolFields,
+  getGridSchema,
+  getLegendSchema,
+  getMarkersSchema,
+  getToolbarBoolFields,
+  getTooltipSchema,
 } from '../schemas/apex';
 import { HaFormSchema } from '../types';
 import { BoolField } from '../components/bool-grid';
 import { AnnotationItem } from '../components/annotations-editor';
 import { getApexValue, setApexValue, setApexValues } from '../apex-config-utils';
+import { t } from '../localize';
 import '../components/header-editor';
 import '../components/color-list-editor';
 import '../components/bool-grid';
@@ -109,7 +110,14 @@ export class ApexChartsCardEditorDisplay extends LitElement {
     this._fire({ color_list: value });
   };
 
-  // â”€â”€ apex_config-driven sections â”€â”€
+  private _appearanceChanged = (ev: CustomEvent): void => {
+    ev.stopPropagation();
+    const data = ev.detail.value as { appearance?: 'minimal' | 'premium' };
+    // premium is the default; only persist the explicit 'minimal'
+    this._fire({ appearance: data.appearance === 'minimal' ? 'minimal' : undefined });
+  };
+
+  // ── apex_config-driven sections ──
 
   private _fireConfig(next: ChartCardExternalConfig): void {
     this.dispatchEvent(
@@ -339,7 +347,7 @@ export class ApexChartsCardEditorDisplay extends LitElement {
     ];
 
     // Grid
-    const gridBoolFields: BoolField[] = GRID_BOOL_FIELDS.map((f) => {
+    const gridBoolFields: BoolField[] = getGridBoolFields().map((f) => {
       const pathMap: Record<string, string> = {
         show: 'grid.show',
         xaxis_lines_show: 'grid.xaxis.lines.show',
@@ -365,7 +373,7 @@ export class ApexChartsCardEditorDisplay extends LitElement {
     const legendShowFields: BoolField[] = [
       {
         name: 'show',
-        label: 'Show Legend',
+        label: t('display.legend.show.label'),
         value: getApexValue(cfg, 'legend.show') === false ? false : true,
       },
     ];
@@ -382,14 +390,14 @@ export class ApexChartsCardEditorDisplay extends LitElement {
     const tooltipSharedFields: BoolField[] = [
       {
         name: 'shared',
-        label: 'Shared Tooltip',
-        helper: 'Show one combined tooltip for all series instead of per-series.',
+        label: t('display.tooltip.shared.label'),
+        helper: t('display.tooltip.shared.helper'),
         value: !!getApexValue(cfg, 'tooltip.shared'),
       },
     ];
 
     // Toolbar
-    const toolbarFields: BoolField[] = TOOLBAR_BOOL_FIELDS.map((f) => {
+    const toolbarFields: BoolField[] = getToolbarBoolFields().map((f) => {
       const pathMap: Record<string, string> = {
         show: 'chart.toolbar.show',
         tool_zoom: 'chart.toolbar.tools.zoom',
@@ -427,7 +435,7 @@ export class ApexChartsCardEditorDisplay extends LitElement {
 
     return html`
       <div class="section">
-        <ha-expansion-panel outlined header="Header" expanded>
+        <ha-expansion-panel outlined header=${t('display.panel.header')} expanded>
           <apexcharts-card-header-editor
             .hass=${this.hass}
             .header=${cfg.header}
@@ -435,7 +443,7 @@ export class ApexChartsCardEditorDisplay extends LitElement {
           ></apexcharts-card-header-editor>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Now Marker">
+        <ha-expansion-panel outlined header=${t('display.panel.nowMarker')}>
           <div class="section">
             <apexcharts-card-bool-grid
               .fields=${nowShowFields}
@@ -453,15 +461,36 @@ export class ApexChartsCardEditorDisplay extends LitElement {
           </div>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Show Options">
+        <ha-expansion-panel outlined header=${t('display.panel.showOptions')}>
           <apexcharts-card-bool-grid
             .fields=${showFields}
             .columns=${2}
             @value-changed=${this._showBoolChanged}
           ></apexcharts-card-bool-grid>
+          <ha-form
+            .hass=${this.hass}
+            .data=${{ appearance: cfg.appearance || 'premium' }}
+            .schema=${[
+              {
+                name: 'appearance',
+                selector: {
+                  select: {
+                    mode: 'dropdown',
+                    options: [
+                      { value: 'premium', label: t('display.appearance.premium') },
+                      { value: 'minimal', label: t('display.appearance.minimal') },
+                    ],
+                  },
+                },
+              },
+            ]}
+            .computeLabel=${computeLabel}
+            .computeHelper=${computeHelper}
+            @value-changed=${this._appearanceChanged}
+          ></ha-form>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Grid">
+        <ha-expansion-panel outlined header=${t('display.panel.grid')}>
           <div class="section">
             <apexcharts-card-bool-grid
               .fields=${gridBoolFields}
@@ -471,7 +500,7 @@ export class ApexChartsCardEditorDisplay extends LitElement {
             <ha-form
               .hass=${this.hass}
               .data=${gridSelectData}
-              .schema=${GRID_SCHEMA}
+              .schema=${getGridSchema()}
               .computeLabel=${computeLabel}
               .computeHelper=${computeHelper}
               @value-changed=${this._gridSelectChanged}
@@ -479,7 +508,7 @@ export class ApexChartsCardEditorDisplay extends LitElement {
           </div>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Legend">
+        <ha-expansion-panel outlined header=${t('display.panel.legend')}>
           <div class="section">
             <apexcharts-card-bool-grid
               .fields=${legendShowFields}
@@ -489,7 +518,7 @@ export class ApexChartsCardEditorDisplay extends LitElement {
             <ha-form
               .hass=${this.hass}
               .data=${legendSelectData}
-              .schema=${LEGEND_SCHEMA}
+              .schema=${getLegendSchema()}
               .computeLabel=${computeLabel}
               .computeHelper=${computeHelper}
               @value-changed=${this._legendSelectChanged}
@@ -497,12 +526,12 @@ export class ApexChartsCardEditorDisplay extends LitElement {
           </div>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Tooltip">
+        <ha-expansion-panel outlined header=${t('display.panel.tooltip')}>
           <div class="section">
             <ha-form
               .hass=${this.hass}
               .data=${tooltipData}
-              .schema=${TOOLTIP_SCHEMA}
+              .schema=${getTooltipSchema()}
               .computeLabel=${computeLabel}
               .computeHelper=${computeHelper}
               @value-changed=${this._tooltipChanged}
@@ -515,7 +544,7 @@ export class ApexChartsCardEditorDisplay extends LitElement {
           </div>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Toolbar">
+        <ha-expansion-panel outlined header=${t('display.panel.toolbar')}>
           <apexcharts-card-bool-grid
             .fields=${toolbarFields}
             .columns=${2}
@@ -523,37 +552,37 @@ export class ApexChartsCardEditorDisplay extends LitElement {
           ></apexcharts-card-bool-grid>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Markers">
+        <ha-expansion-panel outlined header=${t('display.panel.markers')}>
           <ha-form
             .hass=${this.hass}
             .data=${markersData}
-            .schema=${MARKERS_SCHEMA}
+            .schema=${getMarkersSchema()}
             .computeLabel=${computeLabel}
             .computeHelper=${computeHelper}
             @value-changed=${this._markersChanged}
           ></ha-form>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Chart Background">
+        <ha-expansion-panel outlined header=${t('display.panel.chartBackground')}>
           <ha-form
             .hass=${this.hass}
             .data=${chartColorsData}
-            .schema=${CHART_COLORS_SCHEMA}
+            .schema=${getChartColorsSchema()}
             .computeLabel=${computeLabel}
             .computeHelper=${computeHelper}
             @value-changed=${this._chartColorsChanged}
           ></ha-form>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Annotations">
+        <ha-expansion-panel outlined header=${t('display.panel.annotations')}>
           <div class="section">
-            <div style="font-weight: 500; margin-top: 4px;">X-Axis Annotations</div>
+            <div style="font-weight: 500; margin-top: 4px;">${t('display.annotations.xaxis')}</div>
             <apexcharts-card-annotations-editor
               axis="xaxis"
               .items=${xAnnotations}
               @value-changed=${(ev: CustomEvent) => this._annotationsChanged('xaxis', ev)}
             ></apexcharts-card-annotations-editor>
-            <div style="font-weight: 500; margin-top: 12px;">Y-Axis Annotations</div>
+            <div style="font-weight: 500; margin-top: 12px;">${t('display.annotations.yaxis')}</div>
             <apexcharts-card-annotations-editor
               axis="yaxis"
               .items=${yAnnotations}
@@ -562,7 +591,7 @@ export class ApexChartsCardEditorDisplay extends LitElement {
           </div>
         </ha-expansion-panel>
 
-        <ha-expansion-panel outlined header="Color Palette">
+        <ha-expansion-panel outlined header=${t('display.panel.colorPalette')}>
           <apexcharts-card-color-list-editor
             .colors=${cfg.color_list || []}
             @value-changed=${this._colorListChanged}

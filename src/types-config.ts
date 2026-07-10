@@ -3,6 +3,7 @@ export interface ChartCardExternalConfig {
   config_templates?: string[] | string;
   color_list?: string[];
   section_mode?: boolean;
+  appearance?: 'minimal' | 'premium';
   locale?: string;
   experimental?: {
     color_threshold?: boolean;

@@ -1,25 +1,23 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "lib": ["es2019", "dom", "dom.iterable"],
-    "plugins": [
-      {
-        "name": "ts-lit-plugin"
-      }
-    ],
-    "noEmit": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "noImplicitAny": false,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "strict": true,
-    "noImplicitAny": false,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "tests"]
 }

@@ -26,7 +26,6 @@ export function getMilli(hours: number): number {
 }
 
 export function log(message: unknown): void {
-  // eslint-disable-next-line no-console
   console.warn('apexcharts-card: ', message);
 }
 
@@ -36,7 +35,7 @@ export function log(message: unknown): void {
  *
  * @author inspired by [jhildenbiddle](https://stackoverflow.com/a/48218209).
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function mergeDeep(target: any, source: any): any {
   const isObject = (obj) => obj && typeof obj === 'object';
 
@@ -190,7 +189,7 @@ export function interpolateColor(a: string, b: string, factor: number): string {
   return `#${(((1 << 24) + (rr << 16) + (rg << 8) + rb) | 0).toString(16).slice(1)}`;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function mergeConfigTemplates(ll: any, config: ChartCardExternalConfig): ChartCardExternalConfig {
   const tpl = config.config_templates;
   if (!tpl) return config;
@@ -207,7 +206,7 @@ export function mergeConfigTemplates(ll: any, config: ChartCardExternalConfig): 
   return result as ChartCardExternalConfig;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function mergeDeepConfig(target: any, source: any): any {
   const isObject = (obj) => obj && typeof obj === 'object';
 
@@ -250,7 +249,6 @@ export function is12Hour(config: ChartCardConfig | undefined, hass: HomeAssistan
         return hassLocale.time_format === '12';
       }
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return is12HourFromLocale(getLang(config, hass));
     }
   }
@@ -262,7 +260,6 @@ export function formatApexDate(
   value: Date,
   withDate = true,
 ): string {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const hours12 = is12Hour(config, hass) ? { hour12: true } : { hourCycle: 'h23' };
   const lang = getLang(config, hass);
   if (withDate) {

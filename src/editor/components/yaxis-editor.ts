@@ -4,6 +4,7 @@ import { HomeAssistant } from 'custom-card-helpers';
 import { ChartCardExternalConfig, ChartCardYAxisExternal } from '../../types-config';
 import { editorStyles } from '../styles';
 import { getApexYaxisValue, setApexYaxisValue, unwrapEvalBody, wrapEvalBody } from '../apex-config-utils';
+import { t } from '../localize';
 import './yaxis-item-editor';
 
 const ICON_UP = 'M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z';
@@ -122,37 +123,35 @@ export class ApexChartsCardYAxisEditor extends LitElement {
         ${
           list.length > 0
             ? nothing
-            : html`<div style="color: var(--secondary-text-color); padding: 4px;">
-                No custom Y-axes. Add one to override defaults.
-              </div>`
+            : html`<div style="color: var(--secondary-text-color); padding: 4px;">${t('yaxis.none')}</div>`
         }
         ${list.map((y, i) => {
           const expanded = !!this._expanded[i];
           return html`
             <div class="list-item">
               <div class="list-item-header" @click=${() => this._toggle(i)}>
-                <span class="item-name">${y.id || `Y-Axis ${i + 1}`}</span>
+                <span class="item-name">${y.id || `${t('yaxis.defaultName')} ${i + 1}`}</span>
                 <div class="item-controls" @click=${(ev: Event) => ev.stopPropagation()}>
                   <ha-icon-button
                     .path=${ICON_UP}
-                    .label=${'Move up'}
+                    .label=${t('common.moveUp')}
                     .disabled=${i === 0}
                     @click=${() => this._move(i, -1)}
                   ></ha-icon-button>
                   <ha-icon-button
                     .path=${ICON_DOWN}
-                    .label=${'Move down'}
+                    .label=${t('common.moveDown')}
                     .disabled=${i === list.length - 1}
                     @click=${() => this._move(i, 1)}
                   ></ha-icon-button>
                   <ha-icon-button
                     .path=${ICON_DELETE}
-                    .label=${'Delete'}
+                    .label=${t('common.delete')}
                     @click=${() => this._remove(i)}
                   ></ha-icon-button>
                   <ha-icon-button
                     .path=${expanded ? ICON_COLLAPSE : ICON_EXPAND}
-                    .label=${expanded ? 'Collapse' : 'Expand'}
+                    .label=${expanded ? t('common.collapse') : t('common.expand')}
                     @click=${() => this._toggle(i)}
                   ></ha-icon-button>
                 </div>
@@ -179,11 +178,11 @@ export class ApexChartsCardYAxisEditor extends LitElement {
           `;
         })}
         <button class="add-button" type="button" @click=${this._add}>
-          <ha-icon-button .path=${ICON_ADD} .label=${'Add Y-axis'}></ha-icon-button>
-          Add Y-Axis
+          <ha-icon-button .path=${ICON_ADD} .label=${t('yaxis.add')}></ha-icon-button>
+          ${t('yaxis.add')}
         </button>
         <div style="color: var(--secondary-text-color); font-size: 0.85em; padding: 4px;">
-          Min/Max formats: number, "auto", "~5" (soft limit), or "|5|" (absolute offset).
+          ${t('yaxis.minMaxFormats')}
         </div>
       </div>
     `;
