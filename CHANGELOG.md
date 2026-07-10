@@ -4,6 +4,13 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.0](https://github.com/foXaCe/apexcharts-card/compare/v2.5.0...v2.6.0) (2026-07-10)
+
+
+### Features
+
+* **series:** support external statistics IDs (source:object_id) as series source ([45a59e2](https://github.com/foXaCe/apexcharts-card/commit/45a59e2eded246f25adb4c51e9043feca66fde80))
+
 ## [2.5.0](https://github.com/foXaCe/apexcharts-card/compare/v2.4.0...v2.5.0) (2026-07-10)
 
 
