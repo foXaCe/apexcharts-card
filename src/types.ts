@@ -57,6 +57,18 @@ export interface Statistics {
   [statisticId: string]: StatisticValue[];
 }
 
+// recorder/get_statistics_metadata
+export interface StatisticsMetadata {
+  statistic_id: string;
+  source: string;
+  name: string | null;
+  display_unit_of_measurement: string | null;
+  statistics_unit_of_measurement: string | null;
+  unit_class: string | null;
+  has_mean: boolean;
+  has_sum: boolean;
+}
+
 export interface StatisticValue {
   statistic_id: string;
   start: string;

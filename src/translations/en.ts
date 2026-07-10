@@ -12,6 +12,8 @@ export const en: Record<string, string> = {
   'error.interval.invalid': "'{prefix}: {interval}' is not a valid range of time",
   'error.offset.invalidSign': "'{prefix}: {interval}' should start with a '+' or a '-'",
   'error.template.missing': "apexcharts-card template '{template}' is missing from your config!",
+  'error.statistics.externalRequired':
+    "External statistic ID '{entity}' requires the 'statistics' option: it has no state history, only long-term statistics.",
 
   // ── Tabs ──
   'tabs.general': 'General',

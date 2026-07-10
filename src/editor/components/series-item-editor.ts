@@ -7,7 +7,7 @@ import {
   ChartCardExternalConfig,
   ChartCardSeriesExternalConfig,
 } from '../../types-config';
-import { computeColor } from '../../utils';
+import { computeColor, isExternalStatisticId } from '../../utils';
 import { HaFormSchema } from '../types';
 import {
   computeHelper,
@@ -22,6 +22,7 @@ import {
   getSeriesAppearanceSchema,
   getSeriesCoreSchema,
   getSeriesDataProcessingSchema,
+  getSeriesEntitySchema,
   getSeriesGroupBySchema,
   getSeriesVisibilitySelectSchema,
   SERIES_VISIBILITY_BOOL_FIELDS,
@@ -406,7 +407,7 @@ export class ApexChartsCardSeriesItemEditor extends LitElement {
                 <ha-form
                   .hass=${this.hass}
                   .data=${{ entity: s.entity || '' }}
-                  .schema=${[{ name: 'entity', selector: { entity: {} } } as HaFormSchema]}
+                  .schema=${getSeriesEntitySchema(!!s.statistics || isExternalStatisticId(s.entity))}
                   .computeLabel=${computeLabel}
                   @value-changed=${this._entityChanged}
                 ></ha-form>

@@ -4,6 +4,13 @@ import { t } from '../localize';
 // Schemas below are exposed as functions (not module-level constants) so that option labels
 // re-resolve to the current editor locale on every render.
 
+// Entity field: switches to the statistic picker (ha-statistic-picker) when
+// statistics mode is active, so external statistic IDs (source:object_id)
+// can be selected too.
+export function getSeriesEntitySchema(statisticsMode: boolean): HaFormSchema[] {
+  return [{ name: 'entity', selector: statisticsMode ? { statistic: {} } : { entity: {} } }];
+}
+
 // ── Core fields rendered above the expandables (entity is handled separately). ──
 export function getSeriesCoreSchema(): HaFormSchema[] {
   return [

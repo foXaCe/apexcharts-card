@@ -1,6 +1,6 @@
 import { HassEntities, HassEntity } from 'home-assistant-js-websocket';
 import { compress as lzStringCompress, decompress as lzStringDecompress } from 'lz-string';
-import { ChartCardConfig, EntityCachePoints } from './types';
+import { ChartCardConfig, EntityCachePoints, StatisticsMetadata } from './types';
 import { TinyColor } from '@ctrl/tinycolor';
 import parse from 'parse-duration';
 import { ChartCardExternalConfig, ChartCardPrettyTime, ChartCardSeriesExternalConfig } from './types-config';
@@ -64,18 +64,54 @@ export function mergeDeep(target: any, source: any): any {
   return target;
 }
 
+// External long-term statistics use a `source:object_id` ID (e.g.
+// `veolia:1235075_daily_consumption`) instead of an `entity_id`: they have no
+// state object in `hass.states` and no recorder history, only LTS data.
+export function isExternalStatisticId(entityId: string | undefined): boolean {
+  return !!entityId && /^[a-z0-9_]+:[a-z0-9_]+$/.test(entityId);
+}
+
+const statisticsMetadataCache: Map<string, Promise<StatisticsMetadata | undefined>> = new Map();
+
+export function getStatisticsMetadata(
+  hass: HomeAssistant | undefined,
+  statisticId: string,
+): Promise<StatisticsMetadata | undefined> {
+  if (!hass) return Promise.resolve(undefined);
+  let cached = statisticsMetadataCache.get(statisticId);
+  if (!cached) {
+    cached = hass
+      .callWS<StatisticsMetadata[]>({
+        type: 'recorder/get_statistics_metadata',
+        statistic_ids: [statisticId],
+      })
+      .then((metadata) =>
+        Array.isArray(metadata) ? metadata.find((item) => item.statistic_id === statisticId) : undefined,
+      )
+      .catch(() => {
+        statisticsMetadataCache.delete(statisticId);
+        return undefined;
+      });
+    statisticsMetadataCache.set(statisticId, cached);
+  }
+  return cached;
+}
+
 export function computeName(
   index: number,
   series: ChartCardSeriesExternalConfig[] | undefined,
   entities: (HassEntity | undefined)[] | HassEntities | undefined = undefined,
   entity: HassEntity | undefined = undefined,
 ): string {
-  if (!series || (!entities && !entity)) return '';
-  let name = '';
-  if (entity) {
-    name = series[index].name || entity.attributes?.friendly_name || entity.entity_id || '';
-  } else if (entities) {
-    name = series[index].name || entities[index]?.attributes?.friendly_name || entities[index]?.entity_id || '';
+  if (!series || !series[index]) return '';
+  let name = series[index].name || '';
+  if (!name && entity) {
+    name = entity.attributes?.friendly_name || entity.entity_id || '';
+  } else if (!name && entities) {
+    name = entities[index]?.attributes?.friendly_name || entities[index]?.entity_id || '';
+  }
+  if (!name && isExternalStatisticId(series[index].entity)) {
+    name = series[index].entity;
   }
   return name + (series[index].show?.offset_in_name && series[index].offset ? ` (${series[index].offset})` : '');
 }
@@ -86,13 +122,13 @@ export function computeUom(
   entities: HassEntity[] | undefined[] | undefined = undefined,
   entity: HassEntity | undefined = undefined,
 ): string {
-  if (!series || (!entities && !entity)) return '';
-  if (entity) {
-    return series[index].unit || entity.attributes?.unit_of_measurement || '';
-  } else if (entities) {
-    return series[index].unit || entities[index]?.attributes?.unit_of_measurement || '';
-  }
-  return '';
+  if (!series || !series[index]) return '';
+  return (
+    series[index].unit ||
+    entity?.attributes?.unit_of_measurement ||
+    (entities ? entities[index]?.attributes?.unit_of_measurement : undefined) ||
+    ''
+  );
 }
 
 export function computeColors(colors: string[] | undefined): string[] {

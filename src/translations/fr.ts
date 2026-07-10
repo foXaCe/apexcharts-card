@@ -12,6 +12,8 @@ export const fr: Record<string, string> = {
   'error.interval.invalid': "'{prefix} : {interval}' n'est pas un intervalle de temps valide",
   'error.offset.invalidSign': "'{prefix} : {interval}' doit commencer par '+' ou '-'",
   'error.template.missing': "Le modèle apexcharts-card '{template}' est absent de votre configuration !",
+  'error.statistics.externalRequired':
+    "L'ID de statistique externe '{entity}' nécessite l'option 'statistics' : il n'a pas d'historique d'état, uniquement des statistiques long terme.",
 
   // ── Onglets ──
   'tabs.general': 'Général',

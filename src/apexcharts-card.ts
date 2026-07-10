@@ -10,6 +10,7 @@ import {
   EntityEntryCache,
   HistoryPoint,
   minmax_type,
+  StatisticsMetadata,
 } from './types';
 import { handleAction, HomeAssistant } from 'custom-card-helpers';
 import localForage from 'localforage';
@@ -24,8 +25,10 @@ import {
   formatApexDate,
   getLang,
   getPercentFromValue,
+  getStatisticsMetadata,
   interpolateColor,
   is12Hour,
+  isExternalStatisticId,
   log,
   mergeConfigTemplates,
   mergeDeep,
@@ -252,6 +255,15 @@ export class ChartsCard extends LitElement {
     let updated = false;
     let rawHeaderStatesUpdated = false;
     this._config.series.forEach((serie, index) => {
+      if (isExternalStatisticId(serie.entity)) {
+        // No state object exists for external statistic IDs: keep a stable
+        // synthetic entity (enriched with recorder metadata once fetched) so
+        // the card doesn't warn and name/unit resolution keeps working.
+        if (!this._entities[index]) {
+          this._entities[index] = this._buildExternalStatisticEntity(serie.entity);
+        }
+        return;
+      }
       const entityState = (hass && hass.states[serie.entity]) || undefined;
       if (!entityState) {
         this._entities[index] = entityState;
@@ -359,6 +371,11 @@ export class ChartsCard extends LitElement {
         this._brushSelectionSpan = validateInterval(configDup.brush.selection_span, 'brush.selection_span');
       }
       configDup.series.forEach((serie, index) => {
+        if (isExternalStatisticId(serie.entity) && !serie.statistics) {
+          // External statistic IDs have no recorder history: without the
+          // statistics option there is nothing to plot.
+          throw new Error(t('error.statistics.externalRequired', { entity: serie.entity }));
+        }
         if (serie.offset) {
           this._seriesOffset[index] = validateOffset(serie.offset, `series[${index}].offset`);
         }
@@ -399,7 +416,12 @@ export class ChartsCard extends LitElement {
             this._headerColors[index] = serie.color;
           }
           serie.fill_raw = serie.fill_raw || DEFAULT_FILL_RAW;
-          serie.extend_to = serie.extend_to !== undefined ? serie.extend_to : 'end';
+          // External statistics have no live state to extend to
+          serie.extend_to = isExternalStatisticId(serie.entity)
+            ? false
+            : serie.extend_to !== undefined
+              ? serie.extend_to
+              : 'end';
           serie.type = this._config?.chart_type ? undefined : serie.type || DEFAULT_SERIE_TYPE;
           if (!serie.group_by) {
             serie.group_by = {
@@ -719,6 +741,8 @@ export class ChartsCard extends LitElement {
           ) {
             const stateClasses =
               this._config?.header?.disable_actions ||
+              // Default tap action is more-info: meaningless without an entity
+              (this._isExternalStatSerie(index) && !serie.header_actions) ||
               (serie.header_actions?.tap_action?.action === 'none' &&
                 (!serie.header_actions?.hold_action?.action || serie.header_actions?.hold_action?.action === 'none') &&
                 (!serie.header_actions?.double_tap_action?.action ||
@@ -831,6 +855,9 @@ export class ChartsCard extends LitElement {
           chartWidth = graph.parentElement?.clientWidth || chartWidth;
         }
       }
+      // Resolve external statistics names/units before the layout is built so
+      // legends and tooltips pick them up on first render.
+      await this._applyExternalStatisticsMetadata();
       const layout = getLayoutConfig(this._config, this._hass, this._graphs);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const chartCfg: any = layout;
@@ -863,6 +890,43 @@ export class ChartsCard extends LitElement {
       }
       this._firstDataLoad();
     }
+  }
+
+  private _isExternalStatSerie(index: number): boolean {
+    return isExternalStatisticId(this._config?.series[index]?.entity);
+  }
+
+  private _buildExternalStatisticEntity(statisticId: string, metadata?: StatisticsMetadata): HassEntity {
+    return {
+      entity_id: statisticId,
+      state: 'unknown',
+      last_updated: new Date().toISOString(),
+      last_changed: new Date().toISOString(),
+      attributes: {
+        friendly_name: metadata?.name || statisticId,
+        unit_of_measurement: metadata?.statistics_unit_of_measurement || undefined,
+      },
+      context: { id: '', parent_id: null, user_id: null },
+    } as unknown as HassEntity;
+  }
+
+  // Default name/unit of external statistics come from the recorder metadata
+  // (cached per ID); fallback is the raw statistic ID.
+  private async _applyExternalStatisticsMetadata(): Promise<void> {
+    if (!this._config || !this._hass) return;
+    if (!this._config.series.some((serie) => isExternalStatisticId(serie.entity))) return;
+    await Promise.all(
+      this._config.series.map(async (serie, index) => {
+        if (!isExternalStatisticId(serie.entity)) return;
+        const metadata = await getStatisticsMetadata(this._hass, serie.entity);
+        if (!serie.name && metadata?.name) serie.name = metadata.name;
+        if (!serie.unit && metadata?.statistics_unit_of_measurement) {
+          serie.unit = metadata.statistics_unit_of_measurement;
+        }
+        this._entities[index] = this._buildExternalStatisticEntity(serie.entity, metadata);
+      }),
+    );
+    this._entities = [...this._entities];
   }
 
   private async _updateData() {
@@ -902,6 +966,10 @@ export class ChartsCard extends LitElement {
               // not raw
               this._headerState[index] = graph.lastState;
             }
+          } else if (inHeader === 'raw' && this._isExternalStatSerie(index)) {
+            // External statistics have no entity state: `raw` shows the
+            // latest statistic value instead.
+            this._headerState[index] = graph.lastState;
           }
           if (!this._config?.series[index].show.in_chart && !this._config?.series[index].show.in_brush) {
             return;
@@ -959,15 +1027,19 @@ export class ChartsCard extends LitElement {
           series: this._graphs.flatMap((graph, index) => {
             if (!graph) return [];
             let data = 0;
+            // For external statistics, `raw` also resolves to the latest
+            // statistic value (there is no entity state to read from).
+            const computedHeader =
+              this._config?.series[index].show.in_header !== 'raw' || this._isExternalStatSerie(index);
             if (graph.history.length === 0) {
-              if (this._config?.series[index].show.in_header !== 'raw') {
+              if (computedHeader) {
                 this._headerState[index] = null;
               }
               data = 0;
             } else {
               const lastState = graph.lastState;
               data = lastState || 0;
-              if (this._config?.series[index].show.in_header !== 'raw') {
+              if (computedHeader) {
                 this._headerState[index] = lastState;
               }
             }
@@ -1580,6 +1652,10 @@ export class ChartsCard extends LitElement {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _handleAction(ev: any, serieConfig: ChartCardSeriesConfig) {
     if (ev.detail?.action) {
+      const isExternalStat = isExternalStatisticId(serieConfig.entity);
+      // Without explicit header_actions the default action is more-info,
+      // which cannot open on an external statistic ID.
+      if (isExternalStat && !serieConfig.header_actions) return;
       const configDup: ActionsConfig = serieConfig.header_actions
         ? JSON.parse(JSON.stringify(serieConfig.header_actions))
         : {};
@@ -1588,7 +1664,8 @@ export class ChartsCard extends LitElement {
         case 'tap':
         case 'hold':
         case 'double_tap':
-          configDup.entity = configDup[`${ev.detail.action}_action`]?.entity || serieConfig.entity;
+          configDup.entity =
+            configDup[`${ev.detail.action}_action`]?.entity || (isExternalStat ? undefined : serieConfig.entity);
 
           handleAction(this, this._hass!, configDup, ev.detail.action);
           break;

@@ -10,7 +10,7 @@ import {
   Statistics,
   StatisticValue,
 } from './types';
-import { compress, decompress, log } from './utils';
+import { compress, decompress, isExternalStatisticId, log } from './utils';
 import localForage from 'localforage';
 import { HassEntity } from 'home-assistant-js-websocket';
 import { DateRange } from 'moment-range';
@@ -56,6 +56,10 @@ export default class GraphEntry {
 
   private _md5Config: string;
 
+  // External statistic IDs (source:object_id) have no state object in
+  // hass.states: everything relying on _entityState must be bypassed.
+  private _isExternalStat: boolean;
+
   // Set when span padding is applied: the header/legend must keep showing the
   // last REAL value, not the trailing null padding points.
   private _lastRealState: number | null | undefined = undefined;
@@ -81,6 +85,7 @@ export default class GraphEntry {
     this._index = index;
     this._cache = config.statistics ? false : cache;
     this._entityID = config.entity;
+    this._isExternalStat = isExternalStatisticId(config.entity);
     this._graphSpan = graphSpan;
     this._config = config;
     this._func = aggregateFuncMap[config.group_by.func];
@@ -207,11 +212,13 @@ export default class GraphEntry {
       const nbBuckets = Math.ceil(range / this._groupByDurationMs);
       startHistory = new Date(end.getTime() + this._groupByOffsetMs - nbBuckets * this._groupByDurationMs);
     }
-    if (!this._entityState || this._updating) return false;
+    if ((!this._entityState && !this._isExternalStat) || this._updating) return false;
     this._updating = true;
     this._lastRealState = undefined;
 
-    if (this._config.ignore_history) {
+    // ignore_history is never set for statistics series (hence never for
+    // external statistic IDs), so _entityState is always defined here.
+    if (this._config.ignore_history && this._entityState) {
       let currentState: null | number | string = null;
       if (this._config.attribute) {
         currentState = this._entityState.attributes?.[this._config.attribute];

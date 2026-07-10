@@ -164,7 +164,7 @@ The card strictly validates all the options available (but not for the `apex_con
 
 | Name | Type | Default | Since | Description |
 | ---- | :--: | :-----: | :---: | ----------- |
-| :white_check_mark: `entity` | string | | v1.0.0 | The `entity_id` of the sensor to display |
+| :white_check_mark: `entity` | string | | v1.0.0 | The `entity_id` of the sensor to display, or an external statistic ID (`source:object_id`, e.g. `veolia:1235075_daily_consumption`). External statistic IDs require the [`statistics`](#statistics-options) option |
 | `attribute` | string | | v1.4.0 | Instead of retrieving the state, it will retrieve an `attribute` of the entity. Make sure you increase `update_delay` if the chart doesn't reflect the last value of the attribute |
 | `name` | string | | v1.0.0 | Override the name of the entity |
 | `stack_group` | string | | v2.1.0 | When `stacked` is `true`, groups the different series with the name `stack_group` together. Only works for `type: column`. All series' names need to be be unique because of a bug in apexcharts.js |
@@ -279,6 +279,30 @@ series:
 | `type` | string | `mean` | v2.0.0 | Type of long term statistic to pull. Can be one of `min`, `max`, `mean`, `sum` `state` or `change` |
 | `period` | string | `hour` | v2.0.0 | Period of statistics to pull. Can be one of `5minute`, `hour`, `day`, `week` or `month` |
 | `align` | string | `middle` | v2.0.0 | Align the data points to the `start`, `end` or `middle` of the period of the statistics |
+
+#### External statistics
+
+Since v2.6.0, `entity` also accepts external long-term statistic IDs (`source:object_id`, e.g. `veolia:1235075_daily_consumption`, as pushed by integrations like Veolia, GRDF or the energy dashboard imports). These have no entity in Home Assistant (no state, no history), only long-term statistics, so:
+
+- the `statistics` option is **required** (there is nothing else to plot),
+- the name and unit default to the statistic's metadata from the recorder (fallback: the raw ID), and can be overridden with `name`/`unit`,
+- `show.in_header: raw` displays the latest statistic value,
+- `extend_to` is ignored and the default header tap action (more-info) is disabled (set explicit `header_actions` if needed),
+- since there is no state change to trigger refreshes, use `update_interval` to keep the chart up to date.
+
+```yaml
+type: custom:apexcharts-card
+graph_span: 30d
+span:
+  end: day
+update_interval: 1h
+series:
+  - entity: veolia:1235075_daily_consumption
+    type: column
+    statistics:
+      type: change
+      period: day
+```
 
 ### Main `show` Options
 
