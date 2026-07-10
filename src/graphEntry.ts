@@ -82,7 +82,7 @@ export default class GraphEntry {
     this._realEnd = new Date();
     this._realStart = new Date();
     // Valid because tested during init;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     this._groupByDurationMs = parse(this._config.group_by.duration)!;
     this._groupByOffsetMs =
       ((parse(this._config.group_by.offset)! % this._groupByDurationMs) + this._groupByDurationMs) %
@@ -260,8 +260,7 @@ export default class GraphEntry {
 
       // if data in cache, get data from last data's time + 1ms
       const fetchStart = usableCache
-        ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          new Date(history!.data[history!.data.length - 1][0] + 1)
+        ? new Date(history!.data[history!.data.length - 1][0] + 1)
         : new Date(startHistory.getTime() + (this._config.group_by.func !== 'raw' ? 0 : -1));
       const fetchEnd = end;
 
@@ -468,7 +467,6 @@ export default class GraphEntry {
   }
 
   private async _generateData(start: Date, end: Date): Promise<EntityEntryCache> {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
     let data;
     try {
@@ -484,12 +482,9 @@ export default class GraphEntry {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
       const funcTrimmed =
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this._config.data_generator!.length <= 100
-          ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this._config.data_generator!.trim()
-          : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            `${this._config.data_generator!.trim().substring(0, 98)}...`;
+          ? this._config.data_generator!.trim()
+          : `${this._config.data_generator!.trim().substring(0, 98)}...`;
       e.message = `${e.name}: ${e.message} in '${funcTrimmed}'`;
       e.name = 'Error';
       throw e;
@@ -589,10 +584,8 @@ export default class GraphEntry {
     return items.reduce((sum, entry, index) => {
       let val = 0;
       if (entry && entry[1] === null) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         val = items[lastIndex][1]!;
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         val = entry[1]!;
         lastIndex = index;
       }
@@ -637,13 +630,12 @@ export default class GraphEntry {
   }
 
   private _median(items: EntityCachePoints) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const itemsDup = this._filterNulls([...items]).sort((a, b) => a[1]! - b[1]!);
     if (itemsDup.length === 0) return null;
     if (itemsDup.length === 1) return itemsDup[0][1];
     const mid = Math.floor((itemsDup.length - 1) / 2);
     if (itemsDup.length % 2 === 1) return itemsDup[mid][1];
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     return (itemsDup[mid][1]! + itemsDup[mid + 1][1]!) / 2;
   }
 
