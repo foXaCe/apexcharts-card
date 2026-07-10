@@ -596,9 +596,11 @@ class ChartsCard extends LitElement {
           </div>
         </div>
         <div class=${classMap(wrapperClasses)}>
-          ${this._config.header?.show && (this._config.header.show_states || !this._config.header.standard_format)
-            ? this._renderHeader()
-            : html``}
+          ${
+            this._config.header?.show && (this._config.header.show_states || !this._config.header.standard_format)
+              ? this._renderHeader()
+              : html``
+          }
           <div id="graph-wrapper">
             <div id="graph"></div>
             ${this._config.series_in_brush.length ? html`<div id="brush"></div>` : ``}
@@ -701,14 +703,16 @@ class ChartsCard extends LitElement {
             return html`
               <div
                 id="states__state"
-                class="${this._config?.header?.disable_actions ||
-                (serie.header_actions?.tap_action?.action === 'none' &&
-                  (!serie.header_actions?.hold_action?.action ||
-                    serie.header_actions?.hold_action?.action === 'none') &&
-                  (!serie.header_actions?.double_tap_action?.action ||
-                    serie.header_actions?.double_tap_action?.action === 'none'))
-                  ? 'disabled'
-                  : 'actions'}"
+                class="${
+                  this._config?.header?.disable_actions ||
+                  (serie.header_actions?.tap_action?.action === 'none' &&
+                    (!serie.header_actions?.hold_action?.action ||
+                      serie.header_actions?.hold_action?.action === 'none') &&
+                    (!serie.header_actions?.double_tap_action?.action ||
+                      serie.header_actions?.double_tap_action?.action === 'none'))
+                    ? 'disabled'
+                    : 'actions'
+                }"
                 @action=${(ev) => {
                   this._handleAction(ev, serie);
                 }}
@@ -743,19 +747,25 @@ class ChartsCard extends LitElement {
               >
                 <div id="state__value">
                   <span id="state" style="${this._computeHeaderStateColor(serie, this._headerState?.[index])}"
-                    >${this._headerState?.[index] === 0
-                      ? 0
-                      : serie.show.as_duration
-                      ? prettyPrintTime(this._headerState?.[index], serie.show.as_duration)
-                      : this._computeLastState(this._headerState?.[index], index) || NO_VALUE}</span
+                    >${
+                      this._headerState?.[index] === 0
+                        ? 0
+                        : serie.show.as_duration
+                          ? prettyPrintTime(this._headerState?.[index], serie.show.as_duration)
+                          : this._computeLastState(this._headerState?.[index], index) || NO_VALUE
+                    }</span
                   >
-                  ${!serie.show.as_duration
-                    ? html`<span id="uom">${computeUom(index, this._config?.series, this._entities)}</span>`
-                    : ''}
+                  ${
+                    !serie.show.as_duration
+                      ? html`<span id="uom">${computeUom(index, this._config?.series, this._entities)}</span>`
+                      : ''
+                  }
                 </div>
-                ${serie.show.name_in_header
-                  ? html`<div id="state__name">${computeName(index, this._config?.series, this._entities)}</div>`
-                  : ''}
+                ${
+                  serie.show.name_in_header
+                    ? html`<div id="state__name">${computeName(index, this._config?.series, this._entities)}</div>`
+                    : ''
+                }
                 <mwc-ripple unbounded id="ripple-${index}"></mwc-ripple>
               </div>
             `;

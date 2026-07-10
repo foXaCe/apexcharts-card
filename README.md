@@ -1,14 +1,16 @@
-[![License](https://img.shields.io/github/license/RomRider/apexcharts-card.svg)](LICENSE)
-[![HACS Supported](https://img.shields.io/badge/HACS-Supported-green.svg)](https://github.com/custom-components/hacs)
-![Downloads](https://img.shields.io/github/downloads/RomRider/apexcharts-card/total)
-![GitHub Activity](https://img.shields.io/github/commit-activity/y/RomRider/apexcharts-card.svg?label=commits)
-[![Stable](https://img.shields.io/github/release/RomRider/apexcharts-card.svg)](https://github.com/RomRider/apexcharts-card/releases/latest)
-[![Beta](https://img.shields.io/github/package-json/v/RomRider/apexcharts-card/dev?label=release%40dev)](https://github.com/RomRider/apexcharts-card/releases)
+[![License](https://img.shields.io/github/license/foXaCe/apexcharts-card.svg)](LICENSE)
+[![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
+![Downloads](https://img.shields.io/github/downloads/foXaCe/apexcharts-card/total)
+![GitHub Activity](https://img.shields.io/github/commit-activity/y/foXaCe/apexcharts-card.svg?label=commits)
+[![Stable](https://img.shields.io/github/release/foXaCe/apexcharts-card.svg)](https://github.com/foXaCe/apexcharts-card/releases/latest)
+[![CI](https://img.shields.io/github/actions/workflow/status/foXaCe/apexcharts-card/ci.yml?branch=main&label=CI)](https://github.com/foXaCe/apexcharts-card/actions/workflows/ci.yml)
 [![Community Forum](https://img.shields.io/badge/community-forum-brightgreen.svg)](https://community.home-assistant.io/t/apexcharts-card-a-highly-customizable-graph-card/272877)
 
-# ApexCharts Card by [@RomRider](https://github.com/RomRider) <!-- omit in toc -->
+# ApexCharts Card <!-- omit in toc -->
 
-![Header](https://github.com/RomRider/apexcharts-card/raw/master/docs/Header.png)
+_Originally created by [@RomRider](https://github.com/RomRider); this is a fork maintained by [@foXaCe](https://github.com/foXaCe)._
+
+![Header](docs/Header.png)
 
 This is a highly customizable graph card for [Home-Assistant](https://www.home-assistant.io)'s Lovelace UI.<br/>
 
@@ -78,7 +80,7 @@ This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community St
 
 ### Manual install
 
-1. Download and copy `apexcharts-card.js` from the [latest release](https://github.com/RomRider/apexcharts-card/releases/latest) into your `config/www` directory.
+1. Download and copy `apexcharts-card.js` from the [latest release](https://github.com/foXaCe/apexcharts-card/releases/latest) into your `config/www` directory.
 
 2. Add the resource reference as described below.
 
@@ -89,7 +91,7 @@ This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community St
 2. Grab `apexcharts-card.js`:
 
 ```
-$ wget https://github.com/RomRider/apexcharts-card/releases/download/v2.2.3/apexcharts-card.js
+$ wget https://github.com/foXaCe/apexcharts-card/releases/latest/download/apexcharts-card.js
 ```
 
 3. Add the resource reference as described below.

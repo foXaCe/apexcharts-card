@@ -21,7 +21,7 @@ export const deepEqual = (a: any, b: any): boolean => {
       if (length !== b.length) {
         return false;
       }
-      for (i = length; i-- !== 0; ) {
+      for (i = length; i-- !== 0;) {
         if (!deepEqual(a[i], b[i])) {
           return false;
         }
@@ -65,7 +65,7 @@ export const deepEqual = (a: any, b: any): boolean => {
       if (length !== b.length) {
         return false;
       }
-      for (i = length; i-- !== 0; ) {
+      for (i = length; i-- !== 0;) {
         if (a[i] !== b[i]) {
           return false;
         }
@@ -88,13 +88,13 @@ export const deepEqual = (a: any, b: any): boolean => {
     if (length !== Object.keys(b).length) {
       return false;
     }
-    for (i = length; i-- !== 0; ) {
+    for (i = length; i-- !== 0;) {
       if (!Object.prototype.hasOwnProperty.call(b, keys[i])) {
         return false;
       }
     }
 
-    for (i = length; i-- !== 0; ) {
+    for (i = length; i-- !== 0;) {
       const key = keys[i];
 
       if (!deepEqual(a[key], b[key])) {

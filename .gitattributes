@@ -1,0 +1,13 @@
+# Normalize line endings to LF on checkin
+* text=auto eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+
+# Generated / vendored files (collapse in diffs, exclude from language stats)
+package-lock.json -diff linguist-generated=true
+dist/** linguist-generated=true
+CHANGELOG.md linguist-generated=true
