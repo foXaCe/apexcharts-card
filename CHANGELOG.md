@@ -4,6 +4,23 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.3.0](https://github.com/foXaCe/apexcharts-card/compare/apexcharts-card-v2.2.3...apexcharts-card-v2.3.0) (2026-07-10)
+
+
+### Features
+
+* add a visual editor UI ([#9](https://github.com/foXaCe/apexcharts-card/issues/9)) ([b2bb9b0](https://github.com/foXaCe/apexcharts-card/commit/b2bb9b03ff5d30892f5b9e8fbc9323cbaa138aa5))
+* add entity suggestion in the card picker for numeric entities ([c2b83a3](https://github.com/foXaCe/apexcharts-card/commit/c2b83a3ac577bbffabd17430ec5d5842287c7574))
+* add optional 'uix' property to the series configuration ([0b54534](https://github.com/foXaCe/apexcharts-card/commit/0b54534a90a94aa42136854d984141c817d4bce1))
+* add support for Linked Lovelace UI config ([acf3ca3](https://github.com/foXaCe/apexcharts-card/commit/acf3ca31a1b0024996d92bfe99f3f23a271c52b8))
+* fill gaps in history from Home Assistant ([da4145e](https://github.com/foXaCe/apexcharts-card/commit/da4145e95f082c0e18864fd6eb012fe1fd13cce5))
+
+
+### Bug Fixes
+
+* chart right side clipped due to overflow and wrong initial width ([a7e6209](https://github.com/foXaCe/apexcharts-card/commit/a7e62094a231b4a1d8ae3450982460fa87c7ecff))
+* show extrema labels of negative values below the line ([87c7ad5](https://github.com/foXaCe/apexcharts-card/commit/87c7ad5a8333e4ecf3303fadda8ea087a7abde50))
+
 ## [2.2.2](https://github.com/RomRider/apexcharts-card/compare/v2.2.1...v2.2.2) (2025-08-21)
 
 ### Bug Fixes
