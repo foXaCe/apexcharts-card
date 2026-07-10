@@ -7,6 +7,7 @@ import { ChartCardExternalConfig, ChartCardPrettyTime, ChartCardSeriesExternalCo
 import { DEFAULT_FLOAT_PRECISION, DEFAULT_MAX, DEFAULT_MIN, moment, NO_VALUE } from './const';
 import { formatNumber, FrontendLocaleData, HomeAssistant } from 'custom-card-helpers';
 import { OverrideFrontendLocaleData } from './types-ha';
+import { t } from './localize';
 
 export function compress(data: unknown): string {
   return lzStringCompress(JSON.stringify(data));
@@ -125,14 +126,14 @@ export function computeTextColor(backgroundColor: string): string {
 export function validateInterval(interval: string, prefix: string): number {
   const parsed = parse(interval);
   if (parsed === null) {
-    throw new Error(`'${prefix}: ${interval}' is not a valid range of time`);
+    throw new Error(t('error.interval.invalid', { prefix, interval }));
   }
   return parsed;
 }
 
 export function validateOffset(interval: string, prefix: string): number {
   if (interval[0] !== '+' && interval[0] !== '-') {
-    throw new Error(`'${prefix}: ${interval}' should start with a '+' or a '-'`);
+    throw new Error(t('error.offset.invalidSign', { prefix, interval }));
   }
   return validateInterval(interval, prefix);
 }
@@ -201,8 +202,7 @@ export function mergeConfigTemplates(ll: any, config: ChartCardExternalConfig): 
   let result: any = {};
   const tpls = tpl && Array.isArray(tpl) ? tpl : [tpl];
   tpls?.forEach((template) => {
-    if (!ll.config.apexcharts_card_templates?.[template])
-      throw new Error(`apexchart-card template '${template}' is missing from your config!`);
+    if (!ll.config.apexcharts_card_templates?.[template]) throw new Error(t('error.template.missing', { template }));
     const res = mergeConfigTemplates(ll, JSON.parse(JSON.stringify(ll.config.apexcharts_card_templates[template])));
     result = mergeDeepConfig(result, res);
   });

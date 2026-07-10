@@ -1,4 +1,18 @@
 export const en: Record<string, string> = {
+  // ── Card runtime ──
+  'card.loading': 'Loading...',
+  'card.warning.entityNotAvailable': 'Entity not available: {entity}',
+
+  // ── Config errors (shown in the HA error card) ──
+  'error.span.startEnd': "span: Only one of 'start' or 'end' is allowed.",
+  'error.yaxis.missingYaxisId': "Multiple yaxis detected: Some series are missing the 'yaxis_id' configuration.",
+  'error.yaxis.missingId': "Multiple yaxis detected: Some yaxis are missing an 'id'.",
+  'error.yaxis.idNotFound': "yaxis_id: {id} doesn't exist.",
+  'error.yaxis.badMinMaxFormat': 'Bad yaxis min/max format: {value}',
+  'error.interval.invalid': "'{prefix}: {interval}' is not a valid range of time",
+  'error.offset.invalidSign': "'{prefix}: {interval}' should start with a '+' or a '-'",
+  'error.template.missing': "apexcharts-card template '{template}' is missing from your config!",
+
   // ── Tabs ──
   'tabs.general': 'General',
   'tabs.series': 'Series',

@@ -1,4 +1,18 @@
 export const fr: Record<string, string> = {
+  // ── Runtime de la carte ──
+  'card.loading': 'Chargement…',
+  'card.warning.entityNotAvailable': 'Entité indisponible : {entity}',
+
+  // ── Erreurs de configuration (affichées dans la carte d'erreur HA) ──
+  'error.span.startEnd': "span : une seule des options 'start' ou 'end' est autorisée.",
+  'error.yaxis.missingYaxisId': "Plusieurs axes Y détectés : l'option 'yaxis_id' manque à certaines séries.",
+  'error.yaxis.missingId': "Plusieurs axes Y détectés : l'option 'id' manque à certains axes.",
+  'error.yaxis.idNotFound': "yaxis_id : {id} n'existe pas.",
+  'error.yaxis.badMinMaxFormat': "Format min/max d'axe Y invalide : {value}",
+  'error.interval.invalid': "'{prefix} : {interval}' n'est pas un intervalle de temps valide",
+  'error.offset.invalidSign': "'{prefix} : {interval}' doit commencer par '+' ou '-'",
+  'error.template.missing': "Le modèle apexcharts-card '{template}' est absent de votre configuration !",
+
   // ── Onglets ──
   'tabs.general': 'Général',
   'tabs.series': 'Séries',
