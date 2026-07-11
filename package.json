@@ -54,11 +54,11 @@
     "ts-interface-checker": "^1.0.2"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-commonjs": "^28.0.9",
     "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
-    "@rollup/plugin-typescript": "^12.1.0",
+    "@rollup/plugin-typescript": "^12.3.0",
     "@types/lz-string": "^1.5.0",
     "@types/moment-duration-format": "^2.2.7",
     "@types/spark-md5": "^3.0.5",
@@ -67,7 +67,7 @@
     "happy-dom": "^20.10.6",
     "home-assistant-js-websocket": "^9.6.0",
     "prettier": "^3.9.5",
-    "rollup": "^4.62.0",
+    "rollup": "^4.62.2",
     "rollup-plugin-serve": "^3.0.0",
     "ts-interface-builder": "^0.3.3",
     "tslib": "^2.8.0",
