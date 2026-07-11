@@ -87,7 +87,7 @@ import {
   HOUR_24,
 } from './const';
 import parse from 'parse-duration';
-import tinycolor from '@ctrl/tinycolor';
+import { TinyColor } from '@ctrl/tinycolor';
 import { actionHandler } from './action-handler-directive';
 import { OverrideFrontendLocaleData } from './types-ha';
 import { setLocale, t } from './localize';
@@ -1272,7 +1272,7 @@ export class ChartsCard extends LitElement {
       },
     });
     if (withTime) {
-      let bgColorTime = tinycolor(computeColor('var(--card-background-color)'));
+      let bgColorTime = new TinyColor(computeColor('var(--card-background-color)'));
       bgColorTime =
         bgColorTime.isValid && bgColorTime.getLuminance() > 0.5 ? bgColorTime.darken(20) : bgColorTime.lighten(20);
       const txtColorTime = computeTextColor(bgColorTime.toHexString());
@@ -1494,8 +1494,8 @@ export class ChartsCard extends LitElement {
       if (thres.value > max && arr[index - 1]) {
         const factor = (max - arr[index - 1].value) / (thres.value - arr[index - 1].value);
         color = interpolateColor(
-          tinycolor(arr[index - 1].color || defColor).toHexString(),
-          tinycolor(thres.color || defColor).toHexString(),
+          new TinyColor(arr[index - 1].color || defColor).toHexString(),
+          new TinyColor(thres.color || defColor).toHexString(),
           factor,
         );
 
@@ -1512,8 +1512,8 @@ export class ChartsCard extends LitElement {
       } else if (thres.value < min && arr[index + 1]) {
         const factor = (arr[index + 1].value - min) / (arr[index + 1].value - thres.value);
         color = interpolateColor(
-          tinycolor(arr[index + 1].color || defColor).toHexString(),
-          tinycolor(thres.color || defColor).toHexString(),
+          new TinyColor(arr[index + 1].color || defColor).toHexString(),
+          new TinyColor(thres.color || defColor).toHexString(),
           factor,
         );
 
@@ -1527,11 +1527,11 @@ export class ChartsCard extends LitElement {
         }
         opacity = opacity < 0 ? -opacity : opacity;
       }
-      color = color || tinycolor(thres.color || defColor).toHexString();
-      if ([undefined, 'line'].includes(serie.type)) color = tinycolor(color).setAlpha(opacity).toHex8String();
+      color = color || new TinyColor(thres.color || defColor).toHexString();
+      if ([undefined, 'line'].includes(serie.type)) color = new TinyColor(color).setAlpha(opacity).toHex8String();
       return [
         {
-          color: color || tinycolor(thres.color || defColor).toHexString(),
+          color: color || new TinyColor(thres.color || defColor).toHexString(),
           offset:
             scale <= 0 ? 0 : invert ? 100 - (max - thres.value) * (100 / scale) : (max - thres.value) * (100 / scale),
           opacity,
