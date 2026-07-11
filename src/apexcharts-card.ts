@@ -145,7 +145,7 @@ export class ChartsCard extends LitElement {
 
   private _interval?: number;
 
-  private _intervalTimeout?: NodeJS.Timeout;
+  private _intervalTimeout?: ReturnType<typeof setTimeout>;
 
   private _colors: string[] = [];
 
