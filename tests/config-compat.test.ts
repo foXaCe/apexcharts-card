@@ -4,8 +4,6 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore js-yaml is an untyped transitive dependency, good enough for tests
 import { load } from 'js-yaml';
 import '../src/apexcharts-card';
 

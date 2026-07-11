@@ -416,7 +416,7 @@ function getLegendFormatter(config: ChartCardConfig, hass: HomeAssistant | undef
               undefined,
               hass2?.states[conf.series_in_graph[opts.seriesIndex].entity],
             );
-      let valueString = '';
+      let valueString: string;
       if (value === undefined || value === null) {
         valueString = `<strong>${NO_VALUE} ${uom}</strong>`;
       } else {

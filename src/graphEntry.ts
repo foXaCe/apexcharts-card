@@ -219,7 +219,7 @@ export default class GraphEntry {
     // ignore_history is never set for statistics series (hence never for
     // external statistic IDs), so _entityState is always defined here.
     if (this._config.ignore_history && this._entityState) {
-      let currentState: null | number | string = null;
+      let currentState: null | number | string;
       if (this._config.attribute) {
         currentState = this._entityState.attributes?.[this._config.attribute];
       } else {
@@ -235,7 +235,7 @@ export default class GraphEntry {
       return true;
     }
 
-    let history: EntityEntryCache | undefined = undefined;
+    let history: EntityEntryCache | undefined;
 
     if (this._config.data_generator) {
       history = await this._generateData(start, end);
@@ -319,7 +319,7 @@ export default class GraphEntry {
             lastNonNull = history.data[history.data.length - 1][1];
           }
           newStateHistory = newFilledHistory.map((item) => {
-            let stateParsed: number | null = null;
+            let stateParsed: number | null;
             [lastNonNull, stateParsed] = this._transformAndFill(
               item[this._config.statistics?.type || DEFAULT_STATISTICS_TYPE],
               item,
@@ -371,7 +371,7 @@ export default class GraphEntry {
             } else {
               currentState = item.state;
             }
-            let stateParsed: number | null = null;
+            let stateParsed: number | null;
             [lastNonNull, stateParsed] = this._transformAndFill(currentState, item, lastNonNull);
 
             if (this._config.attribute) {
@@ -652,7 +652,7 @@ export default class GraphEntry {
     if (items.length === 0) return 0;
     let lastIndex = 0;
     return items.reduce((sum, entry, index) => {
-      let val = 0;
+      let val: number;
       if (entry && entry[1] === null) {
         val = items[lastIndex][1]!;
       } else {
