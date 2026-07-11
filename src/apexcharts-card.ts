@@ -542,7 +542,7 @@ export class ChartsCard extends LitElement {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
-      throw new Error(`/// apexcharts-card version ${pjson.version} /// ${e.message}`);
+      throw new Error(`/// apexcharts-card version ${pjson.version} /// ${e.message}`, { cause: e });
     }
     // Full reset only happens in editor mode
     // this._reset();
@@ -553,7 +553,7 @@ export class ChartsCard extends LitElement {
     const burned: boolean[] = [];
     this._yAxisConfig = JSON.parse(JSON.stringify(config.yaxis));
     const yaxisConfig: ApexYAxis[] = config.series_in_graph.map((serie, serieIndex) => {
-      let idx = -1;
+      let idx: number;
       if (config.yaxis?.length !== 1) {
         idx = config.yaxis!.findIndex((yaxis) => {
           return yaxis.id === serie.yaxis_id;
@@ -979,7 +979,7 @@ export class ChartsCard extends LitElement {
             if (this._config?.series[index].show.in_brush) brushData.series.push({ data: [] });
             return;
           }
-          let data: EntityCachePoints = [];
+          let data: EntityCachePoints;
           const offset =
             this._serverTimeOffset + (this._seriesOffset[index] || 0) - (this._seriesTimeDelta[index] || 0);
           if (offset) {
@@ -1026,7 +1026,7 @@ export class ChartsCard extends LitElement {
         graphData = {
           series: this._graphs.flatMap((graph, index) => {
             if (!graph) return [];
-            let data = 0;
+            let data: number;
             // For external statistics, `raw` also resolves to the latest
             // statistic value (there is no entity state to read from).
             const computedHeader =
