@@ -4,6 +4,23 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.2](https://github.com/foXaCe/apexcharts-card/compare/v2.6.1...v2.6.2) (2026-07-25)
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#32](https://github.com/foXaCe/apexcharts-card/issues/32)) ([c0d58ba](https://github.com/foXaCe/apexcharts-card/commit/c0d58ba1fa87b2faaa516b99eacc37e090480a48))
+* **deps:** lock file maintenance ([#34](https://github.com/foXaCe/apexcharts-card/issues/34)) ([d4f83ac](https://github.com/foXaCe/apexcharts-card/commit/d4f83acc8e7406f69d7cef6161a0c1f6f9e85941))
+* **deps:** lock file maintenance ([#39](https://github.com/foXaCe/apexcharts-card/issues/39)) ([d724eba](https://github.com/foXaCe/apexcharts-card/commit/d724ebaa60f7ddf97fd56923554269a93173ba01))
+* **deps:** update actions/setup-node action to v7 ([#41](https://github.com/foXaCe/apexcharts-card/issues/41)) ([230c209](https://github.com/foXaCe/apexcharts-card/commit/230c209bc9469e863258221f8ecf9d8e6a7bcbdd))
+* **deps:** update dependency eslint to ^10.7.0 ([#36](https://github.com/foXaCe/apexcharts-card/issues/36)) ([425753f](https://github.com/foXaCe/apexcharts-card/commit/425753f5bbbb173ee355d6611334390265b8b785))
+* **deps:** update dependency happy-dom to ^20.11.0 ([#40](https://github.com/foXaCe/apexcharts-card/issues/40)) ([bbd2f46](https://github.com/foXaCe/apexcharts-card/commit/bbd2f46441cbe9efffada3a6ee46e4330383a386))
+* **deps:** update dependency moment-timezone to ^0.6.3 ([#42](https://github.com/foXaCe/apexcharts-card/issues/42)) ([5d346a4](https://github.com/foXaCe/apexcharts-card/commit/5d346a4a9d8b7cc6cb2367b69e2093d6ae3bcc84))
+* **deps:** update dependency parse-duration to ^2.1.8 ([#35](https://github.com/foXaCe/apexcharts-card/issues/35)) ([b1a7c82](https://github.com/foXaCe/apexcharts-card/commit/b1a7c82ea15ede91fc21ce6786f547a166579830))
+* **deps:** update dependency prettier to ^3.9.6 ([#44](https://github.com/foXaCe/apexcharts-card/issues/44)) ([00acb3f](https://github.com/foXaCe/apexcharts-card/commit/00acb3fc1db36fc4f92d86ecb71002e4684b178e))
+* **deps:** update dependency typescript-eslint to ^8.64.0 ([#38](https://github.com/foXaCe/apexcharts-card/issues/38)) ([f748673](https://github.com/foXaCe/apexcharts-card/commit/f748673c406215c963fd019f40efe10079581eb9))
+* **deps:** update dependency typescript-eslint to ^8.65.0 ([#43](https://github.com/foXaCe/apexcharts-card/issues/43)) ([de8c9f4](https://github.com/foXaCe/apexcharts-card/commit/de8c9f4e645e0604656195bdea8a74cd1c1d34e9))
+
 ## [2.6.1](https://github.com/foXaCe/apexcharts-card/compare/v2.6.0...v2.6.1) (2026-07-11)
 
 
