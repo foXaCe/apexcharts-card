@@ -4,6 +4,16 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.4](https://github.com/foXaCe/apexcharts-card/compare/v2.6.3...v2.6.4) (2026-08-21)
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#66](https://github.com/foXaCe/apexcharts-card/issues/66)) ([7d1d285](https://github.com/foXaCe/apexcharts-card/commit/7d1d28536328dd39050c334dc171e07f8cb582f0))
+* **deps:** update dependency apexcharts to ^6.10.0 ([#71](https://github.com/foXaCe/apexcharts-card/issues/71)) ([4e50022](https://github.com/foXaCe/apexcharts-card/commit/4e500224a72e6766437738a8d59b01f23030a92f))
+* **deps:** update dependency js-yaml to ^5.3.0 ([#68](https://github.com/foXaCe/apexcharts-card/issues/68)) ([69eb83c](https://github.com/foXaCe/apexcharts-card/commit/69eb83c04a74f5d5f79514030bf43dd0dfca76f1))
+* **deps:** update google/osv-scanner-action action to v2.5.1 ([#70](https://github.com/foXaCe/apexcharts-card/issues/70)) ([fd504e6](https://github.com/foXaCe/apexcharts-card/commit/fd504e601b08168757c5ff833dd6b41a92d54bf9))
+
 ## [2.6.3](https://github.com/foXaCe/apexcharts-card/compare/v2.6.2...v2.6.3) (2026-08-15)
 
 
