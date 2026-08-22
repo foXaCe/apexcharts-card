@@ -4,6 +4,13 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.6](https://github.com/foXaCe/apexcharts-card/compare/v2.6.5...v2.6.6) (2026-08-22)
+
+
+### Dependencies
+
+* **deps:** update dependency happy-dom to ^20.11.3 ([#74](https://github.com/foXaCe/apexcharts-card/issues/74)) ([27a4fdc](https://github.com/foXaCe/apexcharts-card/commit/27a4fdc55b5665d3059e37896f2f93be242c648b))
+
 ## [2.6.5](https://github.com/foXaCe/apexcharts-card/compare/v2.6.4...v2.6.5) (2026-08-21)
 
 
