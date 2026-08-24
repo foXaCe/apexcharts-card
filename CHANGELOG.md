@@ -4,6 +4,16 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.6](https://github.com/foXaCe/apexcharts-card/compare/v2.6.5...v2.6.6) (2026-08-24)
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#78](https://github.com/foXaCe/apexcharts-card/issues/78)) ([e78291d](https://github.com/foXaCe/apexcharts-card/commit/e78291d669240cc77c2ea63319e2a8411da0a7b8))
+* **deps:** update dependency happy-dom to ^20.11.3 ([#74](https://github.com/foXaCe/apexcharts-card/issues/74)) ([27a4fdc](https://github.com/foXaCe/apexcharts-card/commit/27a4fdc55b5665d3059e37896f2f93be242c648b))
+* **deps:** update dependency happy-dom to ^20.11.6 ([#76](https://github.com/foXaCe/apexcharts-card/issues/76)) ([dcda6ad](https://github.com/foXaCe/apexcharts-card/commit/dcda6ad3c85523b68c40d26075b3996f1aad3923))
+* **deps:** update dependency rollup to ^4.62.5 ([#77](https://github.com/foXaCe/apexcharts-card/issues/77)) ([63d9dd9](https://github.com/foXaCe/apexcharts-card/commit/63d9dd9df82fbac0eb746b6c31720541b642312d))
+
 ## [2.6.5](https://github.com/foXaCe/apexcharts-card/compare/v2.6.4...v2.6.5) (2026-08-21)
 
 
