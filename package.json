@@ -64,7 +64,7 @@
     "@types/lz-string": "^1.5.0",
     "@types/moment-duration-format": "^2.2.7",
     "@types/spark-md5": "^3.0.5",
-    "@vitest/coverage-v8": "^4.1.11",
+    "@vitest/coverage-v8": "^5.0.0",
     "eslint": "^10.10.0",
     "happy-dom": "^20.14.0",
     "home-assistant-js-websocket": "^9.6.0",
@@ -76,7 +76,7 @@
     "tslib": "^2.8.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.0",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "overrides": {
     "ts-interface-builder": {
