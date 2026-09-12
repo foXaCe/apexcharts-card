@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/apexcharts-card.js",
   "engines": {
-    "node": ">=24.20.0"
+    "node": ">=24.21.0"
   },
   "scripts": {
     "build": "npm run build:types-check && npm run typecheck && npm run rollup",
@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/foXaCe/apexcharts-card#readme",
   "dependencies": {
-    "@ctrl/tinycolor": "^4.2.0",
+    "@ctrl/tinycolor": "^4.2.1",
     "@material/mwc-ripple": "^0.27.0",
     "apexcharts": "^6.10.0",
     "custom-card-helpers": "^2.0.0",
