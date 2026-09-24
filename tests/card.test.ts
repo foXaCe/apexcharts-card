@@ -96,6 +96,31 @@ describe('apexcharts-card', () => {
     });
   });
 
+  describe('disconnectedCallback', () => {
+    it('destroys the chart and brush so a discarded card can be garbage collected', () => {
+      const card = new (customElements.get('apexcharts-card') as CustomElementConstructor)() as AnyCard;
+      card.setConfig({ type: 'custom:apexcharts-card', series: [{ entity: 'sensor.temp' }] });
+      const chart = { destroy: vi.fn() };
+      const brush = { destroy: vi.fn() };
+      card._apexChart = chart;
+      card._apexBrush = brush;
+      card._loaded = true;
+      card._dataLoaded = true;
+      card._brushInit = true;
+
+      card.disconnectedCallback();
+
+      expect(chart.destroy).toHaveBeenCalledOnce();
+      expect(brush.destroy).toHaveBeenCalledOnce();
+      expect(card._apexChart).toBeUndefined();
+      expect(card._apexBrush).toBeUndefined();
+      // Cleared so connectedCallback rebuilds the chart when HA reattaches the card.
+      expect(card._loaded).toBe(false);
+      expect(card._dataLoaded).toBe(false);
+      expect(card._brushInit).toBe(false);
+    });
+  });
+
   describe('getCardSize', () => {
     it('returns 3', () => {
       const card = new (customElements.get('apexcharts-card') as CustomElementConstructor)() as AnyCard;
