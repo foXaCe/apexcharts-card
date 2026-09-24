@@ -209,6 +209,10 @@ export class ChartsCard extends LitElement {
       this._resizeObserver = undefined;
     }
     this._updating = false;
+    // ApexCharts adds a window resize listener that only destroy() removes, so a chart left
+    // alive here keeps the whole card in memory after HA discards it (dashboard save or
+    // navigation). connectedCallback rebuilds it, and the resize observer, via _initialLoad().
+    this._destroyCharts();
     super.disconnectedCallback();
   }
 
@@ -308,7 +312,7 @@ export class ChartsCard extends LitElement {
     }
   }
 
-  private _reset() {
+  private _destroyCharts() {
     if (this._apexChart) {
       this._apexChart.destroy();
       this._apexChart = undefined;
@@ -322,6 +326,10 @@ export class ChartsCard extends LitElement {
         this._brushInit = false;
       }
     }
+  }
+
+  private _reset() {
+    this._destroyCharts();
     if (this._config && this._hass && !this._loaded) {
       this._initialLoad();
     }
@@ -842,6 +850,8 @@ export class ChartsCard extends LitElement {
     if (isUsingServerTimezone(this._hass)) {
       this._serverTimeOffset = computeTimezoneDiffWithLocal(this._hass?.config.time_zone);
     }
+    // Disconnected while waiting: building the chart now would leak it.
+    if (!this.isConnected) return;
     const graph = this.shadowRoot?.querySelector<HTMLElement>('#graph');
     const brush = this.shadowRoot?.querySelector<HTMLElement>('#brush');
     if (!this._apexChart && graph && this._config) {
@@ -947,6 +957,9 @@ export class ChartsCard extends LitElement {
         );
       });
       await Promise.all(promise);
+      // The chart was destroyed (card disconnected) while history loaded. Leave _updating
+      // alone: disconnect already reset it and a reconnect may have started a fresh load.
+      if (!this._apexChart) return;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let graphData: any = { series: [] };
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
