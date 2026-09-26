@@ -61,8 +61,19 @@ export const stylesApex: CSSResultGroup = css`
     isolation: isolate;
   }
 
+  /* Fill a fixed-height cell: the header, ha-card title and brush keep their height and #graph
+     gets the rest. The host is a block, so it needs a height too for ha-card's 100% to resolve. */
+  :host([data-fill-height]) {
+    height: 100%;
+  }
   ha-card.section {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  /* The footers are absolutely positioned; auto height leaves them a gap below the chart. */
+  ha-card.section:has(> #last_updated, > #version_info) {
+    padding-bottom: 1em;
   }
 
   .wrapper {
@@ -72,7 +83,8 @@ export const stylesApex: CSSResultGroup = css`
     grid-template-rows: min-content 1fr;
   }
   ha-card.section .wrapper {
-    height: 100%;
+    flex: 1 1 auto;
+    grid-template-rows: min-content minmax(0, 1fr);
     min-width: 0;
     min-height: 0;
   }
@@ -107,8 +119,18 @@ export const stylesApex: CSSResultGroup = css`
     }
   }
   ha-card.section #graph-wrapper {
+    display: flex;
+    flex-direction: column;
     min-width: 0;
     min-height: 0;
+  }
+  ha-card.section #graph {
+    flex: 1 1 auto;
+    /* ApexCharts pins an inline min-height to the drawn chart, which would stop it shrinking. */
+    min-height: 0 !important;
+  }
+  ha-card.section #brush {
+    flex: none;
   }
 
   #brush {
