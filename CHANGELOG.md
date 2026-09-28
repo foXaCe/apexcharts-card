@@ -4,6 +4,13 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.9](https://github.com/foXaCe/apexcharts-card/compare/v2.6.8...v2.6.9) (2026-09-28)
+
+
+### Bug Fixes
+
+* fill the sections grid cell when rows are pinned ([#120](https://github.com/foXaCe/apexcharts-card/issues/120)) ([20ebc18](https://github.com/foXaCe/apexcharts-card/commit/20ebc185c11ab900d048965a5700289e9c5efe86))
+
 ## [2.6.8](https://github.com/foXaCe/apexcharts-card/compare/v2.6.7...v2.6.8) (2026-09-28)
 
 
