@@ -4,6 +4,23 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.8](https://github.com/foXaCe/apexcharts-card/compare/v2.6.7...v2.6.8) (2026-09-28)
+
+
+### Bug Fixes
+
+* add slug to hacs.json for HACS validation ([0404134](https://github.com/foXaCe/apexcharts-card/commit/0404134343d59991d7ccb958f626c7e8b1107d17))
+* **ci:** remove invalid slug key from hacs.json ([#124](https://github.com/foXaCe/apexcharts-card/issues/124)) ([728467f](https://github.com/foXaCe/apexcharts-card/commit/728467f428be5e7f23e9605347f1cd81eda76668))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#123](https://github.com/foXaCe/apexcharts-card/issues/123)) ([d63f515](https://github.com/foXaCe/apexcharts-card/commit/d63f51569f43dc611d8f88fb9000d06946f68f46))
+* **deps:** update dependency apexcharts to ^7.6.0 ([#122](https://github.com/foXaCe/apexcharts-card/issues/122)) ([3c77b9c](https://github.com/foXaCe/apexcharts-card/commit/3c77b9cc8e7367daebc560d2d79e3a2eaac1947f))
+* **deps:** update dependency prettier to ^3.9.9 ([#119](https://github.com/foXaCe/apexcharts-card/issues/119)) ([766dc3c](https://github.com/foXaCe/apexcharts-card/commit/766dc3c2e2883b636ffd93b1562e4c6729e1ff79))
+* **deps:** update dependency rollup to ^4.63.5 ([#121](https://github.com/foXaCe/apexcharts-card/issues/121)) ([d7b85b2](https://github.com/foXaCe/apexcharts-card/commit/d7b85b2d937d4fef51afbdcea603ad35ad5243ff))
+* **deps:** update dependency typescript-eslint to ^8.70.1 ([#116](https://github.com/foXaCe/apexcharts-card/issues/116)) ([4222149](https://github.com/foXaCe/apexcharts-card/commit/422214989669f25be06b60399848f3ba507ab582))
+
 ## [2.6.7](https://github.com/foXaCe/apexcharts-card/compare/v2.6.6...v2.6.7) (2026-09-24)
 
 
