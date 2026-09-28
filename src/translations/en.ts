@@ -170,7 +170,8 @@ export const en: Record<string, string> = {
   'helper.attribute': 'Attribute name to use as value, if not the state',
   'helper.unit': 'Override unit of measurement',
   'helper.float_precision': 'Decimal places when displaying values',
-  'helper.section_mode': 'Enable when used in HA sections view',
+  'helper.section_mode':
+    "Outside sections views, fill the parent's height. Sections views fill automatically when rows are pinned.",
   'helper.id': 'Identifier referenced by series to bind to this axis (e.g. "left", "kwh").',
   'helper.axis': 'Which side of the chart this axis is drawn on.',
   'helper.align_to': 'Force Y-axis ticks to align to this value',

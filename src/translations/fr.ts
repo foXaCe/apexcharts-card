@@ -170,7 +170,8 @@ export const fr: Record<string, string> = {
   'helper.attribute': 'Nom de l’attribut à utiliser comme valeur, si ce n’est pas l’état.',
   'helper.unit': 'Remplace l’unité de mesure.',
   'helper.float_precision': 'Nombre de décimales affichées.',
-  'helper.section_mode': 'À activer si la carte est utilisée dans une vue en sections de Home Assistant.',
+  'helper.section_mode':
+    'Hors des vues en sections, remplit la hauteur du parent. Les vues en sections le font automatiquement quand le nombre de lignes est fixé.',
   'helper.id': 'Identifiant utilisé par les séries pour se rattacher à cet axe (ex. : « left », « kwh »).',
   'helper.axis': 'Côté du graphique où cet axe est dessiné.',
   'helper.align_to': 'Force les graduations de l’axe Y à s’aligner sur cette valeur.',

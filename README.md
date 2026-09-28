@@ -134,7 +134,7 @@ The card strictly validates all the options available (but not for the `apex_con
 | ---- | :--: | :-----: | :---: | ----------- |
 | :white_check_mark: `type` | string | | v1.0.0 | `custom:apexcharts-card` |
 | :white_check_mark: `series` | array | | v1.0.0 | See [series](#series-options) |
-| `section_mode` | boolean | `false` | v2.2.0 | Set to `true` when the card is used in a section view (sets CSS height to `100%`). See [Sections Views](#sections-views) |
+| `section_mode` | boolean | `false` | v2.2.0 | Outside sections views, makes the card fill its parent's height. Sections views fill automatically when rows are pinned. See [Sections Views](#sections-views) |
 | `appearance` | string | `premium` | v2.4.0 | `premium` enables the refined visuals (glass effect on floating header, skeleton loading state, press/hover micro-interactions). Set to `minimal` to disable all extra effects. |
 | `config_templates` | array | | v1.6.0 | Define a configuration once and reuse it multiple times. See [config_templates](#configuration-templates) |
 | `color_list` | array | | v1.6.0 | Define the array of colors applied to the series. Will be overridden by each series's color if defined. Useful for `config_templates` mainly. |
@@ -664,16 +664,16 @@ apex_config:
 
 ### Sections Views
 
-The card exposes grid options to the sections view out of the box: it defaults to the full width (12 columns, minimum 6) with an automatic, content-driven height (`rows: auto`), so charts are never truncated. You can override this with `grid_options` like on any other card.
-`section_mode: true` additionally stretches the card to fill its grid cell (CSS height `100%`), which is useful when you pin a fixed number of rows.
+The card defaults to the full width (12 columns, minimum 6) with an automatic, content-driven height (`rows: auto`), so charts are never truncated. When you pin a number of rows, with the resize handle or `grid_options`, the card fills that height: the header, title and brush keep their size and the chart gets the rest.
 
 ```yaml
 type: custom:apexcharts-card
-section_mode: true
 grid_options:
-  rows: 4 # default is 6
+  rows: 4 # default is auto
   columns: 6 # default is 12
 ```
+
+Outside sections views, `section_mode: true` fills the parent's height instead, which needs a parent with a fixed height. Inside sections it's no longer needed and is ignored. A `chart.height` set in `apex_config` takes precedence over both.
 
 ![sections](docs/sections.png)
 

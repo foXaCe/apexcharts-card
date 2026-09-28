@@ -177,6 +177,12 @@ export class ChartsCard extends LitElement {
 
   private _resizeObserver?: ResizeObserver;
 
+  // Whether the main chart currently has a fill height, so leaving fill mode can undo it.
+  private _heightFilled = false;
+
+  // Set by HA: 'grid' in a sections view.
+  @property({ attribute: false }) public layout?: string;
+
   @property({ attribute: false }) _lastUpdated: Date = new Date();
 
   @property({ type: Boolean }) private _warning = false;
@@ -320,6 +326,7 @@ export class ChartsCard extends LitElement {
       this._dataLoaded = false;
       this._updating = false;
       this._serverTimeOffset = 0;
+      this._heightFilled = false;
       if (this._apexBrush) {
         this._apexBrush.destroy();
         this._apexBrush = undefined;
@@ -612,6 +619,8 @@ export class ChartsCard extends LitElement {
     }
 
     this.dataset.appearance = this._config.appearance ?? 'premium';
+    const fillHeight = this._fillsHeight();
+    this.toggleAttribute('data-fill-height', fillHeight);
     const spinnerClass: ClassInfo = {
       'lds-ring': this._config.show?.loading && this._updating ? true : false,
     };
@@ -620,7 +629,7 @@ export class ChartsCard extends LitElement {
       'with-header': this._config.header?.show || true,
     };
     const haCardClasses: ClassInfo = {
-      section: this._config.section_mode || false,
+      section: fillHeight,
     };
 
     const standardHeaderTitle = this._config.header?.standard_format ? this._config.header?.title : undefined;
@@ -872,6 +881,11 @@ export class ChartsCard extends LitElement {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const chartCfg: any = layout;
       chartCfg.chart.width = chartWidth > 50 ? chartWidth : '100%';
+      const fillHeight = this._chartFillHeight(graph);
+      if (fillHeight !== undefined) {
+        chartCfg.chart.height = fillHeight;
+        this._heightFilled = true;
+      }
       chartCfg.chart.redrawOnParentResize = true;
       if (this._config.series_in_brush.length) {
         chartCfg.chart.id = Math.random().toString(36).substring(7);
@@ -888,18 +902,44 @@ export class ChartsCard extends LitElement {
       }
       await Promise.all(promises);
       if (graph && this._apexChart) {
-        this._resizeObserver = new ResizeObserver(() => {
-          const w = graph.clientWidth;
-          if (w > 50) {
-            this._apexChart?.updateOptions({ chart: { width: w } }, false, true);
-            this._apexBrush?.updateOptions({ chart: { width: w } }, false, true);
-          }
-        });
+        this._resizeObserver = new ResizeObserver(() => this._resizeCharts(graph));
         this._resizeObserver.observe(graph);
         if (brush && this._apexBrush) this._resizeObserver.observe(brush);
       }
       this._firstDataLoad();
     }
+  }
+
+  private _resizeCharts(graph: HTMLElement): void {
+    const width = graph.clientWidth;
+    if (width <= 50) return;
+    const chart: { width: number; height?: number | string } = { width };
+    const height = this._chartFillHeight(graph);
+    if (height !== undefined) {
+      chart.height = height;
+      this._heightFilled = true;
+    } else if (this._heightFilled && !this._fillsHeight()) {
+      // Rows set back to 'auto' in the editor: hand the height back to ApexCharts.
+      chart.height = 'auto';
+      this._heightFilled = false;
+    }
+    this._apexChart?.updateOptions({ chart }, false, true);
+    this._apexBrush?.updateOptions({ chart: { width } }, false, true);
+  }
+
+  // A sections cell only has a fixed height when rows is a number. 'auto' rows size to the
+  // content, where filling would freeze the chart at its first height, so section_mode (which
+  // the editor used to recommend for every sections card) only opts in outside sections.
+  private _fillsHeight(): boolean {
+    if (this.layout === 'grid') return typeof this._config?.grid_options?.rows === 'number';
+    return this._config?.section_mode === true;
+  }
+
+  // CSS gives #graph whatever the header, ha-card title and brush leave of the card, so its
+  // height is what the chart must be. An explicit apex_config height still wins.
+  private _chartFillHeight(graph: HTMLElement): number | undefined {
+    if (!this._fillsHeight() || this._config?.apex_config?.chart?.height !== undefined) return undefined;
+    return graph.clientHeight > 50 ? graph.clientHeight : undefined;
   }
 
   private _isExternalStatSerie(index: number): boolean {

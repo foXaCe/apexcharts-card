@@ -55,9 +55,10 @@ describe('getLayoutConfig', () => {
     expect(layout.chart.defaultLocale).toBe('en');
   });
 
-  it('section_mode drives a 100% chart height', () => {
+  it('leaves the chart height to the card, even with section_mode', () => {
+    // ApexCharts resolves '100%' against #graph-wrapper, which also holds the brush.
     const layout = getLayoutConfig(internalConfig({ section_mode: true }), undefined, []) as AnyRec;
-    expect(layout.chart.height).toBe('100%');
+    expect(layout.chart.height).toBeUndefined();
     const layoutDefault = getLayoutConfig(internalConfig(), undefined, []) as AnyRec;
     expect(layoutDefault.chart.height).toBeUndefined();
   });
