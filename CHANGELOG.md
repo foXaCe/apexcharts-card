@@ -4,6 +4,13 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.13](https://github.com/foXaCe/apexcharts-card/compare/v2.6.12...v2.6.13) (2026-10-04)
+
+
+### Dependencies
+
+* **deps:** update dependency rollup to ^4.63.6 ([#134](https://github.com/foXaCe/apexcharts-card/issues/134)) ([5d47d6e](https://github.com/foXaCe/apexcharts-card/commit/5d47d6e39dbc7bb78e3f828c11fbcec6b98c0b80))
+
 ## [2.6.12](https://github.com/foXaCe/apexcharts-card/compare/v2.6.11...v2.6.12) (2026-10-03)
 
 
