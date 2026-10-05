@@ -5,6 +5,11 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  # Release commits are validated once the asset is uploaded (Release workflow done).
+  workflow_run:
+    workflows: [Release]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: '0 6 * * 1'
@@ -13,7 +18,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: hacs-${{ github.ref }}
+  group: hacs-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -21,6 +26,10 @@ jobs:
     name: HACS
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # Skip release commits on push: the asset is not attached yet, so HACS would fail.
+    if: >-
+      github.event_name != 'push' ||
+      !startsWith(github.event.head_commit.message, 'chore(main): release')
     steps:
       - uses: actions/checkout@v7
       - uses: hacs/action@main
