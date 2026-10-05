@@ -4,6 +4,13 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.15](https://github.com/foXaCe/apexcharts-card/compare/v2.6.14...v2.6.15) (2026-10-05)
+
+
+### Bug Fixes
+
+* tooltip markers drawn twice with apexcharts 7 ([#139](https://github.com/foXaCe/apexcharts-card/issues/139)) ([7c90a1e](https://github.com/foXaCe/apexcharts-card/commit/7c90a1e0878c21487d4ed0121818c16e7380aa5a))
+
 ## [2.6.14](https://github.com/foXaCe/apexcharts-card/compare/v2.6.13...v2.6.14) (2026-10-05)
 
 
