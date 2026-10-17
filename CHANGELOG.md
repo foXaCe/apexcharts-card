@@ -4,6 +4,18 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.17](https://github.com/foXaCe/apexcharts-card/compare/v2.6.16...v2.6.17) (2026-10-17)
+
+
+### Dependencies
+
+* **deps:** update dependency apexcharts to ^8.2.0 ([#169](https://github.com/foXaCe/apexcharts-card/issues/169)) ([456329c](https://github.com/foXaCe/apexcharts-card/commit/456329cb66409a30ec9f55a294807954a09075dc))
+* **deps:** update dependency apexcharts to v8 ([#168](https://github.com/foXaCe/apexcharts-card/issues/168)) ([72f3553](https://github.com/foXaCe/apexcharts-card/commit/72f3553c9b3c358b4237754297be4e124dbc8667))
+* **deps:** update dependency rollup to ^4.64.6 ([#166](https://github.com/foXaCe/apexcharts-card/issues/166)) ([7fbfc82](https://github.com/foXaCe/apexcharts-card/commit/7fbfc8239dfa0780740bdc7f5c9dec798c54088c))
+* **deps:** update dependency typescript-eslint to ^8.71.2 ([#162](https://github.com/foXaCe/apexcharts-card/issues/162)) ([08efa30](https://github.com/foXaCe/apexcharts-card/commit/08efa3040b9a14ed86b2723cb6e7cca0bf6b8c70))
+* **deps:** update google/osv-scanner-action action to v2.7.0 ([#164](https://github.com/foXaCe/apexcharts-card/issues/164)) ([400616e](https://github.com/foXaCe/apexcharts-card/commit/400616e0e82eef06d7f044a6454db50fb22fa4d2))
+* **deps:** update vitest monorepo to ^5.0.4 ([#163](https://github.com/foXaCe/apexcharts-card/issues/163)) ([b3c933b](https://github.com/foXaCe/apexcharts-card/commit/b3c933b8919067330f45a3afdf95bd8c748c9dfe))
+
 ## [2.6.16](https://github.com/foXaCe/apexcharts-card/compare/v2.6.15...v2.6.16) (2026-10-13)
 
 
