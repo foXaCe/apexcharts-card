@@ -4,6 +4,16 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.20](https://github.com/foXaCe/apexcharts-card/compare/v2.6.19...v2.6.20) (2026-10-28)
+
+
+### Dependencies
+
+* **deps:** update dependency apexcharts to ^8.5.0 ([#195](https://github.com/foXaCe/apexcharts-card/issues/195)) ([1b00bef](https://github.com/foXaCe/apexcharts-card/commit/1b00befffd60afda370b8f4aecc6b01cb4d69ad3))
+* **deps:** update dependency node to v26 ([#197](https://github.com/foXaCe/apexcharts-card/issues/197)) ([d4bcd5e](https://github.com/foXaCe/apexcharts-card/commit/d4bcd5ed25c61b00deee04542d40094d8d77f5e5))
+* **deps:** update dependency node to v26.12.1 ([#198](https://github.com/foXaCe/apexcharts-card/issues/198)) ([3f05fd6](https://github.com/foXaCe/apexcharts-card/commit/3f05fd6bd95d14aecd56a2d41884da211b63256c))
+* **deps:** update dependency parse-duration to ^2.1.10 ([#200](https://github.com/foXaCe/apexcharts-card/issues/200)) ([9762818](https://github.com/foXaCe/apexcharts-card/commit/97628187983d669b26c9f63aabd1d7a2c3859a31))
+
 ## [2.6.19](https://github.com/foXaCe/apexcharts-card/compare/v2.6.18...v2.6.19) (2026-10-26)
 
 
