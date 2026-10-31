@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/foXaCe/apexcharts-card#readme",
   "dependencies": {
-    "@ctrl/tinycolor": "^4.2.1",
+    "@ctrl/tinycolor": "^4.2.2",
     "@material/mwc-ripple": "^0.27.0",
     "apexcharts": "^8.5.0",
     "custom-card-helpers": "^2.0.0",
