@@ -4,6 +4,17 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.21](https://github.com/foXaCe/apexcharts-card/compare/v2.6.20...v2.6.21) (2026-10-31)
+
+
+### Dependencies
+
+* **deps:** update dependency @ctrl/tinycolor to ^4.2.2 ([#206](https://github.com/foXaCe/apexcharts-card/issues/206)) ([7d46cad](https://github.com/foXaCe/apexcharts-card/commit/7d46cad91d5ca3e619a73a9656e292a55c089145))
+* **deps:** update dependency home-assistant-js-websocket to ^9.8.0 ([#207](https://github.com/foXaCe/apexcharts-card/issues/207)) ([83cfbc2](https://github.com/foXaCe/apexcharts-card/commit/83cfbc29449d60c3f6bced6529639ecb9d301b21))
+* **deps:** update dependency rollup to ^4.65.1 ([#202](https://github.com/foXaCe/apexcharts-card/issues/202)) ([8bd232f](https://github.com/foXaCe/apexcharts-card/commit/8bd232f3df5f9e2ec5c833813d12a94f9feeef5a))
+* **deps:** update dependency typescript-eslint to ^8.72.1 ([#203](https://github.com/foXaCe/apexcharts-card/issues/203)) ([8b11e42](https://github.com/foXaCe/apexcharts-card/commit/8b11e42c7487e8bcecd1fe01b5611cd9764545a2))
+* **deps:** update node.js to &gt;=24.22.2 ([#205](https://github.com/foXaCe/apexcharts-card/issues/205)) ([90abc45](https://github.com/foXaCe/apexcharts-card/commit/90abc45a85ac7cd38cf66a364b58a82b9b978217))
+
 ## [2.6.20](https://github.com/foXaCe/apexcharts-card/compare/v2.6.19...v2.6.20) (2026-10-28)
 
 
