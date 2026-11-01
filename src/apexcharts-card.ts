@@ -1693,7 +1693,9 @@ export class ChartsCard extends LitElement {
     } else if (this._config?.span?.end) {
       const endM = curMoment.endOf(this._config.span.end);
       end = new Date(endM.toDate().getTime() + 1);
-      start = new Date(end.getTime() - this._graphSpan + 1);
+      // end is aligned (e.g. midnight): keep the span exactly graph_span long so that
+      // _findStartAndEndOfChart() doesn't push the start to the next group_by bucket
+      start = new Date(end.getTime() - this._graphSpan);
     }
     if (this._offset) {
       end.setTime(end.getTime() + this._offset);
