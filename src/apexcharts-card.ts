@@ -1648,7 +1648,8 @@ export class ChartsCard extends LitElement {
     let offsetEnd: number | undefined = 0;
     const series = brush ? this._config?.series_in_brush : this._config?.series_in_graph;
     const onlyGroupBy = series?.reduce((acc, serie) => {
-      return acc && serie.group_by.func !== 'raw';
+      // data_generator series provide their own points: they don't prevent the alignment
+      return acc && (serie.group_by.func !== 'raw' || !!serie.data_generator);
     }, series?.length > 0);
     if (onlyGroupBy) {
       const range = end.getTime() - start.getTime();
