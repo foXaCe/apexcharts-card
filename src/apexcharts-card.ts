@@ -1648,7 +1648,8 @@ export class ChartsCard extends LitElement {
     let offsetEnd: number | undefined = 0;
     const series = brush ? this._config?.series_in_brush : this._config?.series_in_graph;
     const onlyGroupBy = series?.reduce((acc, serie) => {
-      return acc && serie.group_by.func !== 'raw';
+      // data_generator series provide their own points: they don't prevent the alignment
+      return acc && (serie.group_by.func !== 'raw' || !!serie.data_generator);
     }, series?.length > 0);
     if (onlyGroupBy) {
       const range = end.getTime() - start.getTime();
@@ -1693,7 +1694,9 @@ export class ChartsCard extends LitElement {
     } else if (this._config?.span?.end) {
       const endM = curMoment.endOf(this._config.span.end);
       end = new Date(endM.toDate().getTime() + 1);
-      start = new Date(end.getTime() - this._graphSpan + 1);
+      // end is aligned (e.g. midnight): keep the span exactly graph_span long so that
+      // _findStartAndEndOfChart() doesn't push the start to the next group_by bucket
+      start = new Date(end.getTime() - this._graphSpan);
     }
     if (this._offset) {
       end.setTime(end.getTime() + this._offset);

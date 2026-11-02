@@ -209,7 +209,8 @@ export default class GraphEntry {
     let startHistory = new Date(start);
     if (this._config.group_by.func !== 'raw') {
       const range = end.getTime() - start.getTime() + this._groupByOffsetMs;
-      const nbBuckets = Math.ceil(range / this._groupByDurationMs);
+      // One extra bucket: _dataBucketer() drops the first one (it can hold partial data)
+      const nbBuckets = Math.ceil(range / this._groupByDurationMs) + 1;
       startHistory = new Date(end.getTime() + this._groupByOffsetMs - nbBuckets * this._groupByDurationMs);
     }
     if ((!this._entityState && !this._isExternalStat) || this._updating) return false;
