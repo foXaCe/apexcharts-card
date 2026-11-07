@@ -70,7 +70,7 @@
     "home-assistant-js-websocket": "^9.8.1",
     "js-yaml": "^5.5.0",
     "prettier": "^3.9.10",
-    "rollup": "^4.67.4",
+    "rollup": "^4.67.5",
     "rollup-plugin-serve": "^3.0.0",
     "ts-interface-builder": "^0.3.3",
     "tslib": "^2.9.1",
