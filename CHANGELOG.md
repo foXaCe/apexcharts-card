@@ -4,6 +4,22 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.22](https://github.com/foXaCe/apexcharts-card/compare/v2.6.21...v2.6.22) (2026-11-09)
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#225](https://github.com/foXaCe/apexcharts-card/issues/225)) ([0439e38](https://github.com/foXaCe/apexcharts-card/commit/0439e381b8235132122de6664707f880e57baed0))
+* **deps:** update dependency apexcharts to ^8.7.0 ([#219](https://github.com/foXaCe/apexcharts-card/issues/219)) ([54a9be4](https://github.com/foXaCe/apexcharts-card/commit/54a9be4d67227e9f8d4a751d930822624fd9a0b7))
+* **deps:** update dependency eslint to ^10.14.0 ([#214](https://github.com/foXaCe/apexcharts-card/issues/214)) ([edddce5](https://github.com/foXaCe/apexcharts-card/commit/edddce59a111a5df4d2d642c50004e297ca3e513))
+* **deps:** update dependency rollup to ^4.67.2 ([#215](https://github.com/foXaCe/apexcharts-card/issues/215)) ([d707a32](https://github.com/foXaCe/apexcharts-card/commit/d707a32d6761efc470fe01568ef141138ff4a135))
+* **deps:** update dependency rollup to ^4.67.3 ([#218](https://github.com/foXaCe/apexcharts-card/issues/218)) ([17de715](https://github.com/foXaCe/apexcharts-card/commit/17de715b37fe6a29295a9aa6385dbe3ff8e77ca7))
+* **deps:** update dependency rollup to ^4.67.4 ([#222](https://github.com/foXaCe/apexcharts-card/issues/222)) ([8b76a3d](https://github.com/foXaCe/apexcharts-card/commit/8b76a3d249554949f4f7c4e0f60e3d5bca3b94c0))
+* **deps:** update dependency rollup to ^4.67.5 ([#224](https://github.com/foXaCe/apexcharts-card/issues/224)) ([0ae9585](https://github.com/foXaCe/apexcharts-card/commit/0ae958534f39d317f52f7cc9c637fae4445befe1))
+* **deps:** update dependency tslib to ^2.9.1 ([#216](https://github.com/foXaCe/apexcharts-card/issues/216)) ([d383515](https://github.com/foXaCe/apexcharts-card/commit/d38351515189dac72259a566c3f9b0c45ed74587))
+* **deps:** update node.js to v26 ([#221](https://github.com/foXaCe/apexcharts-card/issues/221)) ([76f5c73](https://github.com/foXaCe/apexcharts-card/commit/76f5c7306ca5e876a69b539f1668d6fcc25a993c))
+* **deps:** update vitest monorepo to ^5.1.0 ([#223](https://github.com/foXaCe/apexcharts-card/issues/223)) ([9874971](https://github.com/foXaCe/apexcharts-card/commit/98749717d692adfede696969e80214cba0c23107))
+
 ## [2.6.21](https://github.com/foXaCe/apexcharts-card/compare/v2.6.20...v2.6.21) (2026-11-02)
 
 
