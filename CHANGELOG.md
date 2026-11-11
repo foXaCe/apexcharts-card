@@ -4,6 +4,18 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.24](https://github.com/foXaCe/apexcharts-card/compare/v2.6.23...v2.6.24) (2026-11-11)
+
+
+### Bug Fixes
+
+* **deps:** resync package-lock.json after the glob override bump ([6a81df1](https://github.com/foXaCe/apexcharts-card/commit/6a81df166e68c5a8717911448cd0672b9f99642e))
+
+
+### Dependencies
+
+* **deps:** update dependency @ctrl/tinycolor to ^4.3.0 ([#230](https://github.com/foXaCe/apexcharts-card/issues/230)) ([e02111a](https://github.com/foXaCe/apexcharts-card/commit/e02111a29225602e661c61ed1e1eabb991c7ab14))
+
 ## [2.6.23](https://github.com/foXaCe/apexcharts-card/compare/v2.6.22...v2.6.23) (2026-11-09)
 
 
