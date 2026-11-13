@@ -4,6 +4,15 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.26](https://github.com/foXaCe/apexcharts-card/compare/v2.6.25...v2.6.26) (2026-11-13)
+
+
+### Dependencies
+
+* **deps:** update dependency rollup to ^4.68.2 ([#233](https://github.com/foXaCe/apexcharts-card/issues/233)) ([28726c9](https://github.com/foXaCe/apexcharts-card/commit/28726c9e937dec13f4bc866a8187a33f3c9aea0a))
+* **deps:** update dependency typescript-eslint to ^8.72.2 ([#234](https://github.com/foXaCe/apexcharts-card/issues/234)) ([efb794a](https://github.com/foXaCe/apexcharts-card/commit/efb794af007328b4954119af18fcb74eefa01b09))
+* **deps:** update node.js to &gt;=26.13.1 ([#236](https://github.com/foXaCe/apexcharts-card/issues/236)) ([651f402](https://github.com/foXaCe/apexcharts-card/commit/651f402a7b2ab337a68e44b2583cc4e32937b1fa))
+
 ## [2.6.25](https://github.com/foXaCe/apexcharts-card/compare/v2.6.24...v2.6.25) (2026-11-12)
 
 
