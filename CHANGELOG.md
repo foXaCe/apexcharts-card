@@ -4,6 +4,13 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.27](https://github.com/foXaCe/apexcharts-card/compare/v2.6.26...v2.6.27) (2026-11-14)
+
+
+### Dependencies
+
+* **deps:** update google/osv-scanner-action action to v2.7.1 ([#237](https://github.com/foXaCe/apexcharts-card/issues/237)) ([567930c](https://github.com/foXaCe/apexcharts-card/commit/567930cd17590e622ce3d2afbaa9de299d7068d6))
+
 ## [2.6.26](https://github.com/foXaCe/apexcharts-card/compare/v2.6.25...v2.6.26) (2026-11-13)
 
 
