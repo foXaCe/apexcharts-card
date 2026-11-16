@@ -4,6 +4,17 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.27](https://github.com/foXaCe/apexcharts-card/compare/v2.6.26...v2.6.27) (2026-11-16)
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#242](https://github.com/foXaCe/apexcharts-card/issues/242)) ([7dd83f8](https://github.com/foXaCe/apexcharts-card/commit/7dd83f8af59cb0f7c9855f394ed12ba06fc2e8d8))
+* **deps:** update dependency glob to ^14.0.5 ([#240](https://github.com/foXaCe/apexcharts-card/issues/240)) ([58994fd](https://github.com/foXaCe/apexcharts-card/commit/58994fd24bfb5ea26a66677b668c0a151fc385f7))
+* **deps:** update dependency prettier to ^3.10.0 ([#239](https://github.com/foXaCe/apexcharts-card/issues/239)) ([c8ba9bb](https://github.com/foXaCe/apexcharts-card/commit/c8ba9bb8755c98e843caf5fd688de77ca8a22aa2))
+* **deps:** update dependency prettier to ^3.10.1 ([#241](https://github.com/foXaCe/apexcharts-card/issues/241)) ([fc14f95](https://github.com/foXaCe/apexcharts-card/commit/fc14f951c6672ec125d33e609dd9406737869c59))
+* **deps:** update google/osv-scanner-action action to v2.7.1 ([#237](https://github.com/foXaCe/apexcharts-card/issues/237)) ([567930c](https://github.com/foXaCe/apexcharts-card/commit/567930cd17590e622ce3d2afbaa9de299d7068d6))
+
 ## [2.6.26](https://github.com/foXaCe/apexcharts-card/compare/v2.6.25...v2.6.26) (2026-11-13)
 
 
