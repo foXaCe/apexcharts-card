@@ -4,6 +4,13 @@
 
 * Fix the chart not rendering sometimes ([1c09cf6](https://github.com/RomRider/apexcharts-card/commit/1c09cf69704b1597fd875e152772e92f24f51636)), closes [#945](https://github.com/RomRider/apexcharts-card/issues/945)
 
+## [2.6.30](https://github.com/foXaCe/apexcharts-card/compare/v2.6.29...v2.6.30) (2026-11-19)
+
+
+### Bug Fixes
+
+* show the tooltip title in dark mode ([#249](https://github.com/foXaCe/apexcharts-card/issues/249)) ([feb6de4](https://github.com/foXaCe/apexcharts-card/commit/feb6de4f906f09ca8f58f97080d568f9aebf2755))
+
 ## [2.6.29](https://github.com/foXaCe/apexcharts-card/compare/v2.6.28...v2.6.29) (2026-11-17)
 
 
