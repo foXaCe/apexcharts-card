@@ -383,6 +383,11 @@ export const stylesApex: CSSResultGroup = css`
 
   .apexcharts-tooltip.apexcharts-theme-light,
   .apexcharts-tooltip.apexcharts-theme-dark {
+    /* apexcharts colors the title and arrow from these, not by inheritance */
+    --apx-tt-bg: var(--card-background-color);
+    --apx-tt-border: var(--divider-color);
+    --apx-tt-color: var(--primary-text-color);
+    --apx-tt-color-muted: var(--secondary-text-color);
     color: var(--primary-text-color);
     border: 1px solid var(--divider-color);
     background: var(--card-background-color);
