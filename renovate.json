@@ -14,7 +14,7 @@
     ":dependencyDashboard",
     ":enableVulnerabilityAlertsWithLabel('security')",
     ":maintainLockFilesWeekly",
-    "schedule:nonOfficeHours"
+    "schedule:monthly"
   ],
   "timezone": "Europe/Paris",
   "labels": ["dependencies"],
@@ -30,7 +30,7 @@
   "dependencyDashboardTitle": "📦 Renovate Dependency Dashboard",
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": ["before 6am on monday"],
+    "schedule": ["before 6am on the first day of the month"],
     "automerge": true
   },
   "vulnerabilityAlerts": {
@@ -39,6 +39,15 @@
     "prCreation": "immediate"
   },
   "packageRules": [
+    {
+      "description": "Tooling updates (dev dependencies, actions, pre-commit) ship with the next real release instead of triggering one (#255)",
+      "matchDepTypes": ["devDependencies"],
+      "semanticCommitType": "chore"
+    },
+    {
+      "matchManagers": ["github-actions", "pre-commit"],
+      "semanticCommitType": "chore"
+    },
     {
       "description": "Pause majors: typescript-eslint n'a pas de version compatible TS7",
       "matchPackageNames": ["typescript"],
@@ -103,5 +112,6 @@
       "platformAutomerge": true
     }
   ],
-  "ignorePaths": ["**/node_modules/**", "**/dist/**"]
+  "ignorePaths": ["**/node_modules/**", "**/dist/**"],
+  "description": "Monthly batch: updates are opened once a month, on the 1st; security fixes still at any time (#255)."
 }
